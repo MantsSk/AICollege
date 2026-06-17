@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Log in — {{ app_name }}{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto px-4 py-16">
+  <h1 class="text-2xl font-bold tracking-tight">Welcome back</h1>
+  <p class="mt-2 text-sm text-slate-500">Log in to continue learning.</p>
+
+  {% if error %}
+  <div class="mt-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 text-sm">{{ error }}</div>
+  {% endif %}
+
+  <form method="post" action="/login" class="mt-6 space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-1">Email</label>
+      <input name="email" type="email" required value="{{ email or '' }}" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 outline-none" />
+    </div>
+    <div>
+      <div class="flex items-center justify-between mb-1">
+        <label class="block text-sm font-medium">Password</label>
+        <a href="/forgot-password" class="text-xs text-brand-600 dark:text-brand-400 hover:underline">Forgot?</a>
+      </div>
+      <input name="password" type="password" required class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 outline-none" />
+    </div>
+    <button class="w-full rounded-lg bg-brand-600 text-white font-semibold py-2.5 hover:bg-brand-500">Log in</button>
+  </form>
+
+  <p class="mt-6 text-sm text-slate-500 text-center">No account yet? <a href="/register" class="text-brand-600 dark:text-brand-400 font-medium hover:underline">Sign up free</a></p>
+</div>
+{% endblock %}

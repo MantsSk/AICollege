@@ -1,0 +1,14 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.git/
+.gitignore
+.env
+*.sqlite3
+*.db
+.pytest_cache/
+tests/
+*.md
+!courses/**/*.md
+node_modules/

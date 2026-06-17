@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}{{ app_name }} — Learn AI and Programming with an AI Mentor{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50 to-white dark:from-slate-900 dark:to-slate-950"></div>
+  <div class="absolute -top-24 left-1/2 -translate-x-1/2 -z-10 h-72 w-[42rem] rounded-full bg-brand-500/20 blur-3xl"></div>
+
+  <div class="max-w-5xl mx-auto px-4 pt-20 pb-16 text-center">
+    <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 dark:border-brand-800 bg-white/60 dark:bg-slate-900/60 px-3 py-1 text-sm font-medium text-brand-700 dark:text-brand-300">
+      ✨ Text-first courses · AI Mentor in every lesson
+    </span>
+    <h1 class="mt-6 text-4xl sm:text-6xl font-extrabold tracking-tight">
+      Learn AI and Programming<br class="hidden sm:block" /> with an <span class="text-brand-600 dark:text-brand-400">AI Mentor</span>
+    </h1>
+    <p class="mt-5 text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+      Practical text-based courses, real projects, and an AI mentor available 24/7.
+    </p>
+    <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="{{ '/dashboard' if user else '/register' }}"
+        class="px-6 py-3 rounded-xl bg-brand-600 text-white font-semibold text-lg hover:bg-brand-500 shadow-lg shadow-brand-600/25">
+        Start Learning
+      </a>
+      <a href="/courses" class="px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold text-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+        Browse courses
+      </a>
+    </div>
+    <p class="mt-4 text-sm text-slate-500">Read sample lessons free · No credit card required</p>
+  </div>
+</section>
+
+<!-- Course catalog preview -->
+<section class="max-w-6xl mx-auto px-4 py-14">
+  <div class="flex items-end justify-between mb-8">
+    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Course catalog</h2>
+    <a href="/courses" class="text-brand-600 dark:text-brand-400 font-medium hover:underline">View all →</a>
+  </div>
+  <div class="grid gap-6 md:grid-cols-3">
+    {% for course in courses %}
+    <a href="/courses/{{ course.slug }}" class="group rounded-2xl border border-slate-200 dark:border-slate-800 p-6 hover:border-brand-400 dark:hover:border-brand-600 transition bg-white dark:bg-slate-900">
+      <div class="text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">{{ course.lessons|length }} lessons</div>
+      <h3 class="mt-2 text-lg font-bold group-hover:text-brand-600 dark:group-hover:text-brand-400">{{ course.title }}</h3>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 line-clamp-3">{{ course.description }}</p>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Benefits -->
+<section class="bg-slate-50 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800">
+  <div class="max-w-6xl mx-auto px-4 py-16">
+    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-center">Why AI College</h2>
+    <div class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      {% set benefits = [
+        ("📖", "Text-first learning", "Read at your own pace. Skim, search, and revisit — far faster than video."),
+        ("🤖", "AI Mentor 24/7", "Stuck on a concept or a bug? Ask the mentor right inside the lesson."),
+        ("🛠️", "Real projects", "Build a working AI assistant, not just toy examples."),
+        ("⚡", "Fast & focused", "Modern, distraction-free, mobile-friendly. Learn anywhere."),
+      ] %}
+      {% for icon, title, body in benefits %}
+      <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6">
+        <div class="text-3xl">{{ icon }}</div>
+        <h3 class="mt-3 font-bold">{{ title }}</h3>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">{{ body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing" class="max-w-3xl mx-auto px-4 py-16">
+  <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-center">Simple pricing</h2>
+  <p class="mt-3 text-center text-slate-600 dark:text-slate-400">Start free. Upgrade when you're ready for everything.</p>
+  <div class="mt-10 grid gap-6 md:grid-cols-2">
+    <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-7 bg-white dark:bg-slate-900">
+      <h3 class="font-bold text-lg">Free</h3>
+      <p class="mt-2 text-3xl font-extrabold">€0</p>
+      <ul class="mt-5 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+        <li>✓ Read the first {{ free_lessons_per_course }} lessons of every course</li>
+        <li>✓ AI Mentor — {{ free_daily_ai_messages }} messages / day</li>
+        <li>✓ Progress tracking</li>
+      </ul>
+      <a href="/register" class="mt-6 block text-center px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold hover:bg-slate-100 dark:hover:bg-slate-800">Create free account</a>
+    </div>
+    <div class="rounded-2xl border-2 border-brand-500 p-7 bg-white dark:bg-slate-900 relative shadow-xl shadow-brand-600/10">
+      <span class="absolute -top-3 left-7 rounded-full bg-brand-600 text-white text-xs font-semibold px-3 py-1">Most popular</span>
+      <h3 class="font-bold text-lg">Pro</h3>
+      <p class="mt-2 text-3xl font-extrabold">€{{ subscription_price }}<span class="text-base font-medium text-slate-500">/month</span></p>
+      <ul class="mt-5 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+        <li>✓ <strong>All lessons</strong>, all courses</li>
+        <li>✓ Higher AI Mentor limits</li>
+        <li>✓ All future course updates</li>
+        <li>✓ Cancel anytime</li>
+      </ul>
+      <a href="{{ '/pricing' if not user else '/billing/checkout' }}"
+         {% if user and not user.is_subscribed %}onclick="event.preventDefault(); this.closest('div').querySelector('form').submit();"{% endif %}
+         class="mt-6 block text-center px-5 py-3 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-500">Go Pro</a>
+      {% if user and not user.is_subscribed %}
+        <form action="/billing/checkout" method="post" class="hidden"></form>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="bg-slate-50 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800">
+  <div class="max-w-3xl mx-auto px-4 py-16">
+    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-center">Frequently asked questions</h2>
+    <div class="mt-8 space-y-3">
+      {% set faqs = [
+        ("Do I need any experience?", "No. The Python Basics course starts from zero. If you can use a browser, you can start."),
+        ("What makes this different from video courses?", "Everything is text-first — faster to read, easy to search and revisit — and every lesson has an AI Mentor to answer your questions instantly."),
+        ("Can I try before paying?", "Yes. Anyone can read the first lesson of every course, and a free account unlocks the first " ~ free_lessons_per_course ~ " lessons plus the AI Mentor."),
+        ("Can I cancel anytime?", "Yes. Manage or cancel your subscription anytime from your dashboard via the billing portal."),
+        ("Which AI powers the mentor?", "It runs through a provider-agnostic layer, so it works with Gemini, GPT, or Claude models — configured by the platform."),
+      ] %}
+      {% for q, a in faqs %}
+      <details class="group rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
+        <summary class="font-semibold cursor-pointer list-none flex items-center justify-between">
+          {{ q }}
+          <span class="text-brand-500 group-open:rotate-45 transition">+</span>
+        </summary>
+        <p class="mt-3 text-sm text-slate-600 dark:text-slate-400">{{ a }}</p>
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="max-w-4xl mx-auto px-4 py-20 text-center">
+  <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Start learning AI today</h2>
+  <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">Read your first lesson and talk to the AI Mentor in under a minute.</p>
+  <a href="{{ '/dashboard' if user else '/register' }}" class="mt-8 inline-block px-8 py-4 rounded-xl bg-brand-600 text-white font-semibold text-lg hover:bg-brand-500 shadow-lg shadow-brand-600/25">
+    Start Learning
+  </a>
+</section>
+{% endblock %}

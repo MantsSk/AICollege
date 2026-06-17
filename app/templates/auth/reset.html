@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Set a new password — {{ app_name }}{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto px-4 py-16">
+  <h1 class="text-2xl font-bold tracking-tight">Set a new password</h1>
+
+  {% if not valid %}
+  <div class="mt-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 text-sm">
+    This reset link is invalid or has expired. <a href="/forgot-password" class="underline">Request a new one</a>.
+  </div>
+  {% else %}
+  {% if error %}
+  <div class="mt-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 text-sm">{{ error }}</div>
+  {% endif %}
+  <form method="post" action="/reset-password" class="mt-6 space-y-4">
+    <input type="hidden" name="token" value="{{ token }}" />
+    <div>
+      <label class="block text-sm font-medium mb-1">New password</label>
+      <input name="password" type="password" required minlength="8" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 outline-none" />
+      <p class="mt-1 text-xs text-slate-400">At least 8 characters.</p>
+    </div>
+    <button class="w-full rounded-lg bg-brand-600 text-white font-semibold py-2.5 hover:bg-brand-500">Update password</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

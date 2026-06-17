@@ -1,0 +1,6 @@
+{% set m = {'role': 'user', 'content': user_message} %}
+{% include "partials/chat_bubble.html" %}
+{% set m = {'role': 'assistant', 'content': assistant_message} %}
+{% include "partials/chat_bubble.html" %}
+
+<span id="mentor-remaining" hx-swap-oob="true" class="text-xs text-slate-400">{{ remaining }} left today</span>

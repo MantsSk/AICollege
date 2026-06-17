@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — {{ app_name }}{% endblock %}
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-10">
+
+  {% if upgraded %}
+  <div class="mb-6 rounded-xl bg-green-500/10 border border-green-500/30 text-green-700 dark:text-green-400 px-4 py-3">
+    🎉 Welcome to Pro! All lessons are now unlocked.
+  </div>
+  {% endif %}
+
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-extrabold tracking-tight">Hi{{ ', ' ~ user.full_name if user.full_name else '' }} 👋</h1>
+      <p class="mt-1 text-slate-500">
+        {% if user.is_subscribed %}
+          You're on <span class="font-semibold text-brand-600 dark:text-brand-400">Pro</span> — everything is unlocked.
+        {% else %}
+          You're on the <span class="font-semibold">Free</span> plan.
+        {% endif %}
+      </p>
+    </div>
+    <div class="flex gap-2">
+      {% if user.is_subscribed %}
+        <form action="/billing/portal" method="post">
+          <button class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Manage subscription</button>
+        </form>
+      {% else %}
+        <form action="/billing/checkout" method="post">
+          <button class="px-4 py-2 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-500">Upgrade to Pro — €{{ subscription_price }}/mo</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if continue_target %}
+  <a href="/courses/{{ continue_target.course.slug }}/{{ continue_target.next_lesson.slug }}"
+     class="mt-8 block rounded-2xl border border-brand-300 dark:border-brand-700 bg-brand-50 dark:bg-brand-900/20 p-6 hover:border-brand-500 transition">
+    <div class="text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">Continue learning</div>
+    <h3 class="mt-1 text-xl font-bold">{{ continue_target.next_lesson.title }}</h3>
+    <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">{{ continue_target.course.title }} · {{ continue_target.percent }}% complete</p>
+  </a>
+  {% endif %}
+
+  <h2 class="mt-10 mb-4 text-xl font-bold tracking-tight">Your courses</h2>
+  <div class="grid gap-6 md:grid-cols-3">
+    {% for card in course_cards %}
+    {% set percent = card.percent %}{% set done = card.done %}{% set total = card.total %}
+    <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 flex flex-col">
+      <div class="text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">{{ card.total }} lessons</div>
+      <h3 class="mt-2 text-lg font-bold">{{ card.course.title }}</h3>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 line-clamp-2 flex-1">{{ card.course.description }}</p>
+      <div class="mt-4">{% include "partials/progress_bar.html" %}</div>
+      <a href="/courses/{{ card.course.slug }}{{ '/' ~ card.next_lesson.slug if card.next_lesson else '' }}"
+         class="mt-4 inline-block text-center w-full px-4 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold hover:opacity-90">
+        {{ 'Review' if card.percent == 100 else ('Continue' if card.percent > 0 else 'Start') }}
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

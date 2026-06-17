@@ -1,0 +1,9 @@
+{% if m.role == 'user' %}
+<div class="flex justify-end">
+  <div class="max-w-[85%] rounded-2xl rounded-br-sm bg-brand-600 text-white px-3 py-2 text-sm whitespace-pre-wrap break-words">{{ m.content }}</div>
+</div>
+{% else %}
+<div class="flex justify-start">
+  <div class="max-w-[90%] rounded-2xl rounded-bl-sm bg-slate-100 dark:bg-slate-800 px-3 py-2 text-sm prose-lesson prose-chat break-words">{{ m.content | markdown | safe }}</div>
+</div>
+{% endif %}

@@ -1,0 +1,8 @@
+{% include "partials/complete_button.html" %}
+
+<!-- Out-of-band swap: refresh the course progress bar at the top of the lesson -->
+<div id="lesson-progress" hx-swap-oob="true" class="mt-4 max-w-sm">
+  {% with percent=progress_percent, done=progress_done, total=progress_total %}
+  {% include "partials/progress_bar.html" %}
+  {% endwith %}
+</div>

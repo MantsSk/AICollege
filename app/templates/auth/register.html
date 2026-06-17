@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Create your account — {{ app_name }}{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto px-4 py-16">
+  <h1 class="text-2xl font-bold tracking-tight">Create your free account</h1>
+  <p class="mt-2 text-sm text-slate-500">Unlock the first {{ free_lessons_per_course }} lessons of every course and the AI Mentor.</p>
+
+  {% if error %}
+  <div class="mt-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 px-4 py-3 text-sm">{{ error }}</div>
+  {% endif %}
+
+  <form method="post" action="/register" class="mt-6 space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-1">Name <span class="text-slate-400 font-normal">(optional)</span></label>
+      <input name="full_name" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 outline-none" />
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Email</label>
+      <input name="email" type="email" required value="{{ email or '' }}" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 outline-none" />
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Password</label>
+      <input name="password" type="password" required minlength="8" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 outline-none" />
+      <p class="mt-1 text-xs text-slate-400">At least 8 characters.</p>
+    </div>
+    <button class="w-full rounded-lg bg-brand-600 text-white font-semibold py-2.5 hover:bg-brand-500">Create account</button>
+  </form>
+
+  <p class="mt-6 text-sm text-slate-500 text-center">Already have an account? <a href="/login" class="text-brand-600 dark:text-brand-400 font-medium hover:underline">Log in</a></p>
+</div>
+{% endblock %}

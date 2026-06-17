@@ -1,0 +1,32 @@
+<header class="sticky top-0 z-40 backdrop-blur bg-white/80 dark:bg-slate-950/80 border-b border-slate-200 dark:border-slate-800">
+  <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2 font-extrabold text-lg tracking-tight">
+      <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-white font-black">AI</span>
+      <span>{{ app_name }}</span>
+    </a>
+
+    <div class="flex items-center gap-1 sm:gap-2">
+      <a href="/courses" class="hidden sm:inline px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Courses</a>
+      <a href="/pricing" class="hidden sm:inline px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Pricing</a>
+
+      {% if user %}
+        <a href="/dashboard" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Dashboard</a>
+        {% if not user.is_subscribed %}
+          <form action="/billing/checkout" method="post" class="hidden sm:block">
+            <button class="px-3 py-2 rounded-lg text-sm font-semibold bg-brand-600 text-white hover:bg-brand-500">Upgrade</button>
+          </form>
+        {% endif %}
+        <a href="/logout" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white">Log out</a>
+      {% else %}
+        <a href="/login" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Log in</a>
+        <a href="/register" class="px-3 py-2 rounded-lg text-sm font-semibold bg-brand-600 text-white hover:bg-brand-500">Start Learning</a>
+      {% endif %}
+
+      <button type="button" data-theme-toggle title="Toggle dark mode"
+        class="ml-1 h-9 w-9 inline-flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+        <span class="dark:hidden">🌙</span>
+        <span class="hidden dark:inline">☀️</span>
+      </button>
+    </div>
+  </nav>
+</header>

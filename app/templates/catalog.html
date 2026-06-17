@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Courses — {{ app_name }}{% endblock %}
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-10">
+  <h1 class="text-3xl font-extrabold tracking-tight">Course catalog</h1>
+  <p class="mt-2 text-slate-500">Text-first courses on AI, Python, and automation — with an AI Mentor in every lesson.</p>
+
+  <div class="mt-8 grid gap-6 md:grid-cols-3">
+    {% for card in cards %}
+    {% set percent = card.percent %}{% set done = card.done %}{% set total = card.total %}
+    <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 flex flex-col">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">{{ card.total }} lessons</span>
+        {% if not user %}
+          <span class="text-xs text-slate-400">1 free lesson</span>
+        {% elif not user.is_subscribed %}
+          <span class="text-xs text-slate-400">{{ free_lessons_per_course }} free lessons</span>
+        {% endif %}
+      </div>
+      <h3 class="mt-2 text-lg font-bold">{{ card.course.title }}</h3>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 flex-1">{{ card.course.description }}</p>
+      {% if user %}<div class="mt-4">{% include "partials/progress_bar.html" %}</div>{% endif %}
+      <a href="/courses/{{ card.course.slug }}" class="mt-4 inline-block text-center w-full px-4 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold hover:opacity-90">
+        View course
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

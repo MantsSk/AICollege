@@ -1,0 +1,91 @@
+/* ---------- Lesson prose (rendered markdown) ---------- */
+.prose-lesson {
+  line-height: 1.75;
+  font-size: 1.0625rem;
+  word-wrap: break-word;
+}
+.prose-lesson h1 { font-size: 2rem; font-weight: 800; margin: 1.5rem 0 1rem; letter-spacing: -0.02em; }
+.prose-lesson h2 { font-size: 1.5rem; font-weight: 700; margin: 2rem 0 0.75rem; letter-spacing: -0.01em; }
+.prose-lesson h3 { font-size: 1.2rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
+.prose-lesson p { margin: 0.85rem 0; }
+.prose-lesson ul, .prose-lesson ol { margin: 0.85rem 0; padding-left: 1.5rem; }
+.prose-lesson ul { list-style: disc; }
+.prose-lesson ol { list-style: decimal; }
+.prose-lesson li { margin: 0.35rem 0; }
+.prose-lesson a { color: #6366f1; text-decoration: underline; text-underline-offset: 2px; }
+.prose-lesson strong { font-weight: 700; }
+.prose-lesson hr { margin: 2rem 0; border-color: rgba(148,163,184,0.25); }
+
+.prose-lesson blockquote {
+  border-left: 4px solid #6366f1;
+  padding: 0.5rem 1rem;
+  margin: 1.25rem 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.prose-lesson blockquote p { margin: 0.25rem 0; }
+
+.prose-lesson table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  font-size: 0.95rem;
+}
+.prose-lesson th, .prose-lesson td {
+  border: 1px solid rgba(148,163,184,0.3);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+.prose-lesson th { background: rgba(148,163,184,0.12); font-weight: 600; }
+
+/* inline code */
+.prose-lesson code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.875em;
+  background: rgba(148,163,184,0.18);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.35rem;
+}
+
+/* code blocks */
+.prose-lesson pre, .codehilite {
+  background: #0b1020 !important;
+  color: #e2e8f0;
+  border: 1px solid rgba(148,163,184,0.2);
+  border-radius: 0.75rem;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  margin: 1.25rem 0;
+  font-size: 0.9rem;
+}
+.prose-lesson pre code, .codehilite code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* ---------- Pygments (codehilite) tokens — dark friendly ---------- */
+.codehilite .c, .codehilite .c1, .codehilite .cm { color: #6b7280; font-style: italic; } /* comments */
+.codehilite .k, .codehilite .kn, .codehilite .kd { color: #c084fc; } /* keywords */
+.codehilite .s, .codehilite .s1, .codehilite .s2, .codehilite .sb { color: #86efac; } /* strings */
+.codehilite .mi, .codehilite .mf, .codehilite .m { color: #fca5a5; } /* numbers */
+.codehilite .nb { color: #67e8f9; } /* builtins */
+.codehilite .nf { color: #93c5fd; } /* function names */
+.codehilite .o, .codehilite .ow { color: #f0abfc; } /* operators */
+.codehilite .n { color: #e2e8f0; }
+.codehilite .p { color: #94a3b8; }
+
+/* ---------- HTMX loading indicator ---------- */
+.htmx-indicator { display: none; }
+.htmx-request .htmx-indicator { display: inline-flex; }
+.htmx-request.htmx-indicator { display: inline-flex; }
+
+/* typing dots */
+.typing span {
+  display: inline-block; width: 6px; height: 6px; margin: 0 1px;
+  background: currentColor; border-radius: 50%; opacity: 0.4;
+  animation: blink 1.4s infinite both;
+}
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%, 80%, 100% { opacity: 0.2; } 40% { opacity: 1; } }
