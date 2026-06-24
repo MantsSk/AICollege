@@ -1,12 +1,12 @@
 ---
-title: Classes and Objects
-module: Classes
+title: Klasės ir objektai
+module: Klasės
 order: 5
 ---
 
-# Classes and Objects
+# Klasės ir objektai
 
-A **class** is a blueprint. An **object** is a thing built from that blueprint. Classes bundle *data* and *behavior* together.
+**Klasė** yra planas. **Objektas** yra dalykas, sukurtas pagal tą planą. Klasės sujungia *duomenis* ir *elgesį*.
 
 ```python
 class Student:
@@ -22,7 +22,7 @@ class Student:
         return self.plan == "paid"
 ```
 
-## Creating objects
+## Objektų kūrimas
 
 ```python
 aiste = Student("Aiste", plan="paid")
@@ -33,24 +33,24 @@ print(aiste.completed_lessons)  # 2
 print(aiste.is_subscribed())    # True
 ```
 
-## The key parts
+## Pagrindinės dalys
 
-- `__init__` is the **constructor** — it runs when you create the object.
-- `self` refers to *this specific object*.
-- **Attributes** (`self.name`) store data.
-- **Methods** (`complete_lesson`) are functions that belong to the object.
+- `__init__` yra **konstruktorius** — jis paleidžiamas kuriant objektą.
+- `self` reiškia *šį konkretų objektą*.
+- **Atributai** (`self.name`) saugo duomenis.
+- **Metodai** (`complete_lesson`) yra objektui priklausančios funkcijos.
 
-## Why classes matter for AI work
+## Kodėl klasės svarbios DI darbuose
 
-Most AI libraries are class-based. When you write:
+Dauguma DI bibliotekų paremtos klasėmis. Kai rašai:
 
 ```python
 client = OpenAI()
 response = client.chat.completions.create(...)
 ```
 
-…you are creating an object (`client`) and calling its methods. Understanding classes makes every AI SDK feel familiar.
+...tu sukuri objektą (`client`) ir kvieti jo metodus. Supratus klases, kiekvienas DI SDK tampa pažįstamas.
 
-> **Mentor tip:** Ask the AI Mentor to model a `BankAccount` class with deposit and withdraw methods, then explain each line.
+> **Mentoriaus patarimas:** paprašyk DI mentoriaus sumodeliuoti `BankAccount` klasę su įnešimo ir išėmimo metodais, tada paaiškinti kiekvieną eilutę.
 
-Congratulations — you now have the Python foundation needed for the **AI Fundamentals** course.
+Sveikinimai — dabar turi Python pagrindą, kurio reikia **DI pagrindų** kursui.

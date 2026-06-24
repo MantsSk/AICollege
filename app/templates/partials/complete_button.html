@@ -1,13 +1,13 @@
 {% if completed %}
 <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-green-500/10 text-green-700 dark:text-green-400 font-semibold">
-  ✓ Lesson completed
+  {{ _('complete.done') }}
 </div>
 {% else %}
 <form hx-post="/courses/{{ course.slug }}/{{ lesson.slug }}/complete"
       hx-target="#complete-zone" hx-swap="innerHTML">
-  <button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-500">
+  <button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-700">
     <span class="htmx-indicator typing"><span></span><span></span><span></span></span>
-    Mark lesson complete
+    {{ _('complete.mark') }}
   </button>
 </form>
 {% endif %}

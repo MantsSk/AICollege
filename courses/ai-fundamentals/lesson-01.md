@@ -1,42 +1,42 @@
 ---
-title: What Are Large Language Models?
+title: Kas yra didieji kalbos modeliai?
 module: LLMs
 order: 1
 ---
 
-# What Are Large Language Models?
+# Kas yra didieji kalbos modeliai?
 
-A **Large Language Model (LLM)** is a program trained to predict the next piece of text. That sounds simple, but at scale it produces something remarkable: the ability to write, reason, summarize, translate, and code.
+**Didysis kalbos modelis (LLM)** yra programa, išmokyta prognozuoti kitą teksto dalį. Skamba paprastai, bet dideliu mastu tai duoda įspūdingų gebėjimų: rašyti, samprotauti, apibendrinti, versti ir programuoti.
 
-## How they work, intuitively
+## Kaip jie veikia intuityviai
 
-1. Text is broken into **tokens** (roughly word-pieces).
-2. The model has read enormous amounts of text and learned statistical patterns.
-3. Given some tokens, it predicts the most likely next token — one at a time.
-4. Repeating this produces fluent paragraphs.
+1. Tekstas suskaidomas į **tokenus** (apytiksliai žodžių dalis).
+2. Modelis perskaitė milžiniškus teksto kiekius ir išmoko statistinius dėsningumus.
+3. Gavęs kelis tokenus, jis prognozuoja labiausiai tikėtiną kitą tokeną — po vieną.
+4. Kartojant šį procesą gaunamos sklandžios pastraipos.
 
 ```text
-Input:  "The capital of Lithuania is"
-Output: " Vilnius."   ← highest-probability continuation
+Input:  "Lietuvos sostinė yra"
+Output: " Vilnius."   ← labiausiai tikėtinas tęsinys
 ```
 
-## Key terms you will hear
+## Pagrindiniai terminai
 
-- **Token** — a chunk of text. ~4 characters in English. Pricing is per token.
-- **Context window** — how much text the model can "see" at once (e.g. 128k tokens).
-- **Temperature** — randomness. `0` = focused/deterministic, `1`+ = creative.
-- **Parameters** — the learned weights. More is not always better.
+- **Tokenas** — teksto gabaliukas. Anglų kalboje vidutiniškai apie 4 simboliai. Kaina skaičiuojama pagal tokenus.
+- **Konteksto langas** — kiek teksto modelis gali „matyti“ vienu metu (pvz., 128k tokenų).
+- **Temperatūra** — atsitiktinumas. `0` = kryptingas/deterministinis, `1`+ = kūrybiškesnis.
+- **Parametrai** — išmokti svoriai. Daugiau ne visada reiškia geriau.
 
-## What they are good and bad at
+## Ką jie daro gerai ir kur klysta
 
-✅ Drafting, explaining, transforming, coding, brainstorming.
-⚠️ Not a database — they can **hallucinate** confident but wrong facts.
-⚠️ No live knowledge unless you give it (we fix this later with **RAG**).
+✅ Juodraščiai, paaiškinimai, transformacijos, programavimas, idėjų generavimas.
+⚠️ Tai ne duomenų bazė — jie gali **haliucinuoti** užtikrintai skambančius, bet klaidingus faktus.
+⚠️ Nėra gyvų žinių, nebent jas pateiki (vėliau tai spręsime su **RAG**).
 
-## Why this matters
+## Kodėl tai svarbu
 
-Every tool you will build in this platform — the AI Mentor included — is an LLM with good instructions and the right context. Understanding the model removes the magic and replaces it with control.
+Kiekvienas įrankis, kurį kursi šioje platformoje, įskaitant DI mentorių, yra LLM su geromis instrukcijomis ir tinkamu kontekstu. Supratęs modelį, magiją pakeisi kontrole.
 
-> **Mentor tip:** Ask "Explain tokens and context windows using a simple analogy."
+> **Mentoriaus patarimas:** paklausk „Paaiškink tokenus ir konteksto langus paprasta analogija.“
 
-Next: how to actually *talk* to these models — **prompt engineering**.
+Toliau: kaip iš tikrųjų *kalbėtis* su šiais modeliais — **promptų inžinerija**.

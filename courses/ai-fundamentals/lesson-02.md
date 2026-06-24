@@ -1,45 +1,45 @@
 ---
-title: Prompt Engineering
-module: Prompt Engineering
+title: Promptų inžinerija
+module: Promptų inžinerija
 order: 2
 ---
 
-# Prompt Engineering
+# Promptų inžinerija
 
-**Prompt engineering** is the craft of writing instructions that get reliable, high-quality output from an LLM. It is the highest-leverage skill in applied AI.
+**Promptų inžinerija** yra gebėjimas rašyti instrukcijas, kurios iš LLM išgauna patikimus, kokybiškus atsakymus. Tai viena svarbiausių praktinio DI kompetencijų.
 
-## The anatomy of a good prompt
+## Gero prompto anatomija
 
-1. **Role** — who the model should act as.
-2. **Task** — what to do, specifically.
-3. **Context** — the material to work from.
-4. **Format** — how the answer should look.
-5. **Constraints** — what to avoid.
+1. **Vaidmuo** — kuo modelis turėtų apsimesti ar kokią rolę atlikti.
+2. **Užduotis** — ką konkrečiai padaryti.
+3. **Kontekstas** — medžiaga, iš kurios dirbama.
+4. **Formatas** — kaip turi atrodyti atsakymas.
+5. **Apribojimai** — ko vengti.
 
 ```text
-You are a senior Python tutor.        (role)
-Explain list comprehensions           (task)
-to a complete beginner who knows       (context)
-only for-loops.
-Use one short example, then a 2-line    (format)
-summary. Avoid jargon.                  (constraints)
+Esi patyręs Python mokytojas.        (vaidmuo)
+Paaiškink list comprehensions         (užduotis)
+visiškam pradedančiajam, kuris moka   (kontekstas)
+tik for ciklus.
+Naudok vieną trumpą pavyzdį, tada      (formatas)
+2 eilučių santrauką. Venk žargono.     (apribojimai)
 ```
 
-## Techniques that reliably help
+## Technikos, kurios patikimai padeda
 
-- **Be specific.** "Summarize in 3 bullet points" beats "summarize".
-- **Show an example** (one-shot / few-shot) when format matters.
-- **Ask it to think step by step** for reasoning tasks.
-- **Give it an out:** "If you are unsure, say so" reduces hallucination.
+- **Būk konkretus.** „Apibendrink 3 punktais“ veikia geriau nei „apibendrink“.
+- **Parodyk pavyzdį** (one-shot / few-shot), kai svarbus formatas.
+- **Paprašyk mąstyti žingsnis po žingsnio**, kai reikia samprotavimo.
+- **Leisk pripažinti nežinojimą:** „Jei nesi tikras, taip ir pasakyk“ mažina haliucinacijas.
 
-## System vs user messages
+## Sistemos ir vartotojo žinutės
 
-Most APIs separate a **system** message (persistent instructions / persona) from **user** messages (the actual request). Our AI Mentor uses a system prompt that says *"prefer the course content, explain simply, stay focused on learning."*
+Dauguma API atskiria **sistemos** žinutę (pastovios instrukcijos / persona) nuo **vartotojo** žinučių (tikrasis prašymas). Mūsų DI mentorius naudoja sistemos promptą, kuris sako: *„pirmenybę teik kurso turiniui, aiškink paprastai, lik susitelkęs į mokymąsi.“*
 
-## Iterate
+## Iteruok
 
-Treat prompting like debugging. If the output is wrong, the fix is usually a clearer prompt — not a different model.
+Į promptingą žiūrėk kaip į klaidų taisymą. Jei atsakymas blogas, dažniausiai reikia aiškesnio prompto, o ne kito modelio.
 
-> **Mentor tip:** Paste a vague prompt and ask the Mentor to rewrite it using the role/task/context/format structure.
+> **Mentoriaus patarimas:** įklijuok miglotą promptą ir paprašyk mentoriaus perrašyti jį pagal vaidmens/užduoties/konteksto/formato struktūrą.
 
-Next: how machines understand *meaning* — **embeddings**.
+Toliau: kaip mašinos supranta *prasmę* — **įterpiniai**.

@@ -1,20 +1,20 @@
 ---
-title: Building a Chat Interface
-module: Chat Interface
+title: Pokalbio sąsajos kūrimas
+module: Pokalbio sąsaja
 order: 2
 ---
 
-# Building a Chat Interface
+# Pokalbio sąsajos kūrimas
 
-Now we wrap the API in a web interface — exactly the pattern the AI Mentor in this platform uses: **FastAPI + HTMX**, no heavy JavaScript framework.
+Dabar API apgaubsime web sąsaja — tai tas pats principas, kurį šioje platformoje naudoja DI mentorius: **FastAPI + HTMX**, be sunkaus JavaScript frameworko.
 
-## The idea
+## Idėja
 
-- A form posts the user's message to the server.
-- The server calls the LLM and returns an **HTML fragment** (the new messages).
-- HTMX swaps that fragment into the page. The page never fully reloads.
+- Forma nusiunčia vartotojo žinutę į serverį.
+- Serveris kviečia LLM ir grąžina **HTML fragmentą** (naujas žinutes).
+- HTMX įdeda tą fragmentą į puslapį. Puslapis pilnai nepersikrauna.
 
-## The endpoint (FastAPI)
+## Endpointas (FastAPI)
 
 ```python
 from fastapi import FastAPI, Form
@@ -36,24 +36,24 @@ def chat(message: str = Form(...)):
     """
 ```
 
-## The HTMX form
+## HTMX forma
 
 ```html
 <form hx-post="/chat" hx-target="#log" hx-swap="beforeend"
       hx-on::after-request="this.reset()">
-  <input name="message" placeholder="Ask anything...">
-  <button>Send</button>
+  <input name="message" placeholder="Klausk bet ko...">
+  <button>Siųsti</button>
 </form>
 
 <div id="log"></div>
 ```
 
-`hx-post` sends the form, `hx-target` says where to put the response, `hx-swap="beforeend"` appends it to the log.
+`hx-post` išsiunčia formą, `hx-target` nurodo, kur įdėti atsakymą, o `hx-swap="beforeend"` prideda jį pokalbio gale.
 
-## Loading states
+## Krovimo būsenos
 
-HTMX adds an `htmx-request` class during the call — show a "thinking…" indicator with CSS, no JS needed.
+Kvietimo metu HTMX prideda `htmx-request` klasę, todėl gali rodyti „galvoja...“ indikatorių su CSS, be papildomo JS.
 
-> **Mentor tip:** Ask "How does hx-swap='beforeend' differ from the default swap?"
+> **Mentoriaus patarimas:** paklausk „Kuo `hx-swap='beforeend'` skiriasi nuo numatytojo swap?“
 
-Next: making the assistant *remember* the conversation — **memory**.
+Toliau: priversime asistentą *atsiminti* pokalbį — **atmintis**.

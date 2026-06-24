@@ -1,53 +1,53 @@
 ---
-title: Retrieval-Augmented Generation (RAG)
+title: Paieška papildyta generacija (RAG)
 module: RAG
 order: 4
 ---
 
-# Retrieval-Augmented Generation (RAG)
+# Paieška papildyta generacija (RAG)
 
-LLMs don't know your private documents and can hallucinate facts. **RAG** fixes both by *retrieving* relevant text and putting it into the prompt before the model answers.
+LLM nežino tavo privačių dokumentų ir gali haliucinuoti faktus. **RAG** sprendžia abi problemas: *suranda* aktualų tekstą ir įdeda jį į promptą prieš modeliui atsakant.
 
-## The RAG pipeline
+## RAG eiga
 
 ```text
-1. INGEST   Split your docs into chunks, embed them, store vectors.
-2. RETRIEVE For a question, embed it and find the closest chunks.
-3. AUGMENT  Insert those chunks into the prompt as context.
-4. GENERATE Ask the LLM to answer using only that context.
+1. ĮKĖLIMAS     Suskaidyk dokumentus į dalis, sukurk įterpinius, saugok vektorius.
+2. PAIEŠKA      Klausimą paversk įterpiniu ir rask artimiausias dalis.
+3. PAPILDYMAS   Įdėk tas dalis į promptą kaip kontekstą.
+4. GENERAVIMAS  Paprašyk LLM atsakyti naudojant tik tą kontekstą.
 ```
 
-## A minimal example
+## Minimalus pavyzdys
 
 ```python
-question = "How do I cancel my subscription?"
+question = "Kaip atšaukti prenumeratą?"
 
-# 1+2: find the most relevant chunks
+# 1+2: rasti aktualiausias dalis
 chunks = vector_search(question, top_k=3)
 context = "\n\n".join(chunks)
 
-# 3+4: ground the model in your content
-prompt = f"""Answer using ONLY the context below.
-If the answer isn't there, say you don't know.
+# 3+4: pagrįsti modelį tavo turiniu
+prompt = f"""Atsakyk naudodamas TIK žemiau pateiktą kontekstą.
+Jei atsakymo ten nėra, pasakyk, kad nežinai.
 
-Context:
+Kontekstas:
 {context}
 
-Question: {question}"""
+Klausimas: {question}"""
 
 answer = llm(prompt)
 ```
 
-## Why this matters here
+## Kodėl tai svarbu čia
 
-The **AI Mentor** in this platform is a form of RAG: it receives the current lesson's content as context and is instructed to *prefer the course material* when answering. That's why it stays on-topic and accurate for the lesson you're reading.
+Šios platformos **DI mentorius** yra RAG forma: jis gauna dabartinės pamokos turinį kaip kontekstą ir instrukciją atsakymuose *teikti pirmenybę kurso medžiagai*. Todėl jis lieka prie temos ir tiksliai padeda su skaitoma pamoka.
 
-## Practical tips
+## Praktiniai patarimai
 
-- **Chunk well** — too big wastes context, too small loses meaning (~200–500 tokens is common).
-- **Retrieve enough** — top 3–5 chunks usually beats one.
-- **Cite sources** so users can verify.
+- **Gerai skaidyk** — per didelės dalys švaisto kontekstą, per mažos praranda prasmę (dažnai tinka ~200–500 tokenų).
+- **Surask pakankamai** — 3–5 geriausios dalys paprastai geriau nei viena.
+- **Cituok šaltinius**, kad vartotojai galėtų patikrinti.
 
-> **Mentor tip:** Ask "How is the AI Mentor in this lesson using RAG ideas?"
+> **Mentoriaus patarimas:** paklausk „Kaip šios pamokos DI mentorius naudoja RAG idėjas?“
 
-Next: letting AI *take actions* — **agents**.
+Toliau: leisime DI *imtis veiksmų* — **agentai**.

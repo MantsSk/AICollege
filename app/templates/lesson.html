@@ -7,8 +7,8 @@
 
   <!-- Lesson content -->
   <article class="min-w-0">
-    <nav class="text-sm text-slate-500">
-      <a href="/courses" class="hover:text-brand-500">Courses</a>
+    <nav class="text-sm text-stone-500">
+      <a href="/courses" class="hover:text-brand-500">{{ _('nav.courses') }}</a>
       <span class="mx-1">/</span>
       <a href="/courses/{{ course.slug }}" class="hover:text-brand-500">{{ course.title }}</a>
     </nav>
@@ -18,7 +18,7 @@
         {% if lesson.module %}<div class="text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">{{ lesson.module }}</div>{% endif %}
         <h1 class="mt-1 text-3xl font-extrabold tracking-tight">{{ lesson.title }}</h1>
       </div>
-      <span class="shrink-0 text-sm text-slate-500 tabular-nums">Lesson {{ lesson_number }} / {{ lesson_total }}</span>
+      <span class="shrink-0 text-sm text-stone-500 tabular-nums">{{ _('lesson.label', number=lesson_number, total=lesson_total) }}</span>
     </div>
 
     <!-- Course progress -->
@@ -33,26 +33,26 @@
     </div>
 
     <!-- Complete + navigation -->
-    <div class="mt-12 border-t border-slate-200 dark:border-slate-800 pt-6">
+    <div class="mt-12 border-t border-stone-200 dark:border-stone-800 pt-6">
       <div id="complete-zone" class="mb-6">
         {% if user %}
           {% include "partials/complete_button.html" %}
         {% else %}
-          <a href="/register" class="inline-block px-5 py-2.5 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-500">Create a free account to track progress</a>
+          <a href="/register" class="inline-block px-5 py-2.5 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-700">{{ _('lesson.track') }}</a>
         {% endif %}
       </div>
 
       <div class="flex items-center justify-between gap-4">
         {% if prev_lesson %}
-          <a href="/courses/{{ course.slug }}/{{ prev_lesson.slug }}" class="flex-1 rounded-xl border border-slate-200 dark:border-slate-800 p-4 hover:border-brand-400 dark:hover:border-brand-600 transition">
-            <div class="text-xs text-slate-400">← Previous</div>
+          <a href="/courses/{{ course.slug }}/{{ prev_lesson.slug }}" class="flex-1 rounded-xl border border-stone-200 dark:border-stone-800 p-4 hover:border-brand-400 dark:hover:border-brand-600 transition">
+            <div class="text-xs text-stone-400">{{ _('lesson.prev') }}</div>
             <div class="font-semibold truncate">{{ prev_lesson.title }}</div>
           </a>
         {% else %}<div class="flex-1"></div>{% endif %}
 
         {% if next_lesson %}
-          <a href="/courses/{{ course.slug }}/{{ next_lesson.slug }}" class="flex-1 rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-right hover:border-brand-400 dark:hover:border-brand-600 transition">
-            <div class="text-xs text-slate-400">Next →</div>
+          <a href="/courses/{{ course.slug }}/{{ next_lesson.slug }}" class="flex-1 rounded-xl border border-stone-200 dark:border-stone-800 p-4 text-right hover:border-brand-400 dark:hover:border-brand-600 transition">
+            <div class="text-xs text-stone-400">{{ _('lesson.next') }}</div>
             <div class="font-semibold truncate">{{ next_lesson.title }}</div>
           </a>
         {% else %}<div class="flex-1"></div>{% endif %}

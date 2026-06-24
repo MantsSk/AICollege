@@ -1,24 +1,24 @@
 ---
-title: AI Agents
-module: AI Agents
+title: DI agentai
+module: DI agentai
 order: 5
 ---
 
-# AI Agents
+# DI agentai
 
-An **agent** is an LLM that can *decide* and *act* — not just answer. You give it a goal and a set of **tools**, and it loops: think → choose a tool → observe the result → repeat, until the goal is done.
+**Agentas** yra LLM, kuris gali *spręsti* ir *veikti*, ne tik atsakyti. Duodi jam tikslą ir **įrankių** rinkinį, o jis kartoja ciklą: galvoja → pasirenka įrankį → stebi rezultatą → kartoja, kol tikslas pasiektas.
 
-## Chatbot vs Agent
+## Pokalbių robotas ir agentas
 
-| | Chatbot | Agent |
+| | Pokalbių robotas | Agentas |
 |--|---------|-------|
-| Output | text reply | text **and actions** |
-| Tools | none | search, code, APIs, DB |
-| Steps | one turn | many, autonomously |
+| Išvestis | tekstinis atsakymas | tekstas **ir veiksmai** |
+| Įrankiai | nėra | paieška, kodas, API, DB |
+| Žingsniai | vienas ėjimas | daug, savarankiškai |
 
-## Tools (function calling)
+## Įrankiai (funkcijų kvietimas)
 
-You describe functions to the model; it picks which to call and with what arguments.
+Modeliui aprašai funkcijas; jis pasirenka, kurią kviesti ir su kokiais argumentais.
 
 ```python
 tools = [{
@@ -35,22 +35,22 @@ tools = [{
 }]
 ```
 
-The model replies "call `get_weather(city='Vilnius')`", your code runs it, and you feed the result back.
+Modelis atsako „kviesk `get_weather(city='Vilnius')`“, tavo kodas tai paleidžia, o rezultatą paduodi atgal modeliui.
 
-## The agent loop
+## Agento ciklas
 
 ```text
-goal -> LLM thinks -> calls tool -> gets result
-     -> LLM thinks again -> ... -> final answer
+tikslas -> LLM galvoja -> kviečia įrankį -> gauna rezultatą
+        -> LLM vėl galvoja -> ... -> galutinis atsakymas
 ```
 
-## Where agents shine — and where they don't
+## Kur agentai stiprūs ir kur reikia atsargumo
 
-✅ Multi-step research, coding tasks, workflow automation.
-⚠️ Add **guardrails**: step limits, allowed tools, human approval for risky actions. Unbounded agents can loop or take wrong actions.
+✅ Kelių žingsnių tyrimai, programavimo užduotys, darbo eigų automatizavimas.
+⚠️ Pridėk **apsaugas**: žingsnių limitus, leidžiamus įrankius, žmogaus patvirtinimą rizikingiems veiksmams. Neriboti agentai gali užsiciklinti arba imtis netinkamų veiksmų.
 
-## What you've learned
+## Ką išmokai
 
-You now understand the full modern AI stack: models, prompting, embeddings, RAG, and agents. In the next course, **Build Your Own AI Assistant**, you'll combine all of it into a real product.
+Dabar supranti visą šiuolaikinio DI rinkinį: modelius, promptingą, įterpinius, RAG ir agentus. Kitame kurse, **Sukurk savo DI asistentą**, visa tai sujungsi į realų produktą.
 
-> **Mentor tip:** Ask "What is the simplest possible agent I could build as a first project?"
+> **Mentoriaus patarimas:** paklausk „Koks paprasčiausias agentas, kurį galėčiau sukurti kaip pirmą projektą?“

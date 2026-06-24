@@ -1,34 +1,34 @@
 ---
-title: Functions
-module: Functions
+title: Funkcijos
+module: Funkcijos
 order: 4
 ---
 
-# Functions
+# Funkcijos
 
-A **function** is a named, reusable block of code. It takes inputs and (optionally) returns an output.
+**Funkcija** yra pavadintas, pakartotinai naudojamas kodo blokas. Ji priima įvestis ir (pasirinktinai) grąžina rezultatą.
 
 ```python
 def greet(name):
-    return f"Hello, {name}!"
+    return f"Labas, {name}!"
 
 message = greet("Aiste")
-print(message)   # Hello, Aiste!
+print(message)   # Labas, Aiste!
 ```
 
-## Parameters and defaults
+## Parametrai ir numatytosios reikšmės
 
 ```python
 def power(base, exponent=2):
     return base ** exponent
 
-print(power(5))      # 25  (exponent defaults to 2)
+print(power(5))      # 25  (exponent numatyta reikšmė yra 2)
 print(power(2, 10))  # 1024
 ```
 
-## Returning values
+## Reikšmių grąžinimas
 
-A function without an explicit `return` gives back `None`.
+Funkcija be aiškaus `return` grąžina `None`.
 
 ```python
 def add(a, b):
@@ -37,17 +37,17 @@ def add(a, b):
 total = add(3, 4)   # 7
 ```
 
-## Why functions matter
+## Kodėl funkcijos svarbios
 
-They let you:
+Jos leidžia:
 
-- **Avoid repetition** — write logic once, call it everywhere.
-- **Name ideas** — `calculate_tax()` reads better than 5 lines of math.
-- **Test small pieces** independently.
+- **Vengti kartojimo** — parašyk logiką vieną kartą, naudok visur.
+- **Pavadinti idėjas** — `calculate_tax()` skaitosi geriau nei 5 matematikos eilutės.
+- **Testuoti mažas dalis** atskirai.
 
-## Keyword arguments
+## Vardiniai argumentai
 
-You can pass arguments by name for clarity:
+Aiškumui argumentus gali perduoti pagal vardą:
 
 ```python
 def create_user(email, plan="free"):
@@ -56,6 +56,6 @@ def create_user(email, plan="free"):
 create_user(email="a@b.com", plan="paid")
 ```
 
-> **Mentor tip:** Paste a function you wrote and ask the AI Mentor "How can I make this function cleaner?"
+> **Mentoriaus patarimas:** įklijuok savo parašytą funkciją ir paklausk DI mentoriaus „Kaip galiu šią funkciją padaryti švaresnę?“
 
-Next: modeling real-world things with **classes**.
+Toliau: realaus pasaulio dalykus modeliuosime su **klasėmis**.

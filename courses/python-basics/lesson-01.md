@@ -1,12 +1,12 @@
 ---
-title: Variables and Types
-module: Variables
+title: Kintamieji ir tipai
+module: Kintamieji
 order: 1
 ---
 
-# Variables and Types
+# Kintamieji ir tipai
 
-A **variable** is a name that points to a value. You create one with the `=` sign.
+**Kintamasis** yra vardas, rodantis į reikšmę. Jį sukuri su `=` ženklu.
 
 ```python
 name = "Aiste"
@@ -15,45 +15,45 @@ price = 19.99
 is_subscribed = True
 ```
 
-Python figures out the *type* automatically — you never declare it.
+Python *tipą* nustato automatiškai, todėl jo deklaruoti nereikia.
 
-## The core types
+## Pagrindiniai tipai
 
-| Type | Example | Meaning |
+| Tipas | Pavyzdys | Reikšmė |
 |------|---------|---------|
-| `str` | `"hello"` | text |
-| `int` | `42` | whole number |
-| `float` | `3.14` | decimal number |
-| `bool` | `True` / `False` | yes/no value |
+| `str` | `"hello"` | tekstas |
+| `int` | `42` | sveikasis skaičius |
+| `float` | `3.14` | dešimtainis skaičius |
+| `bool` | `True` / `False` | taip/ne reikšmė |
 
-Check a type with `type()`:
+Tipą gali patikrinti su `type()`:
 
 ```python
 print(type("hello"))   # <class 'str'>
 print(type(42))        # <class 'int'>
 ```
 
-## Working with text
+## Darbas su tekstu
 
-Strings can be combined and formatted. **f-strings** are the modern way:
+Eilutes galima jungti ir formatuoti. **f-string** yra modernus būdas:
 
 ```python
 name = "Aiste"
 lessons = 12
-print(f"{name} completed {lessons} lessons.")
-# Aiste completed 12 lessons.
+print(f"{name} baigė {lessons} pamokų.")
+# Aiste baigė 12 pamokų.
 ```
 
-## A small exercise
+## Trumpa užduotis
 
-Create variables for your name and your goal, then print a sentence:
+Sukurk kintamuosius savo vardui ir tikslui, tada išvesk sakinį:
 
 ```python
 my_name = "..."
-my_goal = "learn AI"
-print(f"Hi, I am {my_name} and I want to {my_goal}.")
+my_goal = "išmokti DI"
+print(f"Labas, aš esu {my_name} ir noriu {my_goal}.")
 ```
 
-> **Try it with the AI Mentor:** Ask "Why does Python not need me to declare types?" and see how it explains it.
+> **Išbandyk su DI mentoriumi:** paklausk „Kodėl Python nereikia deklaruoti tipų?“ ir pažiūrėk, kaip jis paaiškins.
 
-In the next lesson we make our programs *make decisions*.
+Kitoje pamokoje priversime programas *priimti sprendimus*.

@@ -4,8 +4,10 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.ai import ask_mentor, build_messages
+from app.course_i18n import localize_course
 from app.database import get_db
 from app.deps import require_user
+from app.i18n import get_language
 from app.models import ChatConversation, ChatMessage, Course, Lesson, User
 from app.services import ai_messages_remaining, can_access_lesson, increment_ai_usage
 from app.templating import templates
@@ -62,16 +64,23 @@ def chat(
 
     convo = _get_conversation(db, user, lesson)
     history = [{"role": m.role, "content": m.content} for m in convo.messages]
+    lang = get_language(request)
+    display_course = localize_course(course, lang)
+    display_lesson = next(
+        (item for item in display_course.lessons if item.slug == lesson.slug),
+        lesson,
+    )
 
     messages = build_messages(
-        course_title=course.title,
-        module_title=lesson.module,
-        lesson_title=lesson.title,
-        lesson_content=lesson.content_md,
+        course_title=display_course.title,
+        module_title=display_lesson.module,
+        lesson_title=display_lesson.title,
+        lesson_content=display_lesson.content_md,
         history=history,
         user_message=message,
+        lang=lang,
     )
-    reply = ask_mentor(messages)
+    reply = ask_mentor(messages, lang=lang)
 
     db.add(ChatMessage(conversation_id=convo.id, role="user", content=message))
     db.add(ChatMessage(conversation_id=convo.id, role="assistant", content=reply))

@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% import "partials/icons.html" as icons %}
 {% block title %}{{ course.title }} — {{ app_name }}{% endblock %}
 {% block content %}
 <div class="max-w-3xl mx-auto px-4 py-10">
-  <nav class="text-sm text-slate-500"><a href="/courses" class="hover:text-brand-500">Courses</a> <span class="mx-1">/</span> {{ course.title }}</nav>
+  <nav class="text-sm text-stone-500"><a href="/courses" class="hover:text-brand-500">{{ _('nav.courses') }}</a> <span class="mx-1">/</span> {{ course.title }}</nav>
 
   <h1 class="mt-3 text-3xl font-extrabold tracking-tight">{{ course.title }}</h1>
-  <p class="mt-3 text-slate-600 dark:text-slate-300">{{ course.description }}</p>
+  <p class="mt-3 text-stone-600 dark:text-stone-300">{{ course.description }}</p>
 
   {% if user %}
   <div class="mt-5 max-w-xs">{% include "partials/progress_bar.html" %}</div>
@@ -13,12 +14,12 @@
 
   {% if not user %}
   <div class="mt-6 rounded-xl bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800 px-4 py-3 text-sm">
-    The first lesson is free to read. <a href="/register" class="font-semibold text-brand-600 dark:text-brand-400 hover:underline">Create a free account</a> to unlock {{ free_lessons_per_course }} lessons + the AI Mentor.
+    {{ _('course.free_note') }} <a href="/register" class="font-semibold text-brand-600 dark:text-brand-400 hover:underline">{{ _('course.create_to_unlock') }}</a> {{ _('course.unlock_suffix', count=free_lessons_per_course) }}
   </div>
   {% elif not user.is_subscribed %}
   <div class="mt-6 rounded-xl bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800 px-4 py-3 text-sm flex items-center justify-between gap-3">
-    <span>First {{ free_lessons_per_course }} lessons free. Upgrade to unlock all {{ total }}.</span>
-    <form action="/billing/checkout" method="post"><button class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-brand-600 text-white font-semibold text-sm hover:bg-brand-500">Go Pro</button></form>
+    <span>{{ _('course.upgrade_note', free_count=free_lessons_per_course, total=total) }}</span>
+    <form action="/billing/checkout" method="post"><button class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-brand-600 text-white font-semibold text-sm hover:bg-brand-500">{{ _('pricing.go_pro') }}</button></form>
   </div>
   {% endif %}
 
@@ -27,25 +28,25 @@
     {% set lesson = item.lesson %}
     <li>
       {% if item.accessible %}
-      <a href="/courses/{{ course.slug }}/{{ lesson.slug }}" class="group flex items-center gap-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 hover:border-brand-400 dark:hover:border-brand-600 transition">
+      <a href="/courses/{{ course.slug }}/{{ lesson.slug }}" class="group flex items-center gap-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-4 hover:border-brand-400 dark:hover:border-brand-600 transition">
         <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold
-          {% if item.completed %}bg-green-500 text-white{% else %}bg-slate-100 dark:bg-slate-800 text-slate-500{% endif %}">
+          {% if item.completed %}bg-green-500 text-white{% else %}bg-stone-100 dark:bg-stone-800 text-stone-500{% endif %}">
           {{ '✓' if item.completed else loop.index }}
         </span>
         <div class="flex-1 min-w-0">
           {% if lesson.module %}<div class="text-xs font-medium uppercase tracking-wide text-brand-600 dark:text-brand-400">{{ lesson.module }}</div>{% endif %}
           <div class="font-semibold group-hover:text-brand-600 dark:group-hover:text-brand-400 truncate">{{ lesson.title }}</div>
         </div>
-        <span class="text-slate-400 group-hover:text-brand-500">→</span>
+        <span class="text-stone-400 group-hover:text-brand-500">→</span>
       </a>
       {% else %}
-      <div class="flex items-center gap-4 rounded-xl border border-dashed border-slate-200 dark:border-slate-800 p-4 opacity-70">
-        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400">🔒</span>
+      <div class="flex items-center gap-4 rounded-xl border border-dashed border-stone-200 dark:border-stone-800 p-4 opacity-70">
+        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-stone-100 dark:bg-stone-800 text-stone-400">{{ icons.icon("lock", "h-4 w-4") }}</span>
         <div class="flex-1 min-w-0">
-          {% if lesson.module %}<div class="text-xs font-medium uppercase tracking-wide text-slate-400">{{ lesson.module }}</div>{% endif %}
-          <div class="font-semibold text-slate-500 truncate">{{ lesson.title }}</div>
+          {% if lesson.module %}<div class="text-xs font-medium uppercase tracking-wide text-stone-400">{{ lesson.module }}</div>{% endif %}
+          <div class="font-semibold text-stone-500 truncate">{{ lesson.title }}</div>
         </div>
-        <span class="text-xs text-slate-400">Pro</span>
+        <span class="text-xs text-stone-400">Pro</span>
       </div>
       {% endif %}
     </li>

@@ -1,16 +1,16 @@
 ---
-title: Adding a Knowledge Base
-module: Knowledge Base
+title: Žinių bazės pridėjimas
+module: Žinių bazė
 order: 4
 ---
 
-# Adding a Knowledge Base
+# Žinių bazės pridėjimas
 
-To make your assistant an expert on *your* material — docs, FAQs, a course — give it a **knowledge base** using the RAG pattern from AI Fundamentals.
+Kad asistentas taptų ekspertu apie *tavo* medžiagą — dokumentus, DUK, kursą — duok jam **žinių bazę** naudodamas RAG principą iš DI pagrindų.
 
-## Step 1 — Ingest
+## 1 žingsnis — įkėlimas
 
-Split documents into chunks and embed them once:
+Suskaidyk dokumentus į dalis ir vieną kartą sukurk jų įterpinius:
 
 ```python
 from litellm import embedding
@@ -19,44 +19,44 @@ def embed(texts):
     resp = embedding(model="text-embedding-3-small", input=texts)
     return [d["embedding"] for d in resp["data"]]
 
-chunks = split_into_chunks(my_docs)        # ~300 tokens each
+chunks = split_into_chunks(my_docs)        # po ~300 tokenų
 vectors = embed(chunks)
-store(chunks, vectors)                      # save to a vector DB
+store(chunks, vectors)                      # išsaugoti vektorinėje DB
 ```
 
-## Step 2 — Retrieve
+## 2 žingsnis — paieška
 
-At question time, embed the question and find the closest chunks:
+Kai gauni klausimą, sukurk jo įterpinį ir rask artimiausias dalis:
 
 ```python
 def search(question, top_k=3):
     q = embed([question])[0]
-    return nearest_chunks(q, top_k)          # cosine similarity
+    return nearest_chunks(q, top_k)          # kosinusinis panašumas
 ```
 
-## Step 3 — Answer with context
+## 3 žingsnis — atsakymas su kontekstu
 
 ```python
 context = "\n\n".join(search(question))
 messages = [
     {"role": "system",
-     "content": "Answer using the context. If it's not there, say so."},
+     "content": "Atsakyk naudodamas kontekstą. Jei atsakymo ten nėra, taip ir pasakyk."},
     {"role": "user",
-     "content": f"Context:\n{context}\n\nQuestion: {question}"},
+     "content": f"Kontekstas:\n{context}\n\nKlausimas: {question}"},
 ]
 answer = completion(model="gpt-4o-mini", messages=messages)
 ```
 
-## Storage options
+## Saugojimo pasirinkimai
 
-- **pgvector** — add vectors to the PostgreSQL you already run (great for solo apps).
-- **Chroma** — simple local vector store.
-- **Pinecone / Qdrant** — managed, scales to millions of vectors.
+- **pgvector** — pridėk vektorius į jau naudojamą PostgreSQL (puiku mažoms programoms).
+- **Chroma** — paprasta lokali vektorių saugykla.
+- **Pinecone / Qdrant** — valdoma infrastruktūra, tinka milijonams vektorių.
 
-## This platform as an example
+## Ši platforma kaip pavyzdys
 
-The AI Mentor injects the **current lesson's markdown** as context and tells the model to prefer it. That's a focused, single-document knowledge base — simple and effective.
+DI mentorius įdeda **dabartinės pamokos markdown** kaip kontekstą ir liepia modeliui teikti jam pirmenybę. Tai sutelkta vieno dokumento žinių bazė — paprasta ir veiksminga.
 
-> **Mentor tip:** Ask "How would I add pgvector to a FastAPI + PostgreSQL app?"
+> **Mentoriaus patarimas:** paklausk „Kaip pridėčiau pgvector į FastAPI + PostgreSQL programą?“
 
-Next: getting it live — **deployment**.
+Toliau: paleidimas viešai — **diegimas**.
