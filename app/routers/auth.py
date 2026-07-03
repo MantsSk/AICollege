@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from app.config import settings
 from app.database import get_db
 from app.deps import current_user_optional
+from app.i18n import get_language, make_translator
 from app.models import User
 from app.security import hash_password, verify_password
 from app.templating import templates
@@ -38,11 +39,12 @@ def register(
     db: Session = Depends(get_db),
 ):
     email = email.strip().lower()
+    _ = make_translator(get_language(request))
     error = None
     if len(password) < 8:
-        error = "Password must be at least 8 characters."
+        error = _("auth.error_password_short")
     elif db.scalar(select(User).where(User.email == email)):
-        error = "An account with this email already exists."
+        error = _("auth.error_email_exists")
 
     if error:
         return templates.TemplateResponse(
@@ -78,10 +80,11 @@ def login(
     email = email.strip().lower()
     user = db.scalar(select(User).where(User.email == email))
     if user is None or not verify_password(password, user.password_hash):
+        _ = make_translator(get_language(request))
         return templates.TemplateResponse(
             request,
             "auth/login.html",
-            {"request": request, "user": None, "error": "Invalid email or password.", "email": email},
+            {"request": request, "user": None, "error": _("auth.error_invalid_login"), "email": email},
             status_code=400,
         )
     request.session["user_id"] = user.id
@@ -95,7 +98,7 @@ def logout(request: Request):
     return _redirect("/")
 
 
-# --- Password reset -------------------------------------------------------
+# --- Slaptažodžio atkūrimas ----------------------------------------------
 
 
 @router.get("/forgot-password", response_class=HTMLResponse)
@@ -155,6 +158,7 @@ def reset(
             status_code=400,
         )
     if len(password) < 8:
+        _ = make_translator(get_language(request))
         return templates.TemplateResponse(
             request,
             "auth/reset.html",
@@ -163,7 +167,7 @@ def reset(
                 "user": None,
                 "token": token,
                 "valid": True,
-                "error": "Password must be at least 8 characters.",
+                "error": _("auth.error_password_short"),
             },
             status_code=400,
         )

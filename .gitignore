@@ -8,5 +8,6 @@ venv/
 .pytest_cache/
 .mypy_cache/
 node_modules/
+bin/
 *.log
 .DS_Store

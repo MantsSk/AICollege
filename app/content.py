@@ -75,13 +75,13 @@ def _humanize(slug: str) -> str:
     return slug.replace("-", " ").replace("_", " ").title()
 
 
-def load_courses() -> list[CourseDir]:
+def load_courses(base_dir: Path = COURSES_DIR) -> list[CourseDir]:
     """Read every course directory and return structured content."""
     courses: list[CourseDir] = []
-    if not COURSES_DIR.exists():
+    if not base_dir.exists():
         return courses
 
-    for course_path in sorted(p for p in COURSES_DIR.iterdir() if p.is_dir()):
+    for course_path in sorted(p for p in base_dir.iterdir() if p.is_dir()):
         meta = _parse_course_meta(course_path)
         course = CourseDir(
             slug=course_path.name,

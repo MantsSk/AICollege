@@ -1,42 +1,42 @@
 {% extends "base.html" %}
-{% block title %}Pricing — {{ app_name }}{% endblock %}
+{% block title %}{{ _('pricing.title') }} — {{ app_name }}{% endblock %}
 {% block content %}
 <div class="max-w-3xl mx-auto px-4 py-16">
-  <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-center">Simple pricing</h1>
-  <p class="mt-3 text-center text-slate-600 dark:text-slate-400">Start free. Upgrade when you're ready for everything.</p>
+  <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-center">{{ _('pricing.simple') }}</h1>
+  <p class="mt-3 text-center text-stone-600 dark:text-stone-400">{{ _('pricing.lead') }}</p>
 
   <div class="mt-10 grid gap-6 md:grid-cols-2">
-    <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-7 bg-white dark:bg-slate-900">
-      <h3 class="font-bold text-lg">Free</h3>
+    <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-7 bg-white dark:bg-stone-900">
+      <h3 class="font-bold text-lg">{{ _('pricing.free') }}</h3>
       <p class="mt-2 text-3xl font-extrabold">€0</p>
-      <ul class="mt-5 space-y-2 text-sm text-slate-600 dark:text-slate-300">
-        <li>✓ Read the first {{ free_lessons_per_course }} lessons of every course</li>
-        <li>✓ AI Mentor — {{ free_daily_ai_messages }} messages / day</li>
-        <li>✓ Progress tracking</li>
+      <ul class="mt-5 space-y-2 text-sm text-stone-600 dark:text-stone-300">
+        <li>{{ _('pricing.read_lessons', count=free_lessons_per_course) }}</li>
+        <li>{{ _('pricing.mentor', count=free_daily_ai_messages) }}</li>
+        <li>{{ _('pricing.progress') }}</li>
       </ul>
       {% if not user %}
-      <a href="/register" class="mt-6 block text-center px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold hover:bg-slate-100 dark:hover:bg-slate-800">Create free account</a>
+      <a href="/register" class="mt-6 block text-center px-5 py-3 rounded-xl border border-stone-300 dark:border-stone-700 font-semibold hover:bg-stone-100 dark:hover:bg-stone-800">{{ _('pricing.create') }}</a>
       {% else %}
-      <a href="/dashboard" class="mt-6 block text-center px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold hover:bg-slate-100 dark:hover:bg-slate-800">Go to dashboard</a>
+      <a href="/dashboard" class="mt-6 block text-center px-5 py-3 rounded-xl border border-stone-300 dark:border-stone-700 font-semibold hover:bg-stone-100 dark:hover:bg-stone-800">{{ _('pricing.dashboard') }}</a>
       {% endif %}
     </div>
 
-    <div class="rounded-2xl border-2 border-brand-500 p-7 bg-white dark:bg-slate-900 relative shadow-xl shadow-brand-600/10">
-      <span class="absolute -top-3 left-7 rounded-full bg-brand-600 text-white text-xs font-semibold px-3 py-1">Most popular</span>
+    <div class="rounded-xl border-2 border-brand-500 p-7 bg-white dark:bg-stone-900 relative shadow-xl shadow-brand-600/10">
+      <span class="absolute -top-3 left-7 rounded-full bg-accent-400 text-stone-900 text-xs font-semibold px-3 py-1">{{ _('pricing.popular') }}</span>
       <h3 class="font-bold text-lg">Pro</h3>
-      <p class="mt-2 text-3xl font-extrabold">€{{ subscription_price }}<span class="text-base font-medium text-slate-500">/month</span></p>
-      <ul class="mt-5 space-y-2 text-sm text-slate-600 dark:text-slate-300">
-        <li>✓ <strong>All lessons</strong>, all courses</li>
-        <li>✓ Higher AI Mentor limits</li>
-        <li>✓ All future course updates</li>
-        <li>✓ Cancel anytime</li>
+      <p class="mt-2 text-3xl font-extrabold">€{{ subscription_price }}<span class="text-base font-medium text-stone-500">{{ _('pricing.month') }}</span></p>
+      <ul class="mt-5 space-y-2 text-sm text-stone-600 dark:text-stone-300">
+        <li>{{ _('pricing.all_lessons') }}</li>
+        <li>{{ _('pricing.higher_limits') }}</li>
+        <li>{{ _('pricing.future') }}</li>
+        <li>{{ _('pricing.cancel') }}</li>
       </ul>
       {% if user and user.is_subscribed %}
-        <div class="mt-6 text-center px-5 py-3 rounded-xl bg-green-500/10 text-green-700 dark:text-green-400 font-semibold">You're on Pro ✓</div>
+        <div class="mt-6 text-center px-5 py-3 rounded-xl bg-green-500/10 text-green-700 dark:text-green-400 font-semibold">{{ _('pricing.on_pro') }}</div>
       {% elif user %}
-        <form action="/billing/checkout" method="post"><button class="mt-6 w-full px-5 py-3 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-500">Upgrade to Pro</button></form>
+        <form action="/billing/checkout" method="post"><button class="mt-6 w-full px-5 py-3 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-500">{{ _('pricing.upgrade') }}</button></form>
       {% else %}
-        <a href="/register" class="mt-6 block text-center px-5 py-3 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-500">Get started</a>
+        <a href="/register" class="mt-6 block text-center px-5 py-3 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-500">{{ _('pricing.get_started') }}</a>
       {% endif %}
     </div>
   </div>

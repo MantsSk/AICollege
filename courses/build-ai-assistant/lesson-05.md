@@ -1,16 +1,16 @@
 ---
-title: Deployment
-module: Deployment
+title: Diegimas
+module: Diegimas
 order: 5
 ---
 
-# Deployment
+# Diegimas
 
-Your assistant works locally — now ship it so real users can reach it. We'll use **Docker**, the same setup that runs this platform.
+Tavo asistentas veikia lokaliai — dabar paleisk jį taip, kad pasiektų realūs vartotojai. Naudosime **Docker**, tą pačią sąranką, kuri paleidžia šią platformą.
 
-## Containerize it
+## Sudėk į konteinerį
 
-A `Dockerfile` packages your app with everything it needs:
+`Dockerfile` supakuoja programą su viskuo, ko jai reikia:
 
 ```dockerfile
 FROM python:3.12-slim
@@ -21,9 +21,9 @@ COPY . .
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
-## Run app + database together
+## Paleisk programą ir duomenų bazę kartu
 
-`docker-compose.yml` defines the services:
+`docker-compose.yml` aprašo servisus:
 
 ```yaml
 services:
@@ -42,30 +42,30 @@ services:
 docker compose up --build
 ```
 
-## Secrets and keys
+## Paslaptys ir raktai
 
-**Never** commit API keys. Use environment variables / a `.env` file that is git-ignored, and set real values in your host's dashboard.
+**Niekada** necommitink API raktų. Naudok aplinkos kintamuosius arba `.env` failą, kuris ignoruojamas git, o realias reikšmes nustatyk hostingo valdymo skydelyje.
 
-## Where to deploy
+## Kur diegti
 
-| Platform | Best for |
+| Platforma | Geriausia |
 |----------|----------|
-| **Railway / Render** | fastest, push-to-deploy |
-| **Fly.io** | global edge, generous free tier |
-| **Hetzner VPS** | cheapest at scale, full control |
+| **Railway / Render** | greičiausias push-to-deploy |
+| **Fly.io** | globalus edge, dosnus nemokamas planas |
+| **Hetzner VPS** | pigiausia masteliui, pilna kontrolė |
 
-All of them run Docker, so the same image works everywhere.
+Visi jie paleidžia Docker, todėl tas pats image veikia visur.
 
-## Production checklist
+## Produkcijos kontrolinis sąrašas
 
-- ✅ Run database **migrations** on deploy (`alembic upgrade head`).
-- ✅ HTTPS (the platform/proxy usually handles this).
-- ✅ Set `temperature` and `max_tokens` to control cost.
-- ✅ Add **usage limits** so a single user can't drain your budget.
-- ✅ Monitor errors and token spend.
+- ✅ Diegiant paleisk duomenų bazės **migracijas** (`alembic upgrade head`).
+- ✅ HTTPS (platforma arba proxy dažniausiai tuo pasirūpina).
+- ✅ Nustatyk `temperature` ir `max_tokens`, kad valdytum kainą.
+- ✅ Pridėk **naudojimo limitus**, kad vienas vartotojas neišeikvotų biudžeto.
+- ✅ Stebėk klaidas ir tokenų išlaidas.
 
-## You did it
+## Pavyko
 
-You can now build, give memory and knowledge to, and deploy a real AI assistant — the exact stack behind AI College. Go build something and ship it.
+Dabar gali sukurti realų DI asistentą, suteikti jam atmintį bei žinias ir paleisti viešai — tai tas pats technologijų rinkinys, ant kurio veikia AI College. Kurk ir paleisk.
 
-> **Mentor tip:** Ask "Give me a step-by-step plan to deploy this on Railway."
+> **Mentoriaus patarimas:** paklausk „Duok žingsnis po žingsnio planą, kaip tai paleisti Railway.“

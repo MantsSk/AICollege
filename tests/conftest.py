@@ -42,4 +42,4 @@ def client():
 def mock_mentor(monkeypatch):
     import app.routers.ai as ai_router
 
-    monkeypatch.setattr(ai_router, "ask_mentor", lambda messages: "Mock reply with `code`.")
+    monkeypatch.setattr(ai_router, "ask_mentor", lambda messages, lang="lt": "Mock reply with `code`.")

@@ -15,6 +15,8 @@ if config.config_file_name is not None:
 
 target_metadata = Base.metadata
 
+_sqlite = settings.database_url.startswith("sqlite")
+
 
 def run_migrations_offline() -> None:
     context.configure(
@@ -23,6 +25,7 @@ def run_migrations_offline() -> None:
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
         compare_type=True,
+        render_as_batch=_sqlite,
     )
     with context.begin_transaction():
         context.run_migrations()
@@ -39,6 +42,7 @@ def run_migrations_online() -> None:
             connection=connection,
             target_metadata=target_metadata,
             compare_type=True,
+            render_as_batch=_sqlite,
         )
         with context.begin_transaction():
             context.run_migrations()

@@ -1,51 +1,51 @@
 ---
-title: Embeddings
-module: Embeddings
+title: Įterpiniai
+module: Įterpiniai
 order: 3
 ---
 
-# Embeddings
+# Įterpiniai
 
-An **embedding** turns text into a list of numbers (a *vector*) that captures its meaning. Texts with similar meaning produce vectors that are close together.
+**Įterpinys** tekstą paverčia skaičių sąrašu (*vektoriumi*), kuris užfiksuoja jo prasmę. Panašios prasmės tekstai sukuria arti vienas kito esančius vektorius.
 
 ```text
 "dog"   -> [0.21, -0.08, 0.55, ...]
-"puppy" -> [0.19, -0.05, 0.58, ...]   ← close to "dog"
-"car"   -> [-0.40, 0.71, 0.02, ...]   ← far away
+"puppy" -> [0.19, -0.05, 0.58, ...]   ← arti "dog"
+"car"   -> [-0.40, 0.71, 0.02, ...]   ← toli
 ```
 
-## Why this is powerful
+## Kodėl tai galinga
 
-Computers can't compare *meaning* directly, but they can compare *numbers*. With embeddings you can:
+Kompiuteriai negali tiesiogiai palyginti *prasmės*, bet gali palyginti *skaičius*. Su įterpiniais gali:
 
-- **Search by meaning**, not keywords ("how to cancel my plan" finds "subscription management").
-- **Cluster** similar documents.
-- **Recommend** related content.
-- Power **RAG** (next lesson).
+- **Ieškoti pagal prasmę**, ne pagal raktažodžius („kaip atšaukti planą“ randa „prenumeratos valdymą“).
+- **Grupuoti** panašius dokumentus.
+- **Rekomenduoti** susijusį turinį.
+- Įgalinti **RAG** (kita pamoka).
 
-## Measuring similarity
+## Panašumo matavimas
 
-The standard tool is **cosine similarity** — it measures the angle between two vectors. Closer to `1` means more similar.
+Standartinis įrankis yra **kosinusinis panašumas** — jis matuoja kampą tarp dviejų vektorių. Kuo arčiau `1`, tuo panašiau.
 
 ```python
 # pseudo-code
 score = cosine_similarity(embed("cancel plan"), embed(doc))
 ```
 
-## Generating an embedding
+## Įterpinio generavimas
 
 ```python
 from litellm import embedding
 
-resp = embedding(model="text-embedding-3-small", input=["Learn AI with Python"])
+resp = embedding(model="text-embedding-3-small", input=["Mokykis DI su Python"])
 vector = resp["data"][0]["embedding"]
-print(len(vector))  # e.g. 1536 numbers
+print(len(vector))  # pvz., 1536 skaičiai
 ```
 
-## Vector databases
+## Vektorinės duomenų bazės
 
-When you have thousands of documents, you store their vectors in a **vector database** (e.g. pgvector, Chroma, Pinecone) so you can find the closest matches in milliseconds.
+Kai turi tūkstančius dokumentų, jų vektorius saugai **vektorinėje duomenų bazėje** (pvz., pgvector, Chroma, Pinecone), kad artimiausius atitikmenis rastum per milisekundes.
 
-> **Mentor tip:** Ask "Why is cosine similarity used instead of plain distance?"
+> **Mentoriaus patarimas:** paklausk „Kodėl naudojamas kosinusinis panašumas, o ne paprastas atstumas?“
 
-Next: combining search + LLMs to answer from *your own* data — **RAG**.
+Toliau: paiešką ir LLM sujungsime atsakymams iš *tavo pačių* duomenų — **RAG**.

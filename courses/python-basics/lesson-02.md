@@ -1,12 +1,12 @@
 ---
-title: Making Decisions with Conditions
-module: Conditions
+title: Sprendimai su sąlygomis
+module: Sąlygos
 order: 2
 ---
 
-# Making Decisions with Conditions
+# Sprendimai su sąlygomis
 
-Programs become useful when they react to different situations. That is what **conditions** do.
+Programos tampa naudingos, kai reaguoja į skirtingas situacijas. Tam ir skirtos **sąlygos**.
 
 ## if / elif / else
 
@@ -23,39 +23,39 @@ else:
 print(grade)  # B
 ```
 
-Indentation matters in Python — the indented block belongs to the condition above it.
+Python kalboje įtrauka svarbi: įtrauktas blokas priklauso virš jo esančiai sąlygai.
 
-## Comparison operators
+## Palyginimo operatoriai
 
-| Operator | Meaning |
+| Operatorius | Reikšmė |
 |----------|---------|
-| `==` | equal to |
-| `!=` | not equal |
-| `>` `<` | greater / less than |
-| `>=` `<=` | greater/less or equal |
+| `==` | lygu |
+| `!=` | nelygu |
+| `>` `<` | daugiau / mažiau |
+| `>=` `<=` | daugiau arba lygu / mažiau arba lygu |
 
-## Combining conditions
+## Sąlygų jungimas
 
-Use `and`, `or`, `not`:
+Naudok `and`, `or`, `not`:
 
 ```python
 age = 20
 has_ticket = True
 
 if age >= 18 and has_ticket:
-    print("Welcome in!")
+    print("Sveiki atvykę!")
 ```
 
-## Truthiness
+## Tiesa ir netiesa praktikoje
 
-Empty things are "falsy": `""`, `0`, `[]`, `None`. Everything else is "truthy".
+Tušti dalykai laikomi „neteisingais“: `""`, `0`, `[]`, `None`. Visa kita laikoma „teisinga“.
 
 ```python
 name = ""
 if not name:
-    print("Please enter your name")
+    print("Įveskite savo vardą")
 ```
 
-> **Mentor tip:** Ask the AI Mentor to give you 3 practice problems using `if`/`elif`/`else`.
+> **Mentoriaus patarimas:** paprašyk DI mentoriaus duoti 3 praktikos užduotis su `if`/`elif`/`else`.
 
-Next: doing things *repeatedly* with loops.
+Toliau: kaip veiksmus kartoti naudojant ciklus.

@@ -7,7 +7,7 @@ ENV PYTHONUNBUFFERED=1 \
 WORKDIR /app
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends build-essential libpq-dev \
+    && apt-get install -y --no-install-recommends build-essential libpq-dev curl \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
@@ -15,7 +15,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN chmod +x ./scripts/start.sh
+# Build the production stylesheet. Falls back to the committed app.css if the
+# Tailwind CLI can't be fetched at build time (e.g. no network).
+RUN chmod +x ./scripts/build-css.sh ./scripts/start.sh \
+    && ./scripts/build-css.sh || echo "Tailwind build skipped; using committed app.css"
 
 EXPOSE 8000
 

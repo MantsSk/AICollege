@@ -1,58 +1,58 @@
 ---
-title: Loops and Repetition
-module: Loops
+title: Ciklai ir kartojimas
+module: Ciklai
 order: 3
 ---
 
-# Loops and Repetition
+# Ciklai ir kartojimas
 
-Loops let you repeat work without copying code.
+Ciklai leidžia kartoti darbą nekopijuojant kodo.
 
-## The for loop
+## `for` ciklas
 
-Iterate over a collection:
+Iteruok per rinkinį:
 
 ```python
 courses = ["Python", "AI Fundamentals", "AI Assistant"]
 
 for course in courses:
-    print(f"Studying {course}")
+    print(f"Mokausi {course}")
 ```
 
-`range()` generates numbers:
+`range()` generuoja skaičius:
 
 ```python
 for i in range(3):
     print(i)   # 0, 1, 2
 ```
 
-## The while loop
+## `while` ciklas
 
-Repeat *while* a condition is true:
+Kartok tol, *kol* sąlyga teisinga:
 
 ```python
 attempts = 0
 while attempts < 3:
-    print("Trying...")
+    print("Bandau...")
     attempts += 1
 ```
 
-Be careful: if the condition never becomes false, the loop runs forever.
+Būk atsargus: jei sąlyga niekada netampa klaidinga, ciklas veiks amžinai.
 
-## Useful tools
+## Naudingi įrankiai
 
-`break` stops a loop early, `continue` skips to the next round:
+`break` sustabdo ciklą anksčiau, o `continue` praleidžia iki kito karto:
 
 ```python
 for n in range(10):
     if n == 5:
-        break        # stop entirely
+        break        # visiškai sustoti
     if n % 2 == 0:
-        continue     # skip even numbers
+        continue     # praleisti lyginius skaičius
     print(n)         # 1, 3
 ```
 
-## Lists grow with loops
+## Sąrašai auga su ciklais
 
 ```python
 squares = []
@@ -61,12 +61,12 @@ for n in range(1, 6):
 print(squares)  # [1, 4, 9, 16, 25]
 ```
 
-A shorter version (a *list comprehension*):
+Trumpesnė versija (*list comprehension*):
 
 ```python
 squares = [n * n for n in range(1, 6)]
 ```
 
-> **Mentor tip:** Ask "What is the difference between a for loop and a while loop, with a real example?"
+> **Mentoriaus patarimas:** paklausk „Kuo skiriasi `for` ir `while` ciklai? Pateik realų pavyzdį.“
 
-Next: packaging logic into reusable **functions**.
+Toliau: logiką sudėsime į pakartotinai naudojamas **funkcijas**.

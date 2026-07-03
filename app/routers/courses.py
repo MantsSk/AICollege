@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.deps import current_user_optional, require_user
+from app.course_i18n import localize_course
+from app.i18n import get_language
 from app.models import ChatConversation, Course, Lesson, User
 from app.services import (
     ai_messages_remaining,
@@ -22,10 +24,11 @@ router = APIRouter()
 @router.get("/courses", response_class=HTMLResponse)
 def catalog(request: Request, db: Session = Depends(get_db), user=Depends(current_user_optional)):
     courses = db.scalars(select(Course).order_by(Course.order)).all()
+    lang = get_language(request)
     cards = []
     for course in courses:
         done, total, percent = course_progress(db, user, course)
-        cards.append({"course": course, "done": done, "total": total, "percent": percent})
+        cards.append({"course": localize_course(course, lang), "done": done, "total": total, "percent": percent})
     return templates.TemplateResponse(
         request,
         "catalog.html",
@@ -47,12 +50,13 @@ def course_detail(
         )
     done_ids = completed_lesson_ids(db, user) if user else set()
     done, total, percent = course_progress(db, user, course)
+    display_course = localize_course(course, get_language(request))
     lessons = []
-    for lesson in course.lessons:
+    for lesson in display_course.lessons:
         lessons.append(
             {
                 "lesson": lesson,
-                "accessible": can_access_lesson(user, lesson, course),
+                "accessible": can_access_lesson(user, lesson, display_course),
                 "completed": lesson.id in done_ids,
                 "index": lesson_index(lesson, course),
             }
@@ -63,7 +67,7 @@ def course_detail(
         {
             "request": request,
             "user": user,
-            "course": course,
+            "course": display_course,
             "lessons": lessons,
             "done": done,
             "total": total,
@@ -97,15 +101,22 @@ def lesson_page(
         )
 
     if not can_access_lesson(user, lesson, course):
+        display_course = localize_course(course, get_language(request))
+        display_lesson = next(
+            (item for item in display_course.lessons if item.slug == lesson.slug),
+            lesson,
+        )
         return templates.TemplateResponse(
             request,
             "lesson_locked.html",
-            {"request": request, "user": user, "course": course, "lesson": lesson},
+            {"request": request, "user": user, "course": display_course, "lesson": display_lesson},
             status_code=403,
         )
 
     idx = lesson_index(lesson, course)
-    lessons = course.lessons
+    display_course = localize_course(course, get_language(request))
+    lessons = display_course.lessons
+    lesson = lessons[idx]
     prev_lesson = lessons[idx - 1] if idx > 0 else None
     next_lesson = lessons[idx + 1] if idx < len(lessons) - 1 else None
 
@@ -133,7 +144,7 @@ def lesson_page(
         {
             "request": request,
             "user": user,
-            "course": course,
+            "course": display_course,
             "lesson": lesson,
             "prev_lesson": prev_lesson,
             "next_lesson": next_lesson,

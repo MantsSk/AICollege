@@ -1,4 +1,4 @@
-"""AI Mentor — talks to any provider through LiteLLM.
+"""DI mentorius — talks to any provider through LiteLLM.
 
 The mentor is grounded in the current lesson (a focused, single-document
 knowledge base) and instructed to prefer that content when answering.
@@ -10,6 +10,7 @@ import os
 from litellm import completion
 
 from app.config import settings
+from app.i18n import make_translator
 
 # Make provider keys available to LiteLLM via the conventional env vars.
 if settings.openai_api_key:
@@ -20,7 +21,29 @@ if settings.anthropic_api_key:
     os.environ.setdefault("ANTHROPIC_API_KEY", settings.anthropic_api_key)
 
 
-SYSTEM_TEMPLATE = """You are the AI Mentor inside the "AI College" learning platform.
+SYSTEM_TEMPLATES = {
+    "lt": """Esi DI mentorius "AI College" mokymosi platformoje.
+
+Padedi studentui, kuris dabar skaito šią pamoką:
+
+Kursas: {course_title}
+Modulis: {module_title}
+Pamoka: {lesson_title}
+
+Pamokos turinys:
+\"\"\"
+{lesson_content}
+\"\"\"
+
+Tavo užduotis:
+- Atsakydamas pirmenybę teik aukščiau pateiktam pamokos turiniui. Jei klausimas išeina už jo ribų, gali naudoti bendras žinias, bet lik susitelkęs į mokymąsi.
+- Sąvokas aiškink paprastai ir aiškiai, tarsi motyvuotam pradedančiajam.
+- Kai naudinga, pateik mažus, konkrečius pavyzdžius.
+- Padėk taisyti studento pateiktą kodą: nurodyk tikrą problemą ir kaip ją išspręsti.
+- Atsakyk glaustai ir draugiškai. Naudok markdown ir kodo blokus.
+- Lik programavimo ir DI mokymosi temoje. Mandagiai nukreipk nuo nesusijusių klausimų.
+""",
+    "en": """You are the AI Mentor inside the "AI College" learning platform.
 
 You are helping a student who is currently reading this lesson:
 
@@ -40,7 +63,8 @@ Your job:
 - Help debug code the student shares; point out the actual problem and how to fix it.
 - Keep answers concise and friendly. Use markdown and code blocks.
 - Stay on the topic of learning programming and AI. Politely redirect off-topic questions.
-"""
+""",
+}
 
 MAX_HISTORY_MESSAGES = 12
 
@@ -53,8 +77,10 @@ def build_messages(
     lesson_content: str,
     history: list[dict[str, str]],
     user_message: str,
+    lang: str = "lt",
 ) -> list[dict[str, str]]:
-    system = SYSTEM_TEMPLATE.format(
+    template = SYSTEM_TEMPLATES.get(lang, SYSTEM_TEMPLATES["lt"])
+    system = template.format(
         course_title=course_title,
         module_title=module_title or "—",
         lesson_title=lesson_title,
@@ -66,8 +92,9 @@ def build_messages(
     return messages
 
 
-def ask_mentor(messages: list[dict[str, str]]) -> str:
+def ask_mentor(messages: list[dict[str, str]], lang: str = "lt") -> str:
     """Send messages to the configured model and return the reply text."""
+    _ = make_translator(lang)
     try:
         response = completion(
             model=settings.ai_model,
@@ -78,5 +105,5 @@ def ask_mentor(messages: list[dict[str, str]]) -> str:
         return response.choices[0].message.content or ""
     except Exception as exc:  # noqa: BLE001 — surface a friendly message to the user
         if settings.debug:
-            return f"⚠️ The AI Mentor is unavailable right now (`{exc}`). Check your AI_MODEL and API key configuration."
-        return "⚠️ The AI Mentor is temporarily unavailable. Please try again in a moment."
+            return _("mentor.unavailable_debug", error=exc)
+        return _("mentor.unavailable")

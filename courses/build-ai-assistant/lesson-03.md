@@ -1,19 +1,19 @@
 ---
-title: Adding Memory
-module: Memory
+title: Atminties pridėjimas
+module: Atmintis
 order: 3
 ---
 
-# Adding Memory
+# Atminties pridėjimas
 
-By default each API call is stateless — the model forgets everything. **Memory** means feeding past messages back so the conversation has continuity.
+Pagal nutylėjimą kiekvienas API kvietimas yra be būsenos — modelis viską pamiršta. **Atmintis** reiškia ankstesnių žinučių padavimą atgal, kad pokalbis turėtų tęstinumą.
 
-## Short-term memory: the message history
+## Trumpalaikė atmintis: žinučių istorija
 
-Keep a list and append every turn:
+Laikyk sąrašą ir pridėk kiekvieną ėjimą:
 
 ```python
-history = [{"role": "system", "content": "You are a study tutor."}]
+history = [{"role": "system", "content": "Esi mokymosi tutorius."}]
 
 def ask(user_text):
     history.append({"role": "user", "content": user_text})
@@ -23,30 +23,30 @@ def ask(user_text):
     return reply
 ```
 
-Now "and explain it simpler" works, because the model sees what came before.
+Dabar „o paaiškink paprasčiau“ veikia, nes modelis mato, kas buvo prieš tai.
 
-## Persisting memory in a database
+## Atminties saugojimas duomenų bazėje
 
-In-memory lists vanish on restart. Store messages in tables — exactly what this platform does:
+Atmintyje laikomi sąrašai dingsta po perkrovimo. Saugok žinutes lentelėse — būtent taip daro ši platforma:
 
 ```text
 chat_conversations  (id, user_id, lesson_id)
 chat_messages       (id, conversation_id, role, content, created_at)
 ```
 
-On each request: load the conversation's messages, send them to the LLM, then save the new user + assistant messages.
+Kiekviename prašyme: įkelk pokalbio žinutes, nusiųsk jas LLM, tada išsaugok naujas vartotojo ir asistento žinutes.
 
-## Watch the context window
+## Stebėk konteksto langą
 
-Long histories cost tokens and can overflow the context window. Strategies:
+Ilgos istorijos kainuoja tokenus ir gali perpildyti konteksto langą. Strategijos:
 
-- **Truncate** — keep only the last N messages.
-- **Summarize** — replace old turns with a short summary.
+- **Trumpinti** — laikyti tik paskutines N žinučių.
+- **Apibendrinti** — senus ėjimus pakeisti trumpa santrauka.
 
 ```python
-recent = history[-10:]   # keep the last 10 turns
+recent = history[-10:]   # laikyti paskutinius 10 ėjimų
 ```
 
-> **Mentor tip:** Ask "When should I summarize history instead of just truncating it?"
+> **Mentoriaus patarimas:** paklausk „Kada turėčiau apibendrinti istoriją, o ne tiesiog ją trumpinti?“
 
-Next: grounding answers in your own documents — a **knowledge base**.
+Toliau: atsakymus pagrįsime tavo dokumentais — **žinių baze**.

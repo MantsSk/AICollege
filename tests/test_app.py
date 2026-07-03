@@ -27,7 +27,7 @@ def test_dashboard_requires_login(client):
 
 def test_register_and_free_tier(client):
     _register(client)
-    # Free user gets first 2 lessons, third is locked.
+    # Nemokamas vartotojas gauna pirmas 2 pamokas, trečia užrakinta.
     assert client.get("/courses/python-basics/lesson-02").status_code == 200
     assert client.get("/courses/python-basics/lesson-03").status_code == 403
 
@@ -59,7 +59,7 @@ def test_mark_complete(client):
     _register(client)
     r = client.post("/courses/python-basics/lesson-01/complete")
     assert r.status_code == 200
-    assert "completed" in r.text.lower()
+    assert "baigta" in r.text.lower()
 
 
 def test_billing_unconfigured(client):
@@ -73,10 +73,10 @@ def test_ai_mentor_and_limit(client, mock_mentor):
     assert "Mock reply" in r.text
     client.post("/mentor/python-basics/lesson-01", data={"message": "again"})
     r3 = client.post("/mentor/python-basics/lesson-01", data={"message": "third"})
-    assert "daily AI Mentor limit" in r3.text
+    assert "dienos DI mentoriaus limitą" in r3.text
 
 
 def test_markdown_rendering(client):
     r = client.get("/courses/python-basics/lesson-01")
     assert "codehilite" in r.text  # syntax-highlighted code block
-    assert "AI Mentor" in r.text
+    assert "DI mentorius" in r.text
