@@ -27,6 +27,7 @@ _MD_EXTENSIONS = [
     "toc",
     "sane_lists",
     "nl2br",
+    "md_in_html",
 ]
 _MD_CONFIG = {
     "codehilite": {"guess_lang": False, "css_class": "codehilite"},

@@ -8,6 +8,12 @@ order: 5
 
 Tavo asistentas veikia lokaliai — dabar paleisk jį taip, kad pasiektų realūs vartotojai. Naudosime **Docker**, tą pačią sąranką, kuri paleidžia šią platformą.
 
+**Po šios pamokos galėsi:**
+
+- supakuoti programą į Docker konteinerį;
+- paleisti programą ir duomenų bazę kartu su docker compose;
+- pereiti produkcijos kontrolinį sąrašą prieš paleidimą.
+
 ## Sudėk į konteinerį
 
 `Dockerfile` supakuoja programą su viskuo, ko jai reikia:
@@ -63,6 +69,41 @@ Visi jie paleidžia Docker, todėl tas pats image veikia visur.
 - ✅ Nustatyk `temperature` ir `max_tokens`, kad valdytum kainą.
 - ✅ Pridėk **naudojimo limitus**, kad vienas vartotojas neišeikvotų biudžeto.
 - ✅ Stebėk klaidas ir tokenų išlaidas.
+
+## Pasitikrink save
+
+**1. Ką duoda Dockerfile, ko neduoda paprastas `pip install`?**
+
+<details class="selfcheck" markdown="1">
+<summary>Rodyti atsakymą</summary>
+
+Atkuriamą aplinką: konteineryje užfiksuota Python versija, bibliotekos ir paleidimo komanda, todėl tas pats image identiškai veikia tavo kompiuteryje ir bet kuriame hostinge.
+
+</details>
+
+**2. Kur laikyti API raktus produkcijoje?**
+
+<details class="selfcheck" markdown="1">
+<summary>Rodyti atsakymą</summary>
+
+Aplinkos kintamuosiuose, nustatytuose hostingo valdymo skydelyje. `.env` failas tinka lokaliai, bet jis privalo būti `.gitignore` sąraše.
+
+</details>
+
+**3. Kodėl naudojimo limitai yra produkcijos būtinybė, o ne patogumas?**
+
+<details class="selfcheck" markdown="1">
+<summary>Rodyti atsakymą</summary>
+
+Kiekvienas LLM kvietimas kainuoja. Be limitų vienas vartotojas (ar botas) gali per naktį išeikvoti visą biudžetą.
+
+</details>
+
+## Baigiamoji užduotis
+
+Supakuok savo asistentą į Docker, paleisk lokaliai su `docker compose up` ir pereik visą produkcijos kontrolinį sąrašą, pažymėdamas, ką jau turi ir ko dar trūksta.
+
+> **Užduoties patikra:** nusiųsk mentoriui savo kontrolinio sąrašo būseną ir paklausk: „Kurį trūkstamą punktą daryti pirmiausia ir kodėl?“
 
 ## Pavyko
 

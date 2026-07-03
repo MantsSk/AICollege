@@ -1,53 +1,121 @@
 ---
-title: Paieška papildyta generacija (RAG)
-module: RAG
+title: Kaip tikrinti DI atsakymus?
+module: Patikimumas
 order: 4
 ---
 
-# Paieška papildyta generacija (RAG)
+# Kaip tikrinti DI atsakymus?
 
-LLM nežino tavo privačių dokumentų ir gali haliucinuoti faktus. **RAG** sprendžia abi problemas: *suranda* aktualų tekstą ir įdeda jį į promptą prieš modeliui atsakant.
+Svarbiausias įgūdis naudojant DI yra ne promptų gudrybės, o gebėjimas atskirti naudingą atsakymą nuo gražiai suformuluotos klaidos.
 
-## RAG eiga
+DI gali būti puikus pagalbininkas, bet jis neturi tavo atsakomybės. Jei sprendimas svarbus, tikrinimas yra darbo dalis.
+
+**Po šios pamokos galėsi:**
+
+- atpažinti temas, kuriose DI atsakymus būtina tikrinti griežčiausiai;
+- taikyti trijų lygių tikrinimą: vidinį, šaltinių ir praktinį;
+- pastebėti raudonas vėliavas dar prieš tikrinant.
+
+## Kada reikia tikrinti ypač griežtai?
+
+Tikrink atsargiau, kai kalbama apie:
+
+- sveikatą, vaistus, mitybą, diagnozes;
+- teisę, mokesčius, sutartis;
+- finansinius sprendimus;
+- naujienas, kainas, datas, tvarkaraščius;
+- citatas, šaltinius, akademinius darbus;
+- technines instrukcijas, kurios gali sugadinti sistemą ar duomenis.
+
+Tokiose srityse DI gali padėti suprasti klausimus, paruošti sąrašą, paaiškinti terminus, bet galutinį atsakymą reikia tikrinti patikimuose šaltiniuose.
+
+## Trijų lygių tikrinimas
+
+**1. Vidinis tikrinimas.** Paprašyk modelio pačiam rasti silpnąsias vietas.
 
 ```text
-1. ĮKĖLIMAS     Suskaidyk dokumentus į dalis, sukurk įterpinius, saugok vektorius.
-2. PAIEŠKA      Klausimą paversk įterpiniu ir rask artimiausias dalis.
-3. PAPILDYMAS   Įdėk tas dalis į promptą kaip kontekstą.
-4. GENERAVIMAS  Paprašyk LLM atsakyti naudojant tik tą kontekstą.
+Peržiūrėk savo atsakymą kritiškai.
+Kokios prielaidos gali būti klaidingos?
+Kuriuos teiginius reikėtų patikrinti šaltiniuose?
 ```
 
-## Minimalus pavyzdys
+**2. Šaltinių tikrinimas.** Ieškok pirminių arba patikimų šaltinių: oficialių puslapių, dokumentacijos, įstatymo teksto, tyrimo, institucijos pranešimo.
 
-```python
-question = "Kaip atšaukti prenumeratą?"
+**3. Praktinis tikrinimas.** Jei tai instrukcija ar planas, išbandyk mažu mastu prieš taikydamas plačiai.
 
-# 1+2: rasti aktualiausias dalis
-chunks = vector_search(question, top_k=3)
-context = "\n\n".join(chunks)
+## Raudonos vėliavos
 
-# 3+4: pagrįsti modelį tavo turiniu
-prompt = f"""Atsakyk naudodamas TIK žemiau pateiktą kontekstą.
-Jei atsakymo ten nėra, pasakyk, kad nežinai.
+Būk atsargus, jei atsakymas:
 
-Kontekstas:
-{context}
+- pateikia labai konkrečius skaičius be šaltinio;
+- cituoja neegzistuojančius tyrimus;
+- skamba per daug užtikrintai;
+- ignoruoja tavo nurodytus apribojimus;
+- neturi jokių išlygų sudėtingoje temoje;
+- prieštarauja tavo turimai informacijai.
 
-Klausimas: {question}"""
+## Kaip prašyti patikimesnio atsakymo
 
-answer = llm(prompt)
+```text
+Atsakyk atsargiai.
+Atskirk faktus nuo prielaidų.
+Pažymėk, ką reikėtų patikrinti.
+Jei nežinai, nesugalvok.
+Pateik galimus šaltinių tipus, kuriuose tai tikrinčiau.
 ```
 
-## Kodėl tai svarbu čia
+## DI kaip mokymosi treneris
 
-Šios platformos **DI mentorius** yra RAG forma: jis gauna dabartinės pamokos turinį kaip kontekstą ir instrukciją atsakymuose *teikti pirmenybę kurso medžiagai*. Todėl jis lieka prie temos ir tiksliai padeda su skaitoma pamoka.
+Vietoj to, kad prašytum „teisingo atsakymo“, gali prašyti pagalbos mąstyti:
 
-## Praktiniai patarimai
+```text
+Neatsakyk iš karto.
+Padėk man pačiam išspręsti šį klausimą.
+Užduok po vieną klausimą ir paaiškink, kodėl jis svarbus.
+```
 
-- **Gerai skaidyk** — per didelės dalys švaisto kontekstą, per mažos praranda prasmę (dažnai tinka ~200–500 tokenų).
-- **Surask pakankamai** — 3–5 geriausios dalys paprastai geriau nei viena.
-- **Cituok šaltinius**, kad vartotojai galėtų patikrinti.
+Tai ypač naudinga mokantis matematikos, programavimo, kalbų ar rašymo.
 
-> **Mentoriaus patarimas:** paklausk „Kaip šios pamokos DI mentorius naudoja RAG idėjas?“
+## Pasitikrink save
 
-Toliau: leisime DI *imtis veiksmų* — **agentai**.
+**1. Kokie trys tikrinimo lygiai ir kuo jie skiriasi?**
+
+<details class="selfcheck" markdown="1">
+<summary>Rodyti atsakymą</summary>
+
+Vidinis (paprašyk modelio paties rasti silpnąsias vietas), šaltinių (patikrink pirminiuose ar oficialiuose šaltiniuose) ir praktinis (išbandyk mažu mastu prieš taikydamas plačiai).
+
+</details>
+
+**2. Įvardyk bent tris raudonas vėliavas DI atsakyme.**
+
+<details class="selfcheck" markdown="1">
+<summary>Rodyti atsakymą</summary>
+
+Konkretūs skaičiai be šaltinio, neegzistuojančių tyrimų citavimas, perdėtas užtikrintumas, ignoruojami tavo apribojimai, jokių išlygų sudėtingoje temoje.
+
+</details>
+
+**3. Kuo skiriasi „duok atsakymą“ nuo „padėk man mąstyti“?**
+
+<details class="selfcheck" markdown="1">
+<summary>Rodyti atsakymą</summary>
+
+Pirmasis prašo galutinio rezultato, kurį dar reikės tikrinti. Antrasis paverčia DI treneriu: jis klausia, aiškina ir leidžia tau pačiam prieiti prie atsakymo — taip mokaisi, o ne tik gauni.
+
+</details>
+
+## Mini užduotis
+
+Paprašyk DI paaiškinti temą, apie kurią šiek tiek žinai. Tada paprašyk:
+
+```text
+Pažymėk 5 teiginius iš savo atsakymo, kuriuos būtų verta patikrinti.
+Prie kiekvieno parašyk, kokio tipo šaltinis būtų tinkamiausias.
+```
+
+> **Užduoties patikra:** atlikęs užduotį parašyk mentoriui: „Štai 5 teiginiai, kuriuos radau verta patikrinti. Ar sutinki su mano pasirinkimu, ar praleidau ką nors svarbesnio?“
+
+> **Mentoriaus patarimas:** paklausk „Kaip atpažinti, kad DI atsakymas gali būti haliucinacija?“
+
+Toliau: pakalbėsime apie privatumą, duomenis ir atsakingą naudojimą.

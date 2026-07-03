@@ -61,6 +61,46 @@
 }
 .prose-lesson blockquote p { margin: 0.25rem 0; }
 
+/* Self-check answers: <details> blocks rendered from lesson markdown. */
+.prose-lesson details {
+  margin: 0.75rem 0 1.25rem;
+  border: 1px solid rgba(148,163,184,0.3);
+  border-radius: 0.75rem;
+  padding: 0;
+  overflow: hidden;
+}
+.prose-lesson details summary {
+  cursor: pointer;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-brand-500);
+  background: color-mix(in srgb, var(--color-brand-500) 6%, transparent);
+  list-style: none;
+}
+.prose-lesson details summary::before {
+  content: "▸ ";
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+.prose-lesson details[open] summary::before { transform: rotate(90deg); }
+.prose-lesson details > *:not(summary) { padding: 0 1rem; }
+.prose-lesson details > p:last-child { padding-bottom: 0.75rem; }
+
+/* "Ask the mentor" buttons injected into mentor-tip / task-check blockquotes. */
+.mentor-tip-btn {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 0.5rem;
+  background: var(--color-brand-600);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mentor-tip-btn:hover { background: var(--color-brand-700); }
+
 .prose-lesson table {
   width: 100%;
   border-collapse: collapse;

@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.course_paths import group_by_path
 from app.database import get_db
 from app.deps import current_user_optional, require_user
 from app.course_i18n import localize_course, localize_courses
@@ -18,10 +19,16 @@ router = APIRouter()
 def landing(request: Request, db: Session = Depends(get_db), user=Depends(current_user_optional)):
     courses = db.scalars(select(Course).order_by(Course.order)).all()
     courses = localize_courses(courses, get_language(request))
+    path_sections = group_by_path([{"course": course} for course in courses])
     return templates.TemplateResponse(
         request,
         "landing.html",
-        {"request": request, "user": user, "courses": courses},
+        {
+            "request": request,
+            "user": user,
+            "courses": courses,
+            "path_sections": path_sections,
+        },
     )
 
 
@@ -64,6 +71,7 @@ def dashboard(
         course_cards.append(card)
         if continue_target is None and percent > 0 and percent < 100 and next_lesson:
             continue_target = card
+    path_sections = group_by_path(course_cards)
 
     return templates.TemplateResponse(
         request,
@@ -72,6 +80,7 @@ def dashboard(
             "request": request,
             "user": user,
             "course_cards": course_cards,
+            "path_sections": path_sections,
             "continue_target": continue_target,
             "upgraded": bool(upgraded),
         },

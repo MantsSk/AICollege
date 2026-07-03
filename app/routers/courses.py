@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.course_paths import group_by_path
 from app.database import get_db
 from app.deps import current_user_optional, require_user
 from app.course_i18n import localize_course
@@ -29,10 +30,16 @@ def catalog(request: Request, db: Session = Depends(get_db), user=Depends(curren
     for course in courses:
         done, total, percent = course_progress(db, user, course)
         cards.append({"course": localize_course(course, lang), "done": done, "total": total, "percent": percent})
+    path_sections = group_by_path(cards)
     return templates.TemplateResponse(
         request,
         "catalog.html",
-        {"request": request, "user": user, "cards": cards},
+        {
+            "request": request,
+            "user": user,
+            "cards": cards,
+            "path_sections": path_sections,
+        },
     )
 
 

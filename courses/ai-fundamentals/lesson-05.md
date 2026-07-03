@@ -1,56 +1,117 @@
 ---
-title: DI agentai
-module: DI agentai
+title: Privatumas, etika ir saugus naudojimas
+module: Atsakingas DI
 order: 5
 ---
 
-# DI agentai
+# Privatumas, etika ir saugus naudojimas
 
-**Agentas** yra LLM, kuris gali *spręsti* ir *veikti*, ne tik atsakyti. Duodi jam tikslą ir **įrankių** rinkinį, o jis kartoja ciklą: galvoja → pasirenka įrankį → stebi rezultatą → kartoja, kol tikslas pasiektas.
+DI įrankiai tampa kasdieniai, todėl lengva pamiršti, kad jiems dažnai perduodame tekstą, dokumentus, nuotraukas, vardus, darbo informaciją ar jautrius planus. Atsakingas naudojimas prasideda nuo klausimo: ką aš duodu sistemai?
 
-## Pokalbių robotas ir agentas
+**Po šios pamokos galėsi:**
 
-| | Pokalbių robotas | Agentas |
-|--|---------|-------|
-| Išvestis | tekstinis atsakymas | tekstas **ir veiksmai** |
-| Įrankiai | nėra | paieška, kodas, API, DB |
-| Žingsniai | vienas ėjimas | daug, savarankiškai |
+- atskirti, kokių duomenų į DI įrankius kelti nereikėtų;
+- anonimizuoti jautrų tekstą prieš siųsdamas jį modeliui;
+- prieš naudodamas DI darbe pasitikrinti organizacijos taisykles.
 
-## Įrankiai (funkcijų kvietimas)
+## Ko geriau nekelti į DI
 
-Modeliui aprašai funkcijas; jis pasirenka, kurią kviesti ir su kokiais argumentais.
+Be aiškios priežasties ir tinkamų nustatymų nekelk:
 
-```python
-tools = [{
-    "type": "function",
-    "function": {
-        "name": "get_weather",
-        "description": "Get current weather for a city",
-        "parameters": {
-            "type": "object",
-            "properties": {"city": {"type": "string"}},
-            "required": ["city"],
-        },
-    },
-}]
-```
+- slaptažodžių, API raktų, prisijungimų;
+- asmens kodų, banko duomenų, medicininių dokumentų;
+- konfidencialių darbo dokumentų;
+- kitų žmonių privačių duomenų be leidimo;
+- dokumentų, kurių negalėtum parodyti pašaliniam žmogui.
 
-Modelis atsako „kviesk `get_weather(city='Vilnius')`“, tavo kodas tai paleidžia, o rezultatą paduodi atgal modeliui.
-
-## Agento ciklas
+Jei reikia pagalbos su jautriu tekstu, dažnai galima informaciją **anonimizuoti**:
 
 ```text
-tikslas -> LLM galvoja -> kviečia įrankį -> gauna rezultatą
-        -> LLM vėl galvoja -> ... -> galutinis atsakymas
+Vietoj tikrų vardų naudok: Klientas A, Darbuotojas B, Įmonė C.
+Pašalink adresus, kodus, telefono numerius ir tikslias datas.
 ```
 
-## Kur agentai stiprūs ir kur reikia atsargumo
+## Duomenų naudojimo klausimai
 
-✅ Kelių žingsnių tyrimai, programavimo užduotys, darbo eigų automatizavimas.
-⚠️ Pridėk **apsaugas**: žingsnių limitus, leidžiamus įrankius, žmogaus patvirtinimą rizikingiems veiksmams. Neriboti agentai gali užsiciklinti arba imtis netinkamų veiksmų.
+Skirtingi DI įrankiai turi skirtingas taisykles: vieni gali naudoti pokalbius modeliams gerinti, kiti leidžia tai išjungti, dar kiti skirti verslui su griežtesnėmis apsaugomis.
 
-## Ką išmokai
+Prieš naudodamas DI darbui, pasitikrink:
 
-Dabar supranti visą šiuolaikinio DI rinkinį: modelius, promptingą, įterpinius, RAG ir agentus. Kitame kurse, **Sukurk savo DI asistentą**, visa tai sujungsi į realų produktą.
+- ar organizacija leidžia naudoti tokį įrankį;
+- ar galima kelti vidinius dokumentus;
+- ar pokalbiai naudojami mokymui;
+- kur saugomi duomenys;
+- ar reikia sutarties ar verslo plano.
 
-> **Mentoriaus patarimas:** paklausk „Koks paprasčiausias agentas, kurį galėčiau sukurti kaip pirmą projektą?“
+## Šališkumas
+
+Modeliai mokosi iš žmonių sukurtų duomenų, todėl gali perimti stereotipus, nevienodą reprezentaciją ar kultūrines prielaidas.
+
+Naudingas promptas:
+
+```text
+Peržiūrėk atsakymą dėl galimo šališkumo.
+Ar yra grupių, kurios nepagrįstai ignoruojamos?
+Ar formuluotės gali būti neteisingai suprastos?
+Pasiūlyk neutralesnę versiją.
+```
+
+## Autorystė ir sąžiningumas
+
+DI gali padėti rašyti, bet verta aiškiai atskirti:
+
+- tavo idėjas;
+- DI pasiūlytą formą;
+- faktus iš šaltinių;
+- citatas ar duomenis, kuriuos būtina nurodyti.
+
+Mokymesi pavojinga naudoti DI taip, kad jis pakeistų mąstymą. Geriau naudok jį kaip trenerį: tegul klausia, aiškina, duoda užuominas, peržiūri tavo bandymą.
+
+## Saugaus naudojimo kontrolinis sąrašas
+
+Prieš siųsdamas tekstą DI, paklausk:
+
+- ar čia yra jautrių duomenų?
+- ar turiu teisę šią informaciją kelti?
+- ar atsakymas gali paveikti sveikatą, pinigus, teisę ar reputaciją?
+- kaip patikrinsiu rezultatą?
+- ar reikia žmogaus peržiūros?
+
+## Pasitikrink save
+
+**1. Kokių duomenų niekada nekelti į DI įrankius be aiškios priežasties?**
+
+<details class="selfcheck" markdown="1">
+<summary>Rodyti atsakymą</summary>
+
+Slaptažodžių ir API raktų, asmens kodų ir banko duomenų, konfidencialių darbo dokumentų, kitų žmonių privačių duomenų be jų leidimo.
+
+</details>
+
+**2. Kas yra anonimizavimas ir kada jis padeda?**
+
+<details class="selfcheck" markdown="1">
+<summary>Rodyti atsakymą</summary>
+
+Tikrų vardų, adresų, kodų ir tikslių datų pakeitimas bendriniais žymenimis (Klientas A, Įmonė B). Padeda, kai reikia DI pagalbos su jautriu tekstu, bet pačių duomenų atskleisti nereikia.
+
+</details>
+
+**3. Ką pasitikrinti prieš naudojant DI darbo dokumentams?**
+
+<details class="selfcheck" markdown="1">
+<summary>Rodyti atsakymą</summary>
+
+Ar organizacija leidžia tokį įrankį, ar galima kelti vidinius dokumentus, ar pokalbiai naudojami modelių mokymui, kur saugomi duomenys.
+
+</details>
+
+## Mini užduotis
+
+Paimk vieną realų tekstą, kurį norėtum duoti DI, ir sukurk anonimizuotą versiją. Pašalink asmens duomenis, įmonių pavadinimus, tikslias sumas ar datas, jei jos nebūtinos.
+
+> **Užduoties patikra:** įklijuok anonimizuotą versiją mentoriui ir paklausk: „Ar šiame tekste dar liko detalių, iš kurių būtų galima atpažinti asmenį ar įmonę?“
+
+> **Mentoriaus patarimas:** paklausk „Padėk man anonimizuoti šį tekstą prieš naudojant DI, bet nekeisk pagrindinės prasmės.“
+
+Toliau: pažvelgsime į vaizdus, garsą ir kitus multimodalinius DI įrankius.

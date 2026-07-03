@@ -8,6 +8,12 @@ order: 5
 
 Your assistant works locally — now ship it so real users can reach it. We'll use **Docker**, the same setup that runs this platform.
 
+**After this lesson you will be able to:**
+
+- package the app into a Docker container;
+- run the app and database together with docker compose;
+- walk the production checklist before going live.
+
 ## Containerize it
 
 A `Dockerfile` packages your app with everything it needs:
@@ -63,6 +69,41 @@ All of them run Docker, so the same image works everywhere.
 - ✅ Set `temperature` and `max_tokens` to control cost.
 - ✅ Add **usage limits** so a single user can't drain your budget.
 - ✅ Monitor errors and token spend.
+
+## Check yourself
+
+**1. What does a Dockerfile give you that plain `pip install` does not?**
+
+<details class="selfcheck" markdown="1">
+<summary>Show answer</summary>
+
+A reproducible environment: the container pins the Python version, libraries, and start command, so the same image runs identically on your machine and any host.
+
+</details>
+
+**2. Where do API keys live in production?**
+
+<details class="selfcheck" markdown="1">
+<summary>Show answer</summary>
+
+In environment variables set in the host's dashboard. A `.env` file is fine locally, but it must be in `.gitignore`.
+
+</details>
+
+**3. Why are usage limits a production necessity rather than a nicety?**
+
+<details class="selfcheck" markdown="1">
+<summary>Show answer</summary>
+
+Every LLM call costs money. Without limits, one user (or a bot) can drain your entire budget overnight.
+
+</details>
+
+## Final Exercise
+
+Package your assistant with Docker, run it locally with `docker compose up`, and walk the full production checklist, marking what you already have and what is missing.
+
+> **Task check:** send the mentor your checklist status and ask: "Which missing item should I do first, and why?"
 
 ## You did it
 

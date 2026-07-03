@@ -8,6 +8,12 @@ order: 5
 
 A **class** is a blueprint. An **object** is a thing built from that blueprint. Classes bundle *data* and *behavior* together.
 
+**After this lesson you will be able to:**
+
+- define a class with `__init__`, attributes, and methods;
+- create objects and call their methods;
+- recognize classes in AI library code.
+
 ```python
 class Student:
     def __init__(self, name, plan="free"):
@@ -51,6 +57,41 @@ response = client.chat.completions.create(...)
 
 …you are creating an object (`client`) and calling its methods. Understanding classes makes every AI SDK feel familiar.
 
+## Check yourself
+
+**1. What is the difference between a class and an object?**
+
+<details class="selfcheck" markdown="1">
+<summary>Show answer</summary>
+
+A class is a blueprint (a description); an object is a concrete instance built from it. From one `Student` class you can create many different students.
+
+</details>
+
+**2. What does `self` mean inside a method?**
+
+<details class="selfcheck" markdown="1">
+<summary>Show answer</summary>
+
+The specific object the method was called on. Inside `aiste.complete_lesson()`, `self` is `aiste`, so it is her `completed_lessons` that changes.
+
+</details>
+
+**3. What does `print(aiste.completed_lessons)` output after two `complete_lesson()` calls?**
+
+<details class="selfcheck" markdown="1">
+<summary>Show answer</summary>
+
+`2` — each call increments the attribute by one, and the state lives inside the object itself.
+
+</details>
+
+## Mini Exercise
+
+Create a class `Course` with attributes `title` and `lessons_done`, plus methods `complete()` (increments the counter) and `progress_text()` (returns e.g. "Python Basics: 3 lessons done"). Create two courses and show their progress.
+
+> **Task check:** paste your class to the mentor and ask: "Review my class: are the attributes and methods sensibly split? What would you add to make it useful in a real app?"
+
 > **Mentor tip:** Ask the AI Mentor to model a `BankAccount` class with deposit and withdraw methods, then explain each line.
 
-Congratulations — you now have the Python foundation needed for the **AI Fundamentals** course.
+Congratulations — you now have the Python foundation needed for the next courses: **Junior AI Developer Projects** and **Build Your Own AI Assistant**.

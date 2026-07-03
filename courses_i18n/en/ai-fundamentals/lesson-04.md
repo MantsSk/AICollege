@@ -1,53 +1,121 @@
 ---
-title: Retrieval-Augmented Generation (RAG)
-module: RAG
+title: How to Verify AI Answers
+module: Reliability
 order: 4
 ---
 
-# Retrieval-Augmented Generation (RAG)
+# How to Verify AI Answers
 
-LLMs don't know your private documents and can hallucinate facts. **RAG** fixes both by *retrieving* relevant text and putting it into the prompt before the model answers.
+The most important AI skill is not prompt tricks. It is the ability to separate a useful answer from a beautifully written mistake.
 
-## The RAG pipeline
+AI can be an excellent helper, but it does not carry your responsibility. If the decision matters, verification is part of the work.
+
+**After this lesson you will be able to:**
+
+- recognize the topics where AI answers need the strictest checking;
+- apply three levels of verification: internal, source, and practical;
+- spot red flags before you even start checking.
+
+## When should you verify carefully?
+
+Be extra strict when the topic involves:
+
+- health, medication, nutrition, diagnosis;
+- law, taxes, contracts;
+- financial decisions;
+- news, prices, dates, schedules;
+- quotes, sources, academic work;
+- technical instructions that could damage systems or data.
+
+In these areas, AI can help you understand questions, prepare a checklist, and explain terms, but the final answer should be checked against reliable sources.
+
+## Three levels of checking
+
+**1. Internal check.** Ask the model to find weak points in its own answer.
 
 ```text
-1. INGEST   Split your docs into chunks, embed them, store vectors.
-2. RETRIEVE For a question, embed it and find the closest chunks.
-3. AUGMENT  Insert those chunks into the prompt as context.
-4. GENERATE Ask the LLM to answer using only that context.
+Review your answer critically.
+Which assumptions could be wrong?
+Which claims should be checked against sources?
 ```
 
-## A minimal example
+**2. Source check.** Look for primary or reliable sources: official pages, documentation, law text, research papers, institutional announcements.
 
-```python
-question = "How do I cancel my subscription?"
+**3. Practical check.** If it is an instruction or plan, test it on a small scale before applying it broadly.
 
-# 1+2: find the most relevant chunks
-chunks = vector_search(question, top_k=3)
-context = "\n\n".join(chunks)
+## Red flags
 
-# 3+4: ground the model in your content
-prompt = f"""Answer using ONLY the context below.
-If the answer isn't there, say you don't know.
+Be careful if an answer:
 
-Context:
-{context}
+- gives very specific numbers without a source;
+- cites studies that may not exist;
+- sounds too confident;
+- ignores your constraints;
+- has no caveats on a complex topic;
+- contradicts information you already have.
 
-Question: {question}"""
+## How to ask for a more reliable answer
 
-answer = llm(prompt)
+```text
+Answer carefully.
+Separate facts from assumptions.
+Mark what should be verified.
+If you do not know, do not invent.
+Suggest the types of sources I should check.
 ```
 
-## Why this matters here
+## AI as a learning coach
 
-The **AI Mentor** in this platform is a form of RAG: it receives the current lesson's content as context and is instructed to *prefer the course material* when answering. That's why it stays on-topic and accurate for the lesson you're reading.
+Instead of asking for "the right answer," ask for help thinking:
 
-## Practical tips
+```text
+Do not answer immediately.
+Help me solve this myself.
+Ask one question at a time and explain why it matters.
+```
 
-- **Chunk well** — too big wastes context, too small loses meaning (~200–500 tokens is common).
-- **Retrieve enough** — top 3–5 chunks usually beats one.
-- **Cite sources** so users can verify.
+This is especially useful for learning math, programming, languages, or writing.
 
-> **Mentor tip:** Ask "How is the AI Mentor in this lesson using RAG ideas?"
+## Check yourself
 
-Next: letting AI *take actions* — **agents**.
+**1. What are the three levels of checking and how do they differ?**
+
+<details class="selfcheck" markdown="1">
+<summary>Show answer</summary>
+
+Internal (ask the model to critique its own answer), source (check primary or official sources), and practical (test on a small scale before applying broadly).
+
+</details>
+
+**2. Name at least three red flags in an AI answer.**
+
+<details class="selfcheck" markdown="1">
+<summary>Show answer</summary>
+
+Very specific numbers without a source, citations of studies that may not exist, overconfidence, ignored constraints, no caveats on a complex topic.
+
+</details>
+
+**3. What is the difference between "give me the answer" and "help me think"?**
+
+<details class="selfcheck" markdown="1">
+<summary>Show answer</summary>
+
+The first asks for a final result you still need to verify. The second turns AI into a coach: it asks questions, explains, and lets you reach the answer yourself — so you learn instead of just receiving.
+
+</details>
+
+## Mini Exercise
+
+Ask AI to explain a topic you know a little about. Then ask:
+
+```text
+Mark 5 claims from your answer that would be worth verifying.
+For each one, write what type of source would be best.
+```
+
+> **Task check:** after the exercise, tell the mentor: "Here are the 5 claims I found worth verifying. Do you agree with my picks, or did I miss something more important?"
+
+> **Mentor tip:** Ask "How can I recognize that an AI answer may be a hallucination?"
+
+Next: we will discuss privacy, data, and responsible use.
