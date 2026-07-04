@@ -2,7 +2,7 @@
 {% block title %}{{ _('auth.create_title') }} — {{ app_name }}{% endblock %}
 {% block content %}
 <div class="max-w-md mx-auto px-4 py-16">
-  <h1 class="font-display text-3xl font-medium tracking-tight">{{ _('auth.create_h1') }}</h1>
+  <h1 class="text-3xl font-bold tracking-tight">{{ _('auth.create_h1') }}</h1>
   <p class="mt-2 text-sm text-stone-500">{{ _('auth.create_lead', count=free_lessons_per_course) }}</p>
 
   {% if error %}

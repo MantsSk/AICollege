@@ -6,13 +6,12 @@
 <!-- Hero -->
 <section class="relative overflow-hidden">
   <div class="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50 to-white dark:from-stone-900 dark:to-stone-950"></div>
-  <div class="absolute -top-32 left-1/2 -translate-x-1/2 -z-10 h-64 w-[38rem] rounded-full bg-brand-500/10 blur-[120px]"></div>
 
   <div class="max-w-5xl mx-auto px-4 pt-20 pb-16 text-center">
-    <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 dark:border-brand-800 bg-white/60 dark:bg-stone-900/60 px-3 py-1 text-sm font-medium text-brand-700 dark:text-brand-300">
+    <p class="text-sm font-semibold uppercase tracking-wide text-brand-700 dark:text-brand-300">
       {{ _('landing.badge') }}
-    </span>
-    <h1 class="mt-6 text-4xl sm:text-6xl font-extrabold tracking-tight">
+    </p>
+    <h1 class="mt-6 text-4xl sm:text-6xl font-bold tracking-tight">
       {{ _('landing.h1') }}<br class="hidden sm:block" />
       <span class="text-brand-600 dark:text-brand-400">{{ _('landing.h1_highlight') }}</span>
     </h1>
@@ -21,10 +20,10 @@
     </p>
     <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
       <a href="{{ '/dashboard' if user else '/register' }}"
-        class="px-6 py-3 rounded-xl bg-brand-600 text-white font-semibold text-lg hover:bg-brand-500 shadow-lg shadow-brand-600/20">
+        class="px-6 py-3 rounded-lg bg-brand-600 text-white font-semibold text-lg hover:bg-brand-500">
         {{ _('nav.start') }}
       </a>
-      <a href="/courses" class="px-6 py-3 rounded-xl border border-stone-300 dark:border-stone-700 font-semibold text-lg hover:bg-stone-100 dark:hover:bg-stone-800">
+      <a href="/courses" class="px-6 py-3 rounded-lg border border-stone-300 dark:border-stone-700 font-semibold text-lg hover:bg-stone-100 dark:hover:bg-stone-800">
         {{ _('landing.browse') }}
       </a>
     </div>
@@ -58,7 +57,7 @@
         <span class="rounded-lg bg-stone-100 dark:bg-stone-800 px-3 py-1 text-xs font-medium text-stone-600 dark:text-stone-300">{{ item.course.title }}</span>
         {% endfor %}
       </div>
-      <div class="mt-6 font-semibold text-brand-600 dark:text-brand-400 group-hover:underline">{{ _('paths.' ~ section["id"] ~ '.cta') }} →</div>
+      <div class="mt-6 inline-flex items-center gap-1.5 font-semibold text-brand-600 dark:text-brand-400 group-hover:underline">{{ _('paths.' ~ section["id"] ~ '.cta') }} {{ icons.icon("arrow-right", "h-4 w-4") }}</div>
     </a>
     {% endfor %}
   </div>
@@ -118,30 +117,31 @@
   <div class="mt-10 grid gap-6 {% if payments_enabled %}md:grid-cols-2{% endif %}">
     <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-7 bg-white dark:bg-stone-900">
       <h3 class="font-bold text-lg">{{ _('pricing.free') }}</h3>
-      <p class="mt-2 text-3xl font-extrabold">€0</p>
+      <p class="mt-2 text-3xl font-bold">€0</p>
       <ul class="mt-5 space-y-2 text-sm text-stone-600 dark:text-stone-300">
-        <li>{{ _('pricing.full_courses') }}</li>
-        <li>{{ _('pricing.mentor', count=free_daily_ai_messages) }}</li>
-        <li>{{ _('pricing.progress') }}</li>
+        {% for feature in [_('pricing.full_courses'), _('pricing.mentor', count=free_daily_ai_messages), _('pricing.progress')] %}
+        <li class="flex items-start gap-2">{{ icons.icon("check", "mt-0.5 h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400") }}<span>{{ feature }}</span></li>
+        {% endfor %}
       </ul>
-      <a href="/register" class="mt-6 block text-center px-5 py-3 rounded-xl border border-stone-300 dark:border-stone-700 font-semibold hover:bg-stone-100 dark:hover:bg-stone-800">{{ _('pricing.create') }}</a>
+      <a href="/register" class="mt-6 block text-center px-5 py-3 rounded-lg border border-stone-300 dark:border-stone-700 font-semibold hover:bg-stone-100 dark:hover:bg-stone-800">{{ _('pricing.create') }}</a>
     </div>
     {% if payments_enabled %}
-    <div class="rounded-xl border-2 border-brand-500 p-7 bg-white dark:bg-stone-900 relative shadow-xl shadow-brand-600/10">
+    <div class="rounded-xl border-2 border-brand-500 p-7 bg-white dark:bg-stone-900 relative shadow-sm">
       <span class="absolute -top-3 left-7 rounded-full bg-accent-400 text-stone-900 text-xs font-semibold px-3 py-1">{{ _('pricing.popular') }}</span>
       <h3 class="font-bold text-lg">Pro</h3>
-      <p class="mt-2 text-3xl font-extrabold">€{{ subscription_price }}<span class="text-base font-medium text-stone-500">{{ _('pricing.month') }}</span></p>
+      <p class="mt-2 text-3xl font-bold">€{{ subscription_price }}<span class="text-base font-medium text-stone-500">{{ _('pricing.month') }}</span></p>
       <ul class="mt-5 space-y-2 text-sm text-stone-600 dark:text-stone-300">
-        <li>{{ _('pricing.all_lessons') }}</li>
-        <li>{{ _('pricing.higher_limits') }}</li>
-        <li>{{ _('pricing.future') }}</li>
-        <li>{{ _('pricing.cancel') }}</li>
+        {% for feature in [_('pricing.all_lessons'), _('pricing.higher_limits'), _('pricing.future'), _('pricing.cancel')] %}
+        <li class="flex items-start gap-2">{{ icons.icon("check", "mt-0.5 h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400") }}<span>{{ feature }}</span></li>
+        {% endfor %}
       </ul>
-      <a href="{{ '/pricing' if not user else '/billing/checkout' }}"
-         {% if user and not user.is_subscribed %}onclick="event.preventDefault(); this.closest('div').querySelector('form').submit();"{% endif %}
-         class="mt-6 block text-center px-5 py-3 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-500">{{ _('pricing.go_pro') }}</a>
       {% if user and not user.is_subscribed %}
-        <form action="/billing/checkout" method="post" class="hidden"></form>
+      <form action="/billing/checkout" method="post">
+        <button class="mt-6 w-full px-5 py-3 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-500">{{ _('pricing.go_pro') }}</button>
+      </form>
+      {% else %}
+      <a href="{{ '/pricing' if not user else '/billing/checkout' }}"
+         class="mt-6 block text-center px-5 py-3 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-500">{{ _('pricing.go_pro') }}</a>
       {% endif %}
     </div>
     {% endif %}
@@ -175,9 +175,9 @@
 
 <!-- CTA -->
 <section class="max-w-4xl mx-auto px-4 py-20 text-center">
-  <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">{{ _('landing.cta_title') }}</h2>
+  <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">{{ _('landing.cta_title') }}</h2>
   <p class="mt-4 text-lg text-stone-600 dark:text-stone-300">{{ _('landing.cta_body') }}</p>
-  <a href="{{ '/dashboard' if user else '/register' }}" class="mt-8 inline-block px-8 py-4 rounded-xl bg-brand-600 text-white font-semibold text-lg hover:bg-brand-500 shadow-md">
+  <a href="{{ '/dashboard' if user else '/register' }}" class="mt-8 inline-block px-8 py-4 rounded-lg bg-brand-600 text-white font-semibold text-lg hover:bg-brand-500">
     {{ _('nav.start') }}
   </a>
 </section>

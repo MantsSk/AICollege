@@ -40,7 +40,7 @@
   font-size: 1.0625rem;
   word-wrap: break-word;
 }
-.prose-lesson h1 { font-size: 2rem; font-weight: 800; margin: 1.5rem 0 1rem; letter-spacing: -0.02em; }
+.prose-lesson h1 { font-size: 2rem; font-weight: 700; margin: 1.5rem 0 1rem; letter-spacing: -0.02em; }
 .prose-lesson h2 { font-size: 1.5rem; font-weight: 700; margin: 2rem 0 0.75rem; letter-spacing: -0.01em; }
 .prose-lesson h3 { font-size: 1.2rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
 .prose-lesson p { margin: 0.85rem 0; }

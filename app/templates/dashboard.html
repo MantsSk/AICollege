@@ -35,7 +35,7 @@
 
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
     <div>
-      <h1 class="text-3xl font-extrabold tracking-tight">{{ _('dashboard.hi') }}{{ ', ' ~ user.full_name if user.full_name else '' }} 👋</h1>
+      <h1 class="text-3xl font-bold tracking-tight">{{ _('dashboard.hi') }}{{ ', ' ~ user.full_name if user.full_name else '' }}</h1>
       <p class="mt-1 text-stone-500">
         {% if payments_enabled and user.is_subscribed %}
           {{ _('dashboard.pro') }}

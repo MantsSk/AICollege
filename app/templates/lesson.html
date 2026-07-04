@@ -16,7 +16,7 @@
     <div class="mt-4 flex items-center justify-between gap-4">
       <div>
         {% if lesson.module %}<div class="text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">{{ lesson.module }}</div>{% endif %}
-        <h1 class="mt-1 text-3xl font-extrabold tracking-tight">{{ lesson.title }}</h1>
+        <h1 class="mt-1 text-3xl font-bold tracking-tight">{{ lesson.title }}</h1>
       </div>
       <span class="shrink-0 text-sm text-stone-500 tabular-nums">{{ _('lesson.label', number=lesson_number, total=lesson_total) }}</span>
     </div>
