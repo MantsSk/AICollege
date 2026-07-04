@@ -15,7 +15,7 @@ The UI is **Lithuanian-first** (default `lt`) with English (`en`) as a switchabl
 - **Dashboard** — continue learning, per-course progress, manage subscription.
 - **Course catalog & lessons** — clean markdown rendering with syntax-highlighted code, prev/next navigation, progress indicator.
 - **AI Mentor** — a chat panel inside every lesson, grounded in the lesson content via LiteLLM (works with Gemini, GPT, or Claude by config).
-- **Free tier** — anonymous users read the first lesson of each course; registered free users get the first 2 lessons + the AI Mentor (5 messages/day). Upgrade prompts appear at limits.
+- **Free/testing tier** — anonymous users read the first lesson of each course; while payments are disabled, registered users can access all lessons and the AI Mentor (5 messages/day). With payments enabled, registered free users get the first 2 lessons and upgrade prompts appear at limits.
 - **Paid tier (€20/mo)** — all lessons, all courses, higher AI limits, via Stripe Checkout + billing portal.
 - **HTMX everywhere** — mentor chat, mark-complete, and progress updates with no page reloads and minimal JS.
 - **Bilingual (LT/EN)** — UI strings and course content are translatable; visitors switch language via `/language/{lang}` (persisted in a cookie). Lithuanian is the default; English course content is layered on as file overlays with no schema changes.
@@ -56,15 +56,21 @@ All settings come from environment variables (see `.env.example`):
 | Variable | Purpose |
 |----------|---------|
 | `SECRET_KEY` | Session signing key — set a long random value. |
+| `DEBUG` | Use `false` in production. Debug mode shows development details and relaxes secure cookies. |
+| `BASE_URL` | Public `https://...` URL, used for Stripe redirects and reset links. |
+| `ALLOWED_HOSTS` | Comma-separated public hostnames allowed to serve the app. |
+| `SECURE_SSL_REDIRECT` | Redirect HTTP to HTTPS when your proxy/platform does not already do it. |
 | `DATABASE_URL` | e.g. `postgresql+psycopg2://user:pass@host:5432/db` |
 | `AI_MODEL` | LiteLLM model, e.g. `gemini/gemini-1.5-flash`, `gpt-4o-mini`, `claude-haiku-4-5-20251001` |
 | `GEMINI_API_KEY` / `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` | Whichever your `AI_MODEL` needs. |
 | `FREE_DAILY_AI_MESSAGES` / `PAID_DAILY_AI_MESSAGES` | AI Mentor daily limits. |
 | `FREE_LESSONS_PER_COURSE` | Lessons unlocked for registered free users. |
+| `PAYMENTS_ENABLED` | Keep `false` for free testing access. Set `true` only after Stripe is configured. |
 | `STRIPE_SECRET_KEY` / `STRIPE_PRICE_ID` / `STRIPE_WEBHOOK_SECRET` | Subscription billing. |
-| `BASE_URL` | Public URL, used for Stripe redirects and reset links. |
 
 **Switching AI providers** requires no code changes — just set `AI_MODEL` and the matching API key.
+
+For production hosting, set `DEBUG=false`, use a strong `SECRET_KEY`, set `BASE_URL` to your public HTTPS domain, set `ALLOWED_HOSTS`, and keep Postgres private. The app refuses to start in production mode with the development secret or an HTTP `BASE_URL`.
 
 ---
 

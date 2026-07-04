@@ -13,6 +13,7 @@ TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
 
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR), context_processors=[i18n_context])
 templates.env.globals["app_name"] = settings.app_name
+templates.env.globals["payments_enabled"] = settings.payments_enabled
 templates.env.globals["subscription_price"] = settings.subscription_price_eur
 templates.env.globals["free_lessons_per_course"] = settings.free_lessons_per_course
 templates.env.globals["free_daily_ai_messages"] = settings.free_daily_ai_messages

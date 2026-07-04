@@ -10,13 +10,13 @@
     {% if not user %}
       {{ _('lesson.locked_free', count=free_lessons_per_course) }}
     {% else %}
-      {{ _('lesson.locked_upgrade', course=course.title) }}
+      {{ _('lesson.locked_account') }}
     {% endif %}
   </p>
   <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
     {% if not user %}
       <a href="/register" class="px-6 py-3 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-700">{{ _('pricing.create') }}</a>
-    {% else %}
+    {% elif payments_enabled %}
       <form action="/billing/checkout" method="post"><button class="px-6 py-3 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-700">{{ _('dashboard.upgrade', price=subscription_price) }}</button></form>
     {% endif %}
     <a href="/courses/{{ course.slug }}" class="px-6 py-3 rounded-xl border border-stone-300 dark:border-stone-700 font-semibold hover:bg-stone-100 dark:hover:bg-stone-800">{{ _('lesson.back') }}</a>

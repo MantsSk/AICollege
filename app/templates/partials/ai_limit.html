@@ -1,6 +1,6 @@
 <div class="rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-400 px-3 py-3 text-sm">
   {{ _('mentor.limit') }}
-  {% if not user.is_subscribed %}
+  {% if payments_enabled and not user.is_subscribed %}
   <form action="/billing/checkout" method="post" class="mt-2">
     <button class="px-3 py-1.5 rounded-lg bg-brand-600 text-white font-semibold text-xs hover:bg-brand-700">{{ _('mentor.limit_upgrade') }}</button>
   </form>

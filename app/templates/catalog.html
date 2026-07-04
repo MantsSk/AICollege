@@ -70,7 +70,7 @@
               <span class="text-xs font-semibold uppercase tracking-wide {{ t.kicker }}">{{ _('courses.lessons', count=card.total) }}</span>
               {% if not user %}
                 <span class="text-xs text-stone-400">{{ _('courses.one_free') }}</span>
-              {% elif not user.is_subscribed %}
+              {% elif payments_enabled and not user.is_subscribed %}
                 <span class="text-xs text-stone-400">{{ _('courses.free_lessons', count=free_lessons_per_course) }}</span>
               {% endif %}
             </div>

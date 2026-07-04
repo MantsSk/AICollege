@@ -10,7 +10,9 @@ class Settings(BaseSettings):
     secret_key: str = "dev-secret-change-me"
     app_name: str = "AI College"
     base_url: str = "http://localhost:8000"
-    debug: bool = True
+    debug: bool = False
+    allowed_hosts: str = "localhost,127.0.0.1,testserver"
+    secure_ssl_redirect: bool = False
 
     # Database
     database_url: str = "postgresql+psycopg2://aicollege:aicollege@localhost:5432/aicollege"
@@ -29,11 +31,22 @@ class Settings(BaseSettings):
     free_lessons_per_course: int = 2
 
     # Stripe
+    payments_enabled: bool = False
     stripe_secret_key: str = ""
     stripe_publishable_key: str = ""
     stripe_webhook_secret: str = ""
     stripe_price_id: str = ""
     subscription_price_eur: int = 20
+
+    @property
+    def allowed_host_list(self) -> list[str]:
+        return [host.strip() for host in self.allowed_hosts.split(",") if host.strip()]
+
+    def validate_for_runtime(self) -> None:
+        if not self.debug and self.secret_key in {"dev-secret-change-me", "dev-secret-do-not-use-in-production"}:
+            raise RuntimeError("Set SECRET_KEY to a long random value before running with DEBUG=false.")
+        if not self.debug and self.base_url.startswith("http://"):
+            raise RuntimeError("Set BASE_URL to your public https:// URL before running with DEBUG=false.")
 
 
 @lru_cache

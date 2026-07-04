@@ -8,11 +8,13 @@
 
     <div class="flex items-center gap-1 sm:gap-2">
       <a href="/courses" class="hidden sm:inline px-3 py-2 rounded-lg text-sm font-medium hover:bg-stone-100 dark:hover:bg-stone-800">{{ _('nav.courses') }}</a>
-      <a href="/pricing" class="hidden sm:inline px-3 py-2 rounded-lg text-sm font-medium hover:bg-stone-100 dark:hover:bg-stone-800">{{ _('nav.pricing') }}</a>
+      {% if payments_enabled %}
+        <a href="/pricing" class="hidden sm:inline px-3 py-2 rounded-lg text-sm font-medium hover:bg-stone-100 dark:hover:bg-stone-800">{{ _('nav.pricing') }}</a>
+      {% endif %}
 
       {% if user %}
         <a href="/dashboard" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-stone-100 dark:hover:bg-stone-800">{{ _('nav.dashboard') }}</a>
-        {% if not user.is_subscribed %}
+        {% if payments_enabled and not user.is_subscribed %}
           <form action="/billing/checkout" method="post" class="hidden sm:block">
             <button class="px-3 py-2 rounded-lg text-sm font-semibold bg-brand-600 text-white hover:bg-brand-500">{{ _('nav.upgrade') }}</button>
           </form>

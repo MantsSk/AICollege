@@ -9,6 +9,7 @@ from app.database import get_db
 from app.deps import require_user
 from app.i18n import get_language
 from app.models import ChatConversation, ChatMessage, Course, Lesson, User
+from app.rate_limit import rate_limit
 from app.services import ai_messages_remaining, can_access_lesson, increment_ai_usage
 from app.templating import templates
 
@@ -38,6 +39,7 @@ def chat(
     db: Session = Depends(get_db),
     user: User = Depends(require_user),
 ):
+    rate_limit(request, key="mentor-chat", limit=20, window_seconds=60)
     course = db.scalar(select(Course).where(Course.slug == course_slug))
     lesson = (
         db.scalar(select(Lesson).where(Lesson.course_id == course.id, Lesson.slug == lesson_slug))

@@ -14,6 +14,8 @@ router = APIRouter(prefix="/billing")
 
 @router.post("/checkout")
 def checkout(request: Request, db: Session = Depends(get_db), user: User = Depends(require_user)):
+    if not settings.payments_enabled:
+        return HTMLResponse("Payments are disabled for testing.", status_code=503)
     if not settings.stripe_secret_key or not settings.stripe_price_id:
         return HTMLResponse(
             "Stripe is not configured. Set STRIPE_SECRET_KEY and STRIPE_PRICE_ID.",
@@ -27,6 +29,8 @@ def checkout(request: Request, db: Session = Depends(get_db), user: User = Depen
 
 @router.post("/portal")
 def portal(request: Request, db: Session = Depends(get_db), user: User = Depends(require_user)):
+    if not settings.payments_enabled:
+        return HTMLResponse("Payments are disabled for testing.", status_code=503)
     if not settings.stripe_secret_key:
         return HTMLResponse("Stripe is not configured.", status_code=503)
     url = billing.create_billing_portal_session(db, user)
@@ -39,6 +43,8 @@ async def webhook(
     stripe_signature: str = Header(None, alias="Stripe-Signature"),
     db: Session = Depends(get_db),
 ):
+    if not settings.payments_enabled:
+        return HTMLResponse("Payments are disabled for testing.", status_code=503)
     payload = await request.body()
     try:
         billing.handle_webhook(db, payload, stripe_signature or "")

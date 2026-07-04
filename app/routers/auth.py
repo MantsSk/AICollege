@@ -11,6 +11,7 @@ from app.database import get_db
 from app.deps import current_user_optional
 from app.i18n import get_language, make_translator
 from app.models import User
+from app.rate_limit import rate_limit
 from app.security import hash_password, verify_password
 from app.templating import templates
 
@@ -38,6 +39,7 @@ def register(
     full_name: str = Form(""),
     db: Session = Depends(get_db),
 ):
+    rate_limit(request, key="register", limit=10, window_seconds=60 * 10)
     email = email.strip().lower()
     _ = make_translator(get_language(request))
     error = None
@@ -77,6 +79,7 @@ def login(
     password: str = Form(...),
     db: Session = Depends(get_db),
 ):
+    rate_limit(request, key="login", limit=20, window_seconds=60 * 10)
     email = email.strip().lower()
     user = db.scalar(select(User).where(User.email == email))
     if user is None or not verify_password(password, user.password_hash):
@@ -110,6 +113,7 @@ def forgot_form(request: Request, user=Depends(current_user_optional)):
 
 @router.post("/forgot-password", response_class=HTMLResponse)
 def forgot(request: Request, email: str = Form(...), db: Session = Depends(get_db)):
+    rate_limit(request, key="forgot-password", limit=5, window_seconds=60 * 10)
     email = email.strip().lower()
     user = db.scalar(select(User).where(User.email == email))
     reset_link = None

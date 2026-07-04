@@ -1,13 +1,58 @@
+from urllib.parse import urlparse
+
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
 from app.config import settings
 from app.routers import ai, auth, billing, courses, pages
 from app.templating import templates, TEMPLATES_DIR  # noqa: F401
 
+settings.validate_for_runtime()
+
 app = FastAPI(title=settings.app_name, debug=settings.debug)
+
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        response.headers.setdefault("X-Content-Type-Options", "nosniff")
+        response.headers.setdefault("X-Frame-Options", "DENY")
+        response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+        response.headers.setdefault(
+            "Permissions-Policy",
+            "camera=(), microphone=(), geolocation=(), payment=()",
+        )
+        if request.url.scheme == "https":
+            response.headers.setdefault(
+                "Strict-Transport-Security",
+                "max-age=31536000; includeSubDomains",
+            )
+        return response
+
+
+class SameOriginPostMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
+            origin = request.headers.get("origin")
+            if origin:
+                origin_host = urlparse(origin).netloc
+                allowed_hosts = {urlparse(settings.base_url).netloc, request.url.netloc}
+                if origin_host not in allowed_hosts:
+                    return HTMLResponse("Forbidden", status_code=403)
+        return await call_next(request)
+
+
+app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(SameOriginPostMiddleware)
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_host_list)
+
+if settings.secure_ssl_redirect:
+    app.add_middleware(HTTPSRedirectMiddleware)
 
 app.add_middleware(
     SessionMiddleware,

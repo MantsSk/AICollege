@@ -4,6 +4,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 import markdown as md
+import bleach
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
@@ -32,10 +33,57 @@ _MD_EXTENSIONS = [
 _MD_CONFIG = {
     "codehilite": {"guess_lang": False, "css_class": "codehilite"},
 }
+_ALLOWED_TAGS = {
+    "a",
+    "abbr",
+    "blockquote",
+    "br",
+    "code",
+    "del",
+    "details",
+    "div",
+    "em",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "hr",
+    "img",
+    "li",
+    "ol",
+    "p",
+    "pre",
+    "span",
+    "strong",
+    "summary",
+    "table",
+    "tbody",
+    "td",
+    "th",
+    "thead",
+    "tr",
+    "ul",
+}
+_ALLOWED_ATTRIBUTES = {
+    "*": ["class", "id"],
+    "a": ["href", "title", "rel", "target"],
+    "abbr": ["title"],
+    "img": ["src", "alt", "title"],
+}
+_ALLOWED_PROTOCOLS = {"http", "https", "mailto"}
 
 
 def render_markdown(text: str) -> str:
-    return md.markdown(text, extensions=_MD_EXTENSIONS, extension_configs=_MD_CONFIG)
+    html = md.markdown(text, extensions=_MD_EXTENSIONS, extension_configs=_MD_CONFIG)
+    return bleach.clean(
+        html,
+        tags=_ALLOWED_TAGS,
+        attributes=_ALLOWED_ATTRIBUTES,
+        protocols=_ALLOWED_PROTOCOLS,
+        strip=True,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -52,13 +100,15 @@ def lesson_index(lesson: Lesson, course: Course) -> int:
 
 
 def can_access_lesson(user: User | None, lesson: Lesson, course: Course) -> bool:
-    """Free-tier gating.
+    """Public preview gating.
 
     - Anonymous: first lesson only.
-    - Registered free: first FREE_LESSONS_PER_COURSE lessons.
-    - Subscribed: everything.
+    - Registered users: everything while payments are disabled.
+    - Subscribed: everything when payments are enabled.
     """
     idx = lesson_index(lesson, course)
+    if user and not settings.payments_enabled:
+        return True
     if user and user.is_subscribed:
         return True
     if user is None:
@@ -119,6 +169,8 @@ def _today():
 
 
 def daily_limit(user: User) -> int:
+    if not settings.payments_enabled:
+        return settings.free_daily_ai_messages
     return settings.paid_daily_ai_messages if user.is_subscribed else settings.free_daily_ai_messages
 
 

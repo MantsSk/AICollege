@@ -33,7 +33,9 @@
       <p>&copy; {{ app_name }}. {{ _('footer.tagline') }}</p>
       <div class="flex gap-5">
         <a href="/courses" class="hover:text-brand-500">{{ _('nav.courses') }}</a>
-        <a href="/pricing" class="hover:text-brand-500">{{ _('nav.pricing') }}</a>
+        {% if payments_enabled %}
+          <a href="/pricing" class="hover:text-brand-500">{{ _('nav.pricing') }}</a>
+        {% endif %}
       </div>
     </div>
   </footer>

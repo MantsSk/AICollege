@@ -5,12 +5,12 @@
   <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-center">{{ _('pricing.simple') }}</h1>
   <p class="mt-3 text-center text-stone-600 dark:text-stone-400">{{ _('pricing.lead') }}</p>
 
-  <div class="mt-10 grid gap-6 md:grid-cols-2">
+  <div class="mt-10 grid gap-6 {% if payments_enabled %}md:grid-cols-2{% endif %}">
     <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-7 bg-white dark:bg-stone-900">
       <h3 class="font-bold text-lg">{{ _('pricing.free') }}</h3>
       <p class="mt-2 text-3xl font-extrabold">€0</p>
       <ul class="mt-5 space-y-2 text-sm text-stone-600 dark:text-stone-300">
-        <li>{{ _('pricing.read_lessons', count=free_lessons_per_course) }}</li>
+        <li>{{ _('pricing.full_courses') }}</li>
         <li>{{ _('pricing.mentor', count=free_daily_ai_messages) }}</li>
         <li>{{ _('pricing.progress') }}</li>
       </ul>
@@ -21,6 +21,7 @@
       {% endif %}
     </div>
 
+    {% if payments_enabled %}
     <div class="rounded-xl border-2 border-brand-500 p-7 bg-white dark:bg-stone-900 relative shadow-xl shadow-brand-600/10">
       <span class="absolute -top-3 left-7 rounded-full bg-accent-400 text-stone-900 text-xs font-semibold px-3 py-1">{{ _('pricing.popular') }}</span>
       <h3 class="font-bold text-lg">Pro</h3>
@@ -39,6 +40,7 @@
         <a href="/register" class="mt-6 block text-center px-5 py-3 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-500">{{ _('pricing.get_started') }}</a>
       {% endif %}
     </div>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

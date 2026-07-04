@@ -15,8 +15,8 @@ def test_public_pages(client):
 
 def test_anonymous_lesson_gating(client):
     # First lesson is public, second is locked for anonymous visitors.
-    assert client.get("/courses/python-basics/lesson-01").status_code == 200
-    assert client.get("/courses/python-basics/lesson-02").status_code == 403
+    assert client.get("/courses/python-basics/lesson-00").status_code == 200
+    assert client.get("/courses/python-basics/lesson-01").status_code == 403
 
 
 def test_dashboard_requires_login(client):
@@ -25,11 +25,11 @@ def test_dashboard_requires_login(client):
     assert r.headers["location"] == "/login"
 
 
-def test_register_and_free_tier(client):
+def test_registered_account_unlocks_courses(client):
     _register(client)
-    # Nemokamas vartotojas gauna pirmas 2 pamokas, trečia užrakinta.
+    # Payments are disabled for testing, so an account unlocks full courses.
     assert client.get("/courses/python-basics/lesson-02").status_code == 200
-    assert client.get("/courses/python-basics/lesson-03").status_code == 403
+    assert client.get("/courses/python-basics/lesson-03").status_code == 200
 
 
 def test_login_flow(client):
@@ -62,9 +62,11 @@ def test_mark_complete(client):
     assert "baigta" in r.text.lower()
 
 
-def test_billing_unconfigured(client):
+def test_billing_disabled(client):
     _register(client)
-    assert client.post("/billing/checkout", follow_redirects=False).status_code == 503
+    r = client.post("/billing/checkout", follow_redirects=False)
+    assert r.status_code == 503
+    assert "Payments are disabled" in r.text
 
 
 def test_ai_mentor_and_limit(client, mock_mentor):
@@ -77,6 +79,7 @@ def test_ai_mentor_and_limit(client, mock_mentor):
 
 
 def test_markdown_rendering(client):
+    _register(client)
     r = client.get("/courses/python-basics/lesson-01")
     assert "codehilite" in r.text  # syntax-highlighted code block
     assert "DI mentorius" in r.text
