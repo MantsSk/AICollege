@@ -1,0 +1,63 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kam reikalingi įterpiniai (embeddings)?",
+      "options": [
+        "Paversti tekstą skaičiais, kurie užfiksuoja prasmę",
+        "Suspausti failus, kad užimtų mažiau vietos",
+        "Užšifruoti pokalbius",
+        "Pagreitinti interneto ryšį"
+      ],
+      "answer": 0,
+      "explain": "Panašios mintys atsiduria arti viena kitos — todėl galima ieškoti pagal prasmę, ne tik pagal raktažodžius."
+    },
+    {
+      "type": "order",
+      "prompt": "Sudėliok RAG sistemos žingsnius teisinga tvarka.",
+      "items": [
+        "Suskaidyti dokumentus į dalis",
+        "Paversti dalis įterpiniais",
+        "Pagal klausimą rasti aktualiausias dalis",
+        "Įdėti jas į modelio kontekstą ir paprašyti atsakyti"
+      ],
+      "explain": "RAG: suskaidyk, paversk įterpiniais, surask, įdėk į kontekstą, atsakyk remiantis rastu tekstu."
+    },
+    {
+      "type": "single",
+      "prompt": "Kodėl galingas modelis su RAG vis tiek gali atsakyti blogai?",
+      "options": [
+        "Jei paieška surado ne tas dokumentų dalis, modelis remiasi netinkamu tekstu",
+        "RAG visada blogina atsakymus",
+        "Modelis pamiršta savo žinias",
+        "Dokumentai per ilgi modeliui perskaityti"
+      ],
+      "answer": 0,
+      "explain": "RAG kokybė priklauso nuo dokumentų, jų suskaidymo ir paieškos — ne vien nuo modelio galios."
+    },
+    {
+      "type": "single",
+      "prompt": "Kuo agentas skiriasi nuo paprasto pokalbių asistento?",
+      "options": [
+        "Agentas ne tik atsako tekstu, bet ir naudoja įrankius veiksmams atlikti",
+        "Agentas visada protingesnis",
+        "Agentas veikia be interneto",
+        "Agentas nenaudoja kalbos modelio"
+      ],
+      "answer": 0,
+      "explain": "Agento ciklas: tikslas → planas → įrankio naudojimas → patikrinimas → kitas žingsnis."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kokių ribų reikia DI agentams?",
+      "options": [
+        "Veiksmų limito",
+        "Žmogaus patvirtinimo prieš rizikingus veiksmus",
+        "Žurnalų, kad matytum, ką agentas darė",
+        "Neriboto priėjimo prie visų sistemų"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "Agentui reikia ribų ir skaidrumo — neribotas priėjimas yra priešingybė saugumui."
+    }
+  ]
+}

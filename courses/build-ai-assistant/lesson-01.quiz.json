@@ -1,0 +1,60 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kodėl šis kursas naudoja LiteLLM, o ne tiesiogiai vieno tiekėjo biblioteką?",
+      "options": [
+        "Pakeitus tik model parametrą galima perjungti tiekėją neperrašant kodo",
+        "LiteLLM yra vienintelė veikianti biblioteka",
+        "LiteLLM nereikalauja API rakto",
+        "LiteLLM automatiškai verčia atsakymus į lietuvių kalbą"
+      ],
+      "answer": 0,
+      "explain": "Viena bendra sąsaja OpenAI, Gemini, Claude ir kitiems modeliams."
+    },
+    {
+      "type": "single",
+      "prompt": "Kuo skiriasi system ir user rolės žinutėse?",
+      "options": [
+        "system — pastovios instrukcijos visam pokalbiui, user — konkreti žmogaus žinutė",
+        "system skirta tik klaidoms, user — sėkmingiems atsakymams",
+        "Jos yra sinonimai",
+        "system naudojama tik su Claude modeliais"
+      ],
+      "answer": 0,
+      "explain": "Sistemos žinutė veikia visą pokalbį, vartotojo žinutė — vieną konkretų ėjimą."
+    },
+    {
+      "type": "single",
+      "prompt": "Kam skirtas max_tokens parametras?",
+      "options": [
+        "Riboja atsakymo ilgį, taigi ir kainą bei laukimo laiką",
+        "Riboja, kiek klausimų galima užduoti per dieną",
+        "Nustato modelio temperatūrą",
+        "Nurodo, kiek žinučių saugoti istorijoje"
+      ],
+      "answer": 0,
+      "explain": "Per mažas limitas gali nukirsti atsakymą vidury sakinio."
+    },
+    {
+      "type": "multi",
+      "prompt": "Ką reikia pakeisti kode norint pereiti prie kito tiekėjo modelio per LiteLLM?",
+      "options": [
+        "model parametro reikšmę",
+        "Turėti to tiekėjo API raktą aplinkos kintamajame",
+        "Žinučių formatą (role/content struktūrą)",
+        "Visą completion() funkcijos logiką"
+      ],
+      "answers": [0, 1],
+      "explain": "Žinučių formatas ir atsakymo struktūra lieka tokie patys nepriklausomai nuo tiekėjo."
+    },
+    {
+      "type": "gap",
+      "prompt": "Užpildyk parametrą, kuris mažina atsitiktinumą atsakyme.",
+      "code": "completion(\n    model=\"claude-haiku-4-5-20251001\",\n    messages=messages,\n    __=0.3,\n)",
+      "bank": ["temperature", "max_tokens", "top_p", "role"],
+      "gaps": ["temperature"],
+      "explain": "Mažesnė temperature reikšmė duoda labiau susitelkusį, nuoseklesnį atsakymą."
+    }
+  ]
+}

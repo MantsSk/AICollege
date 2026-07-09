@@ -1,0 +1,32 @@
+{# Interactive quiz widget (rendered by static/js/quiz.js).
+   Context: quiz (dict) required; quiz_result_url, quiz_passed, practice optional. #}
+<div data-quiz
+     {% if quiz_result_url %}data-result-url="{{ quiz_result_url }}"{% endif %}
+     {% if quiz_passed %}data-quiz-passed="1"{% endif %}
+     {% if practice %}data-practice="1"{% endif %}
+     class="rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900">
+  <script type="application/json" data-quiz-payload>{{ {
+    "quiz": quiz,
+    "strings": {
+      "intro": _('quiz.intro', count=quiz.questions | length),
+      "start": _('quiz.start'),
+      "check": _('quiz.check'),
+      "next": _('quiz.next'),
+      "correct": _('quiz.correct'),
+      "incorrect": _('quiz.incorrect'),
+      "correct_answer": _('quiz.correct_answer'),
+      "select_all": _('quiz.select_all'),
+      "type_hint": _('quiz.type_hint'),
+      "gap_hint": _('quiz.gap_hint'),
+      "order_hint": _('quiz.order_hint'),
+      "true": _('quiz.true'),
+      "false": _('quiz.false'),
+      "result_title": _('quiz.result_title'),
+      "result_passed": _('quiz.result_passed'),
+      "result_failed": _('quiz.result_failed', percent=quiz.pass_percent),
+      "result_practice": _('quiz.result_practice'),
+      "retry": _('quiz.retry')
+    }
+  } | tojson }}</script>
+  <div data-quiz-mount class="p-5 sm:p-6"></div>
+</div>

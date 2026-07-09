@@ -1,0 +1,53 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kas yra multimodalinis DI?",
+      "options": [
+        "Sistema, dirbanti su daugiau nei viena informacijos rūšimi (tekstas, vaizdas, garsas)",
+        "Kelių modelių pokalbis tarpusavyje",
+        "DI, veikiantis keliose šalyse",
+        "Modelis su keliais konteksto langais"
+      ],
+      "answer": 0,
+      "explain": "Multimodalinės sistemos supranta ar kuria vaizdus, garsą, dokumentus — ne tik tekstą."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kada vaizdų analizė dažniausiai klysta?",
+      "options": [
+        "Kai vaizdas neryškus",
+        "Kai svarbios smulkios detalės",
+        "Kai reikia medicininės ar teisinės interpretacijos",
+        "Kai vaizdas spalvotas"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "Neryškumas, smulkmenos ir specializuota interpretacija — silpniausios vietos."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kurie elementai svarbūs prompte vaizdui sukurti?",
+      "options": ["Tema ir stilius", "Kompozicija ir spalvos", "Ko vengti", "Failo dydis megabaitais"],
+      "answers": [0, 1, 2],
+      "explain": "Tema, stilius, kompozicija, apšvietimas, spalvos, formatas ir — dažnai pamirštama — ko vengti."
+    },
+    {
+      "type": "single",
+      "prompt": "Apie ką svarbu pagalvoti prieš transkribuojant susitikimo įrašą?",
+      "options": [
+        "Apie kitų dalyvių sutikimą ir privatumo taisykles",
+        "Apie įrašo garsumą",
+        "Apie failo formatą",
+        "Apie interneto greitį"
+      ],
+      "answer": 0,
+      "explain": "Įraše — ne tik tavo balsas ir ne tik tavo informacija."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "Gerame vaizdo analizės prompte verta prašyti atskirti, ką modelis tikrai mato, nuo spėjimų.",
+      "answer": true,
+      "explain": "„Atskirk tai, ką tikrai matai, nuo spėjimų“ — taip pastebėsi neaiškumus anksčiau."
+    }
+  ]
+}

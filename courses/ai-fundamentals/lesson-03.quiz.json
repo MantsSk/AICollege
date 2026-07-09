@@ -1,0 +1,52 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kodėl promptas „Parašyk man CV“ duoda šablonišką rezultatą?",
+      "options": [
+        "Modelis neturi konteksto, todėl užpildo spragas bendriausiomis frazėmis",
+        "Modelis nemoka rašyti CV",
+        "CV rašymas draudžiamas",
+        "Promptas per ilgas"
+      ],
+      "answer": 0,
+      "explain": "Kuo mažiau konteksto, tuo atsakymas panašesnis į visų internete matytų tekstų vidurkį."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kurios dalys priklauso prompto formulei?",
+      "options": ["Tikslas", "Kontekstas", "Formatas", "Modelio versija"],
+      "answers": [0, 1, 2],
+      "explain": "Formulė: tikslas, kontekstas, vaidmuo, formatas, kokybės kriterijai ir apribojimai."
+    },
+    {
+      "type": "single",
+      "prompt": "Ką verta padaryti, jei užduotis DI neaiški?",
+      "options": [
+        "Paprašyti, kad prieš atsakydamas jis užduotų klausimų",
+        "Rašyti kuo ilgesnį promptą",
+        "Kartoti tą patį promptą kelis kartus",
+        "Padidinti temperatūrą"
+      ],
+      "answer": 0,
+      "explain": "„Prieš atsakydamas užduok iki 5 klausimų“ — taip atsakymas remsis tavo faktais, o ne spėjimais."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "Pirmas DI atsakymas dažniausiai yra juodraštis, kurį verta iteruoti.",
+      "answer": true,
+      "explain": "Tęsk: konkrečiau, trumpiau, su pavyzdžiais, be žargono — iteravimas yra normali darbo dalis."
+    },
+    {
+      "type": "order",
+      "prompt": "Sudėliok stipraus prompto dalis įprasta tvarka.",
+      "items": [
+        "Tikslas: ką noriu gauti?",
+        "Kontekstas: ką DI turi žinoti?",
+        "Formatas: kaip pateikti atsakymą?",
+        "Apribojimai: ko vengti?"
+      ],
+      "explain": "Pradedi nuo tikslo ir konteksto, tada formatas ir apribojimai."
+    }
+  ]
+}

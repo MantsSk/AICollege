@@ -113,6 +113,23 @@ class LessonProgress(Base):
     completed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 
+class QuizResult(Base):
+    """Best quiz score per user per lesson."""
+
+    __tablename__ = "quiz_results"
+    __table_args__ = (UniqueConstraint("user_id", "lesson_id", name="uq_user_lesson_quiz"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    lesson_id: Mapped[int] = mapped_column(ForeignKey("lessons.id", ondelete="CASCADE"), index=True)
+    score: Mapped[int] = mapped_column(Integer, default=0)
+    total: Mapped[int] = mapped_column(Integer, default=0)
+    passed: Mapped[bool] = mapped_column(Boolean, default=False)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utcnow, onupdate=utcnow
+    )
+
+
 class ChatConversation(Base):
     __tablename__ = "chat_conversations"
     __table_args__ = (UniqueConstraint("user_id", "lesson_id", name="uq_user_lesson_convo"),)

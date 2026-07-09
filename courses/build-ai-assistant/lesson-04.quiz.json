@@ -1,0 +1,58 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kodėl dokumentų įterpiniai kuriami vieną kartą, o klausimo — kiekvieną kartą?",
+      "options": [
+        "Dokumentai nesikeičia, o klausimas kaskart naujas ir kuriamas užklausos metu",
+        "Klausimo įterpinys kainuoja pigiau",
+        "Dokumentų įterpiniai apskritai nesaugomi",
+        "Tvarka atvirkštinė — klausimas skaičiuojamas vieną kartą"
+      ],
+      "answer": 0,
+      "explain": "Dokumentų vektorius galima paskaičiuoti iš anksto ir saugoti; klausimo įterpinys lyginamas su jais užklausos metu."
+    },
+    {
+      "type": "single",
+      "prompt": "Kam sistemos žinutėje sakinys „Jei atsakymo ten nėra, taip ir pasakyk“?",
+      "options": [
+        "Duoda modeliui leidimą pasakyti „nežinau“ vietoj haliucinacijos",
+        "Pagreitina atsakymo generavimą",
+        "Sumažina API kainą",
+        "Reikalingas tik ilgiems dokumentams"
+      ],
+      "answer": 0,
+      "explain": "Be šios instrukcijos modelis, neradęs atsakymo kontekste, gali užpildyti spragą bendromis žiniomis ar išgalvota informacija."
+    },
+    {
+      "type": "single",
+      "prompt": "Kada verta rinktis valdomą vektorių DB (Pinecone, Qdrant) vietoj pgvector?",
+      "options": [
+        "Nuo milijonų vektorių ar didelio srauto",
+        "Visada, net mažiems projektams",
+        "Tik jei nenaudoji PostgreSQL",
+        "pgvector apskritai neegzistuoja"
+      ],
+      "answer": 0,
+      "explain": "Jei jau naudoji PostgreSQL ir turi tūkstančius vektorių, pgvector paprasčiausia; didelis mastas — valdomos paslaugos."
+    },
+    {
+      "type": "order",
+      "prompt": "Sudėliok RAG žingsnius teisinga tvarka.",
+      "items": [
+        "Suskaidyti dokumentus ir sukurti jų įterpinius",
+        "Sukurti klausimo įterpinį",
+        "Rasti artimiausias dokumento dalis",
+        "Įdėti rastą kontekstą į promptą ir gauti atsakymą"
+      ],
+      "explain": "Įkėlimas vyksta vieną kartą, o paieška ir atsakymas — su kiekvienu klausimu."
+    },
+    {
+      "type": "fill",
+      "prompt": "Įrašyk funkciją, kuri palygina vektorius pagal kosinusinį panašumą ir randa artimiausias dalis.",
+      "code": "def search(question, top_k=3):\n    q = embed([question])[0]\n    return __(q, top_k)",
+      "accept": ["nearest_chunks"],
+      "explain": "nearest_chunks randa top_k dalis, artimiausias klausimo įterpiniui."
+    }
+  ]
+}

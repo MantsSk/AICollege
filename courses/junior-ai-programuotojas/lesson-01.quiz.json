@@ -1,0 +1,59 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kuo skiriasi „parašyk man kodą“ nuo „paaiškink man kodą“?",
+      "options": [
+        "Antrasis augina supratimą — suprastą kodą gali keisti ir paaiškinti pats",
+        "Abu duoda identišką rezultatą",
+        "Pirmasis visada greitesnis ir geresnis",
+        "Skirtumo praktiškai nėra"
+      ],
+      "answer": 0,
+      "explain": "Kodas, kurio nesupranti, negalėsi pataisyti ar apginti pokalbyje dėl darbo."
+    },
+    {
+      "type": "single",
+      "prompt": "Kodėl klaidos prompte verta prašyti „mažiausio pataisymo“?",
+      "options": [
+        "Kad DI neperrašytų viso projekto kodu, kurio nebeatpažinsi",
+        "Kad atsakymas būtų trumpesnis skaityti",
+        "Kad sutaupytum tokenus",
+        "Mažiausias pataisymas visada teisingiausias"
+      ],
+      "answer": 0,
+      "explain": "Mažas pataisymas leidžia suprasti, kas tiksliai buvo blogai — nesugriaunant viso, ką jau supranti."
+    },
+    {
+      "type": "order",
+      "prompt": "Sudėliok šešių žingsnių AI-assisted darbo eigą teisinga tvarka.",
+      "items": [
+        "Pats suformuluok problemą",
+        "Paprašyk DI paaiškinti, ne tik parašyti kodą",
+        "Paleisk kodą lokaliai",
+        "Skaityk klaidas ir prašyk paaiškinimo",
+        "Rašyk mažus testus",
+        "Į GitHub kelk tai, ką supranti"
+      ],
+      "explain": "Darbo eiga prasideda nuo tavo paties suformuluotos problemos ir baigiasi supratimo patikrinimu."
+    },
+    {
+      "type": "single",
+      "prompt": "Ką verta kelti į GitHub pagal šią pamoką?",
+      "options": [
+        "Tik tai, ką supranti ir gali paaiškinti",
+        "Kuo daugiau kodo, tuo geriau",
+        "Tik DI parašytą kodą be pakeitimų",
+        "Portfolio vertė matuojama eilučių skaičiumi"
+      ],
+      "answer": 0,
+      "explain": "Portfolio vertė — ne kodo kiekis, o gebėjimas jį apginti pokalbyje."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "DI naudojimas kaip aklas kodo generatorius yra gera junior programuotojo strategija.",
+      "answer": false,
+      "explain": "DI naudingiausias kaip paaiškinantis partneris, ne kaip kodo generatorius be supratimo."
+    }
+  ]
+}

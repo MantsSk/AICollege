@@ -1,0 +1,53 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kuo trenerio režimas skiriasi nuo įprasto klausimo-atsakymo?",
+      "options": [
+        "Treneris klausia po vieną klausimą ir klystant duoda užuominą, o ne atsakymą",
+        "Treneris atsako greičiau",
+        "Treneris naudoja daugiau emoji",
+        "Skirtumo nėra"
+      ],
+      "answer": 0,
+      "explain": "Mokymasis vyksta tavo galvoje, o ne ekrane — todėl treneris neatiduoda atsakymo iš karto."
+    },
+    {
+      "type": "single",
+      "prompt": "Kodėl mokymosi plane svarbu nurodyti, kiek minučių per dieną gali skirti?",
+      "options": [
+        "Be apribojimo DI sukurs nerealų, per ambicingą planą",
+        "Kad DI atsakytų greičiau",
+        "Tai neturi jokios reikšmės",
+        "Kad planas būtų ilgesnis"
+      ],
+      "answer": 0,
+      "explain": "Realistiškas planas, kurio laikaisi, geresnis už ambicingą, kurį meti po trijų dienų."
+    },
+    {
+      "type": "single",
+      "prompt": "Koks didžiausias pavojus mokantis su DI?",
+      "options": [
+        "Kopijuoti atsakymus vietoj mąstymo",
+        "Per daug klausimų mentoriui",
+        "Per ilgas mokymosi planas",
+        "DI per greitai atsako"
+      ],
+      "answer": 0,
+      "explain": "Atrodo, kad mokaisi, bet supratimas nesusiformuoja, jei tik kopijuoji atsakymus."
+    },
+    {
+      "type": "multi",
+      "prompt": "Ką turėtų apimti geras paaiškinimo promptas?",
+      "options": ["Paprastą analogiją", "Praktinį pavyzdį", "Klausimus pasitikrinimui", "Modelio versijos numerį"],
+      "answers": [0, 1, 2],
+      "explain": "Analogija, pavyzdys, dažnos klaidos ir savikontrolės klausimai — geras mokymosi paaiškinimas."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "Trenerio režime DI turėtų pabaigoje įvertinti, ką jau supranti ir ką kartoti.",
+      "answer": true,
+      "explain": "Toks įvertinimas paverčia atsitiktinį pokalbį struktūruotu mokymusi."
+    }
+  ]
+}

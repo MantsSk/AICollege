@@ -1,0 +1,59 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Ką iš esmės daro didysis kalbos modelis (LLM)?",
+      "options": [
+        "Prognozuoja, koks tekstas turėtų eiti toliau",
+        "Ieško atsakymų duomenų bazėje",
+        "Vykdo iš anksto parašytas taisykles",
+        "Tiesiogiai tikrina faktus internete"
+      ],
+      "answer": 0,
+      "explain": "LLM gauna tokenų seką ir spėja, kas eina toliau — kartojant tai gaunamas atsakymas."
+    },
+    {
+      "type": "fill",
+      "prompt": "Įrašyk sąvoką: tekstas suskaidomas į mažesnes dalis, vadinamas ___ (daugiskaita).",
+      "code": "Tekstas -> [\"Dir\", \"btinis\", \" intelektas\"] = __",
+      "accept": ["tokenus", "tokenai"],
+      "explain": "Tokenai — žodžiai, jų dalys ar simboliai. Nuo jų priklauso kaina ir kontekstas."
+    },
+    {
+      "type": "single",
+      "prompt": "Kodėl ilgo pokalbio pabaigoje DI „pamiršta“ pradžią?",
+      "options": [
+        "Konteksto langas ribotas — seniausia dalis nebetelpa",
+        "Modelis specialiai trina istoriją",
+        "Pokalbis saugomas kitame serveryje",
+        "Taip taupoma energija"
+      ],
+      "answer": 0,
+      "explain": "Konteksto langas — modelio trumpalaikė atmintis, matuojama tokenais. Kas netelpa, to modelis nemato."
+    },
+    {
+      "type": "single",
+      "prompt": "Kada tinka žema temperatūra?",
+      "options": [
+        "Faktams, formatui ir taisymui",
+        "Kūrybinėms idėjoms",
+        "Alternatyvų generavimui",
+        "Temperatūra nieko nekeičia"
+      ],
+      "answer": 0,
+      "explain": "Žema temperatūra mažina atsitiktinumą — gerai faktams; aukštesnė tinka kūrybai."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kada haliucinacijos tikimybė didžiausia?",
+      "options": [
+        "Prašant labai naujų faktų",
+        "Prašant citatų ar šaltinių be prieigos prie jų",
+        "Spaudžiant atsakyti be pakankamos informacijos",
+        "Prašant apibendrinti pateiktą tekstą"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "Modelis kuria tikėtiną tekstą, o ne tikrina realybę — spragas jis užpildo spėjimais. Pateikto teksto santrauka saugiausia."
+    }
+  ]
+}

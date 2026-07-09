@@ -1,0 +1,56 @@
+{
+  "questions": [
+    {
+      "type": "order",
+      "prompt": "Sudėliok tris DI atsakymo tikrinimo lygius eilės tvarka.",
+      "items": [
+        "Vidinis: paprašyk modelio rasti savo silpnąsias vietas",
+        "Šaltinių: patikrink pirminiuose ar oficialiuose šaltiniuose",
+        "Praktinis: išbandyk mažu mastu"
+      ],
+      "explain": "Pirmiausia vidinė kritika, tada šaltiniai, galiausiai bandymas praktikoje."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kuriose temose DI atsakymus reikia tikrinti griežčiausiai?",
+      "options": [
+        "Sveikata ir vaistai",
+        "Teisė ir mokesčiai",
+        "Citatos ir šaltiniai",
+        "Eilėraščio rimas"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "Kur klaidos kaina didelė — sveikata, teisė, finansai, citatos — galutinį atsakymą tikrink patikimuose šaltiniuose."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kurie požymiai yra „raudonos vėliavos“ DI atsakyme?",
+      "options": [
+        "Labai konkretūs skaičiai be šaltinio",
+        "Perdėtas užtikrintumas sudėtingoje temoje",
+        "Neegzistuojančių tyrimų citavimas",
+        "Atsakymas su išlygomis ir prielaidų sąrašu"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "Išlygos ir aiškios prielaidos — geras ženklas, ne raudona vėliava."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "Jei sprendimas svarbus, DI atsakymo tikrinimas yra darbo dalis, o ne papildoma prabanga.",
+      "answer": true,
+      "explain": "DI neturi tavo atsakomybės — atsakomybė už rezultatą lieka tau."
+    },
+    {
+      "type": "single",
+      "prompt": "Kuo skiriasi „duok atsakymą“ nuo „padėk man mąstyti“?",
+      "options": [
+        "Antrasis paverčia DI treneriu — pats prieini prie atsakymo ir mokaisi",
+        "Niekuo — rezultatas tas pats",
+        "Pirmasis visada tikslesnis",
+        "Antrasis veikia tik matematikoje"
+      ],
+      "answer": 0,
+      "explain": "„Neatsakyk iš karto, užduok po vieną klausimą“ — taip mokaisi, o ne tik gauni rezultatą."
+    }
+  ]
+}

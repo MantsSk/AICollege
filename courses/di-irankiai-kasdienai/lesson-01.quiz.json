@@ -1,0 +1,48 @@
+{
+  "questions": [
+    {
+      "type": "multi",
+      "prompt": "Iš kokių dalių susideda geras kasdienis promptas?",
+      "options": ["Tikslas", "Kontekstas", "Patikrinimas", "Modelio pavadinimas"],
+      "answers": [0, 1, 2],
+      "explain": "Tikslas, kontekstas, formatas, ribos ir patikrinimas — ką reikės pasitikrinti pačiam."
+    },
+    {
+      "type": "single",
+      "prompt": "Kodėl universalus promptas pirmiausia prašo struktūros, o ne galutinio teksto?",
+      "options": [
+        "Struktūrą pataisyti greitai, o blogos struktūros tekstą perrašinėti ilgai",
+        "Struktūra visada teisinga",
+        "DI negali iškart rašyti teksto",
+        "Taip reikalauja taisyklės"
+      ],
+      "answer": 0,
+      "explain": "Pigiausia klaidas gaudyti plano lygyje, o ne po viso teksto parašymo."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "Net kai DI atlieka darbą, faktų patikrinimas ir galutinis sprendimas lieka tavo atsakomybe.",
+      "answer": true,
+      "explain": "DI tampa naudingiausias kaip bendradarbis, bet atsakomybė už rezultatą — tavo."
+    },
+    {
+      "type": "single",
+      "prompt": "Šis kursas nuo „DI kasdieniam gyvenimui“ kurso skiriasi tuo, kad:",
+      "options": [
+        "Duoda paruoštus promptus konkrečioms situacijoms, o ne teoriją",
+        "Moko programuoti",
+        "Skirtas tik verslo vartotojams",
+        "Neapima rašymo užduočių"
+      ],
+      "answer": 0,
+      "explain": "Šis kursas — praktiniai įrankiai kasdieniam naudojimui, o ne DI veikimo teorija."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kokioms sritims kasdien tinka DI pagal šią pamoką?",
+      "options": ["Laiškams ir CV", "Dokumentų santraukoms", "Kelionių palyginimui", "Duomenų bazių administravimui"],
+      "answers": [0, 1, 2],
+      "explain": "Pamokoje minimos kasdienės sritys: rašymas, santraukos, palyginimai, mokymasis, planavimas, kūryba."
+    }
+  ]
+}

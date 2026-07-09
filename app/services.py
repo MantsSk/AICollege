@@ -14,6 +14,7 @@ from app.models import (
     DailyUsage,
     Lesson,
     LessonProgress,
+    QuizResult,
     User,
 )
 
@@ -157,6 +158,40 @@ def mark_lesson_complete(db: Session, user: User, lesson: Lesson) -> None:
     if existing is None:
         db.add(LessonProgress(user_id=user.id, lesson_id=lesson.id, completed=True))
         db.commit()
+
+
+# ---------------------------------------------------------------------------
+# Quiz results
+# ---------------------------------------------------------------------------
+
+
+def get_quiz_result(db: Session, user: User, lesson: Lesson) -> QuizResult | None:
+    return db.scalar(
+        select(QuizResult).where(
+            QuizResult.user_id == user.id, QuizResult.lesson_id == lesson.id
+        )
+    )
+
+
+def save_quiz_result(
+    db: Session, user: User, lesson: Lesson, score: int, total: int, pass_percent: int
+) -> QuizResult:
+    """Record an attempt, keeping the best score. Passing is sticky."""
+    passed = total > 0 and score / total * 100 >= pass_percent
+    result = get_quiz_result(db, user, lesson)
+    if result is None:
+        result = QuizResult(
+            user_id=user.id, lesson_id=lesson.id, score=score, total=total, passed=passed
+        )
+        db.add(result)
+    else:
+        if score >= result.score or total != result.total:
+            result.score = score
+            result.total = total
+        result.passed = result.passed or passed
+    db.commit()
+    db.refresh(result)
+    return result
 
 
 # ---------------------------------------------------------------------------

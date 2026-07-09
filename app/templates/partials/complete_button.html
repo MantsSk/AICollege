@@ -6,11 +6,12 @@
 </div>
 {% else %}
 <form hx-post="/courses/{{ course.slug }}/{{ lesson.slug }}/complete"
-      hx-target="#complete-zone" hx-swap="innerHTML" data-complete-gate>
+      hx-target="#complete-zone" hx-swap="innerHTML" data-complete-gate
+      {% if quiz %}data-gate-quiz="{{ 'done' if quiz_passed else '1' }}"{% endif %}>
   <button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-700">
     <span class="htmx-indicator typing"><span></span><span></span><span></span></span>
     {{ _('complete.mark') }}
   </button>
-  <p data-gate-hint class="hidden mt-2 text-sm text-stone-500 dark:text-stone-400">{{ _('complete.hint') }}</p>
+  <p data-gate-hint class="hidden mt-2 text-sm text-stone-500 dark:text-stone-400">{{ _('quiz.gate_hint') if quiz else _('complete.hint') }}</p>
 </form>
 {% endif %}

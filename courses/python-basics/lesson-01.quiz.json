@@ -1,0 +1,39 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kokio tipo yra reikšmė \"19.99\" (su kabutėmis)?",
+      "options": ["str", "float", "int", "bool"],
+      "answer": 0,
+      "explain": "Viskas, kas parašyta kabutėse, yra tekstas (str), net jei atrodo kaip skaičius."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "Python reikia iš anksto deklaruoti kintamojo tipą.",
+      "answer": false,
+      "explain": "Python tipą nustato automatiškai pagal priskirtą reikšmę."
+    },
+    {
+      "type": "gap",
+      "prompt": "Užpildyk kodą, kad jis išvestų „Aiste baigė 12 pamokų.“",
+      "code": "name = \"Aiste\"\nlessons = 12\nprint(__\"{name} baigė {lessons} pamokų.\")",
+      "bank": ["f", "s", "format", "%"],
+      "gaps": ["f"],
+      "explain": "f-string prasideda raide f prieš kabutes: f\"...{kintamasis}...\"."
+    },
+    {
+      "type": "fill",
+      "prompt": "Įrašyk funkciją, kuri parodo reikšmės tipą.",
+      "code": "print(__(42))   # <class 'int'>",
+      "accept": ["type"],
+      "explain": "type() grąžina reikšmės tipą, pvz., type(42) yra <class 'int'>."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kurios reikšmės yra bool tipo?",
+      "options": ["True", "\"True\"", "False", "0"],
+      "answers": [0, 2],
+      "explain": "Tik True ir False be kabučių yra bool. \"True\" yra tekstas, o 0 — int."
+    }
+  ]
+}

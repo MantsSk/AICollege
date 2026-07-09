@@ -1,0 +1,54 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kodėl po kiekvieno atsakymo į messages pridedama ir user, ir assistant žinutė?",
+      "options": [
+        "Jei asistento atsakymo nepridėsi, kitą kartą modelis nematys, ką pats sakė",
+        "Tai reikalinga tik pirmam pokalbio ėjimui",
+        "API automatiškai prideda tik user žinutes",
+        "Assistant žinutė reikalinga tik derinimui"
+      ],
+      "answer": 0,
+      "explain": "Modelis mato visą sąrašą — be savo ankstesnio atsakymo jis prarastų kontekstą."
+    },
+    {
+      "type": "single",
+      "prompt": "Kas nutiktų, jei kiekvieną kartą siųstum tik paskutinę žinutę be istorijos?",
+      "options": [
+        "Pokalbis prarastų tęstinumą — kiekvienas kvietimas taptų nauju pokalbiu",
+        "Programa veiktų greičiau be pokyčių kokybėje",
+        "Modelis automatiškai prisimintų ankstesnį kontekstą",
+        "Klaidos nebūtų, nes istorija nebūtina"
+      ],
+      "answer": 0,
+      "explain": "„Duok pavyzdį“ be konteksto modelis nesuprastų, apie ką kalbama."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kokios strategijos tinka, kai pokalbio istorija tampa per ilga?",
+      "options": [
+        "Laikyti tik paskutines N žinučių",
+        "Apibendrinti seną istoriją santrauka",
+        "Saugoti žinutes duomenų bazėje",
+        "Padidinti temperatūrą"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "Temperatūra valdo atsitiktinumą, o ne istorijos ilgį."
+    },
+    {
+      "type": "gap",
+      "prompt": "Užpildyk chatboto ciklo dalį.",
+      "code": "while True:\n    user_text = input(\"Tu: \")\n    if user_text.lower() in {\"exit\", \"quit\"}:\n        __\n    messages.__({\"role\": \"user\", \"content\": user_text})",
+      "bank": ["break", "append", "continue", "return"],
+      "gaps": ["break", "append"],
+      "explain": "break išeina iš ciklo komandai exit/quit, append prideda naują žinutę į istoriją."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "Realioje programoje su labai ilgais pokalbiais verta saugoti istoriją duomenų bazėje.",
+      "answer": true,
+      "explain": "Duomenų bazė leidžia saugoti visą istoriją ir įkelti į kontekstą tik reikiamą dalį."
+    }
+  ]
+}

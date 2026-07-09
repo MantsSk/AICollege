@@ -1,5 +1,8 @@
+import random
+
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
+from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -9,13 +12,16 @@ from app.deps import current_user_optional, require_user
 from app.course_i18n import localize_course
 from app.i18n import get_language
 from app.models import ChatConversation, Course, Lesson, User
+from app.quizzes import course_questions, get_quiz
 from app.services import (
     ai_messages_remaining,
     can_access_lesson,
     completed_lesson_ids,
     course_progress,
+    get_quiz_result,
     lesson_index,
     mark_lesson_complete,
+    save_quiz_result,
 )
 from app.templating import is_htmx, templates
 
@@ -57,7 +63,11 @@ def course_detail(
         )
     done_ids = completed_lesson_ids(db, user) if user else set()
     done, total, percent = course_progress(db, user, course)
-    display_course = localize_course(course, get_language(request))
+    lang = get_language(request)
+    display_course = localize_course(course, lang)
+    has_practice = any(
+        get_quiz(course.slug, lesson.slug, lang) for lesson in display_course.lessons
+    )
     lessons = []
     for lesson in display_course.lessons:
         lessons.append(
@@ -79,6 +89,45 @@ def course_detail(
             "done": done,
             "total": total,
             "percent": percent,
+            "has_practice": has_practice,
+        },
+    )
+
+
+# NOTE: registered before /courses/{course_slug}/{lesson_slug} so "practice"
+# is not treated as a lesson slug.
+@router.get("/courses/{course_slug}/practice", response_class=HTMLResponse)
+def practice(
+    course_slug: str,
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(require_user),
+):
+    course = db.scalar(select(Course).where(Course.slug == course_slug))
+    if course is None:
+        return templates.TemplateResponse(
+            request, "errors/404.html", {"request": request, "user": user}, status_code=404
+        )
+
+    lang = get_language(request)
+    display_course = localize_course(course, lang)
+    accessible_slugs = [
+        lesson.slug
+        for lesson in display_course.lessons
+        if can_access_lesson(user, lesson, display_course)
+    ]
+    pool = course_questions(course.slug, accessible_slugs, lang)
+    random.shuffle(pool)
+    questions = pool[:12]
+
+    return templates.TemplateResponse(
+        request,
+        "practice.html",
+        {
+            "request": request,
+            "user": user,
+            "course": display_course,
+            "quiz": {"questions": questions, "pass_percent": 0} if questions else None,
         },
     )
 
@@ -145,6 +194,12 @@ def lesson_page(
                 {"role": m.role, "content": m.content} for m in convo.messages
             ]
 
+    quiz = get_quiz(course.slug, lesson.slug, get_language(request))
+    quiz_result = None
+    if user and quiz:
+        db_lesson = db.get(Lesson, lesson.id)
+        quiz_result = get_quiz_result(db, user, db_lesson)
+
     return templates.TemplateResponse(
         request,
         "lesson.html",
@@ -163,8 +218,41 @@ def lesson_page(
             "progress_total": total,
             "mentor_history": mentor_history,
             "mentor_remaining": mentor_remaining,
+            "quiz": quiz,
+            "quiz_passed": bool(quiz_result and quiz_result.passed),
+            "quiz_result_url": f"/courses/{course.slug}/{lesson.slug}/quiz/result",
         },
     )
+
+
+class QuizResultIn(BaseModel):
+    score: int
+
+
+@router.post("/courses/{course_slug}/{lesson_slug}/quiz/result")
+def submit_quiz_result(
+    course_slug: str,
+    lesson_slug: str,
+    payload: QuizResultIn,
+    request: Request,
+    db: Session = Depends(get_db),
+    user: User = Depends(require_user),
+):
+    course, lesson = _load_lesson(db, course_slug, lesson_slug)
+    if course is None or lesson is None:
+        return JSONResponse({"error": "not found"}, status_code=404)
+    if not can_access_lesson(user, lesson, course):
+        return JSONResponse({"error": "forbidden"}, status_code=403)
+
+    quiz = get_quiz(course_slug, lesson_slug, get_language(request))
+    if quiz is None:
+        return JSONResponse({"error": "no quiz"}, status_code=404)
+
+    # The client grades for instant feedback; the server owns the bounds.
+    total = len(quiz["questions"])
+    score = max(0, min(payload.score, total))
+    result = save_quiz_result(db, user, lesson, score, total, quiz["pass_percent"])
+    return {"passed": result.passed, "best_score": result.score, "total": result.total}
 
 
 @router.post("/courses/{course_slug}/{lesson_slug}/complete", response_class=HTMLResponse)

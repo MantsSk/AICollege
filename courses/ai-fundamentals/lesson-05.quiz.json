@@ -1,0 +1,58 @@
+{
+  "questions": [
+    {
+      "type": "multi",
+      "prompt": "Ko be aiškios priežasties nekelti į DI įrankius?",
+      "options": [
+        "Slaptažodžių ir API raktų",
+        "Asmens kodų ir banko duomenų",
+        "Kitų žmonių privačių duomenų be leidimo",
+        "Viešai paskelbto straipsnio teksto"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "Jautrūs ir svetimi duomenys — ne. Viešas tekstas paprastai nekelia problemų."
+    },
+    {
+      "type": "single",
+      "prompt": "Kas yra anonimizavimas?",
+      "options": [
+        "Vardų, adresų ir kodų pakeitimas bendriniais žymenimis (Klientas A, Įmonė B)",
+        "Teksto vertimas į kitą kalbą",
+        "Pokalbio istorijos ištrynimas",
+        "Slaptažodžio uždėjimas dokumentui"
+      ],
+      "answer": 0,
+      "explain": "Anonimizavus gali gauti DI pagalbą su jautriu tekstu neatskleidžiant pačių duomenų."
+    },
+    {
+      "type": "multi",
+      "prompt": "Ką pasitikrinti prieš naudojant DI darbo dokumentams?",
+      "options": [
+        "Ar organizacija leidžia tokį įrankį",
+        "Ar pokalbiai naudojami modelių mokymui",
+        "Kur saugomi duomenys",
+        "Ar įrankis turi tamsų režimą"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "Įrankių taisyklės skiriasi — vieni naudoja pokalbius mokymui, kiti turi verslo apsaugas."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "DI modeliai gali perimti stereotipus iš duomenų, iš kurių mokėsi.",
+      "answer": true,
+      "explain": "Modeliai mokosi iš žmonių sukurtų tekstų, todėl gali atkartoti šališkumus — verta prašyti neutralesnės versijos."
+    },
+    {
+      "type": "single",
+      "prompt": "Koks DI naudojimo būdas mokantis yra saugiausias mąstymui?",
+      "options": [
+        "Naudoti DI kaip trenerį: tegul klausia, duoda užuominas, peržiūri tavo bandymą",
+        "Prašyti galutinių atsakymų ir juos kopijuoti",
+        "Vengti DI apskritai",
+        "Prašyti DI atlikti visus namų darbus"
+      ],
+      "answer": 0,
+      "explain": "Pavojinga leisti DI pakeisti mąstymą; treneris padeda mokytis, o ne mokosi už tave."
+    }
+  ]
+}

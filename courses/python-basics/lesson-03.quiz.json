@@ -1,0 +1,45 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Ką išves šis kodas?",
+      "code": "for i in range(3):\n    print(i)",
+      "options": ["0, 1, 2", "1, 2, 3", "0, 1, 2, 3", "1, 2"],
+      "answer": 0,
+      "explain": "range(3) pradeda nuo 0 ir baigia ties 2 — riba neįtraukiama."
+    },
+    {
+      "type": "single",
+      "prompt": "Kada rinktis while vietoj for?",
+      "options": [
+        "Kai nežinai, kiek kartų reikės kartoti",
+        "Kai eini per sąrašą",
+        "Kai reikia skaičių sekos",
+        "while ir for niekuo nesiskiria"
+      ],
+      "answer": 0,
+      "explain": "while kartoja, kol sąlyga teisinga; for tinka žinomam rinkiniui ar sekai."
+    },
+    {
+      "type": "gap",
+      "prompt": "Užpildyk kodą: sustabdyk ciklą ties 5, praleisk lyginius.",
+      "code": "for n in range(10):\n    if n == 5:\n        __\n    if n % 2 == 0:\n        __\n    print(n)",
+      "bank": ["break", "continue", "return", "pass"],
+      "gaps": ["break", "continue"],
+      "explain": "break nutraukia visą ciklą, continue praleidžia tik dabartinį žingsnį."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "while ciklas, kurio sąlyga niekada netampa klaidinga, veiks amžinai.",
+      "answer": true,
+      "explain": "Todėl while cikle svarbu keisti sąlygos kintamąjį, pvz., attempts += 1."
+    },
+    {
+      "type": "fill",
+      "prompt": "Įrašyk metodą, kuris prideda elementą į sąrašo galą.",
+      "code": "squares = []\nfor n in range(1, 6):\n    squares.__(n * n)",
+      "accept": ["append"],
+      "explain": "append() prideda elementą į sąrašo pabaigą — taip sąrašai auga cikluose."
+    }
+  ]
+}

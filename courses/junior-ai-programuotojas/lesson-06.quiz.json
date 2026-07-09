@@ -1,0 +1,58 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Ko README skyrius „Saugumas“ reikalauja ir kodėl jis daro įspūdį?",
+      "options": [
+        "Aprašo, kokių duomenų nekelti ir ko programa nedaro — rodo, kad supranti DI ribas",
+        "Aprašo licenciją",
+        "Nurodo, kaip apsaugoti API raktą techniškai",
+        "Šis skyrius nebūtinas portfolio projektui"
+      ],
+      "answer": 0,
+      "explain": "Supratimas apie ribas ir riziką — retas įgūdis tarp pradedančiųjų, todėl išsiskiria interviu metu."
+    },
+    {
+      "type": "single",
+      "prompt": "Kodėl mažas užbaigtas projektas geriau už didelį nebaigtą?",
+      "options": [
+        "Užbaigtas projektas su README ir testais parodo visą darbo ciklą per kelias minutes",
+        "Mažas projektas visada techniškai sudėtingesnis",
+        "Didelius projektus draudžiama rodyti interviu metu",
+        "Nebaigti projektai veikia greičiau"
+      ],
+      "answer": 0,
+      "explain": "Interviu metu projektą reikia paaiškinti greitai — nebaigtas didelis rodo tik ambiciją, ne rezultatą."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kas privalo būti README, jei projektas naudoja DI?",
+      "options": [
+        "Koks modelis naudojamas",
+        "Kokie promptai naudojami",
+        "Ko programa specialiai nedaro",
+        "Tikslus API rakto tekstas"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "API raktas niekada neturėtų būti README ar bet kur kode — tai saugumo pažeidimas."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kas turėtų būti gerame AI portfolio projekte?",
+      "options": [
+        "Aiški problema ir paprastas paleidimas",
+        "README ir ribų aprašymas",
+        "Bent keli testai",
+        "Kuo daugiau skirtingų funkcijų vienoje programoje"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "Vertė ne funkcijų kiekyje, o aiškume, dokumentacijoje ir saugumo apmąstyme."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "Geras portfolio projektas turėtų būti paaiškinamas per apie 5 minutes.",
+      "answer": true,
+      "explain": "Tikslas — turėti projektą, kurį gali parodyti ir paaiškinti greitai, ne sukurti didelę sistemą."
+    }
+  ]
+}

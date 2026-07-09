@@ -1,0 +1,46 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kokį pažymį išves šis kodas, jei score = 90?",
+      "code": "if score >= 90:\n    grade = \"A\"\nelif score >= 70:\n    grade = \"B\"\nelse:\n    grade = \"C\"",
+      "options": ["A", "B", "C", "Bus klaida"],
+      "answer": 0,
+      "explain": "score >= 90 yra tiesa, todėl elif ir else šakos net netikrinamos."
+    },
+    {
+      "type": "gap",
+      "prompt": "Užpildyk sąlygą: įleisti tik pilnamečius su bilietu.",
+      "code": "if age >= 18 __ has_ticket:\n    print(\"Sveiki atvykę!\")",
+      "bank": ["and", "or", "not", "=="],
+      "gaps": ["and"],
+      "explain": "and reikalauja, kad abi sąlygos būtų teisingos vienu metu."
+    },
+    {
+      "type": "single",
+      "prompt": "Kuo skiriasi = ir ==?",
+      "options": [
+        "= priskiria reikšmę, == palygina reikšmes",
+        "Tai tas pats",
+        "== priskiria reikšmę, = palygina",
+        "= naudojamas tik skaičiams"
+      ],
+      "answer": 0,
+      "explain": "= priskiria reikšmę kintamajam, o == palygina ir grąžina True arba False."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kurios reikšmės Python laikomos „netiesa“?",
+      "options": ["\"\"", "0", "[]", "\"0\""],
+      "answers": [0, 1, 2],
+      "explain": "Tušti dalykai ir nulis yra netiesa. \"0\" — netuščias tekstas, todėl tiesa."
+    },
+    {
+      "type": "fill",
+      "prompt": "Įrašyk raktažodį, kad pranešimas būtų rodomas, kai vardas tuščias.",
+      "code": "name = \"\"\nif __ name:\n    print(\"Įveskite savo vardą\")",
+      "accept": ["not"],
+      "explain": "not apverčia reikšmę: not \"\" yra True, nes tuščias tekstas — netiesa."
+    }
+  ]
+}

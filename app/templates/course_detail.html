@@ -10,6 +10,12 @@
 
   {% if user %}
   <div class="mt-5 max-w-xs">{% include "partials/progress_bar.html" %}</div>
+  {% if has_practice %}
+  <a href="/courses/{{ course.slug }}/practice"
+     class="mt-4 inline-flex items-center gap-2 rounded-lg border border-stone-300 dark:border-stone-700 px-4 py-2 text-sm font-semibold hover:bg-stone-100 dark:hover:bg-stone-800">
+    {{ icons.icon("zap", "h-4 w-4 text-brand-600 dark:text-brand-400") }} {{ _('practice.button') }}
+  </a>
+  {% endif %}
   {% endif %}
 
   {% if not user %}

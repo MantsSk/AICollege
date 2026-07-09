@@ -1,0 +1,53 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kam reikalinga virtuali aplinka (.venv)?",
+      "options": [
+        "Kad projekto bibliotekos būtų izoliuotos nuo sistemos ir kitų projektų",
+        "Kad kodas veiktų greičiau",
+        "Kad API raktas būtų saugesnis",
+        "Ji reikalinga tik FastAPI projektams"
+      ],
+      "answer": 0,
+      "explain": "Skirtingi projektai gali naudoti skirtingas bibliotekų versijas be konfliktų."
+    },
+    {
+      "type": "single",
+      "prompt": "Ką reiškia komanda uvicorn main:app?",
+      "options": [
+        "Faile main.py rask kintamąjį app ir paleisk jį kaip serverį",
+        "Paleisk failą main.py kaip įprastą Python skriptą",
+        "Sukurk naują FastAPI projektą pavadinimu main",
+        "Įdiek app biblioteką iš main šaltinio"
+      ],
+      "answer": 0,
+      "explain": "Formatas failo_vardas:kintamojo_vardas — sukeitus dalis vietomis gaunama importavimo klaida."
+    },
+    {
+      "type": "single",
+      "prompt": "Kodėl API raktas laikomas aplinkos kintamajame, o ne kode?",
+      "options": [
+        "Kodas keliauja į git ir pokalbius su DI — raktas neturėtų keliauti kartu",
+        "Aplinkos kintamieji veikia greičiau",
+        "Kode raktai apskritai neveikia",
+        "Tai reikalauja FastAPI"
+      ],
+      "answer": 0,
+      "explain": "Nutekėjęs raktas leidžia kitiems naudoti tavo sąskaitą."
+    },
+    {
+      "type": "fill",
+      "prompt": "Įrašyk trūkstamą dekoratorių FastAPI endpointui.",
+      "code": "app = FastAPI()\n\n@app.__(\"/\")\ndef home():\n    return {\"status\": \"veikia\"}",
+      "accept": ["get"],
+      "explain": "@app.get(\"/\") registruoja GET užklausos apdorojimą šaknies keliui."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "„ERROR: Could not import module 'app'“ dažniausiai reiškia, kad failo ir kintamojo vardai uvicorn komandoje sukeisti vietomis.",
+      "answer": true,
+      "explain": "Teisinga tvarka: failo_vardas:kintamojo_vardas, pvz., main:app."
+    }
+  ]
+}

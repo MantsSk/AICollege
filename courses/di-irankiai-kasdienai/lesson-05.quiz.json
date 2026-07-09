@@ -1,0 +1,55 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kodėl verta neleisti DI iš karto pateikti sprendimo rekomendacijos?",
+      "options": [
+        "Nes tada DI pats parenka kriterijus, ir jie bus bendri, ne tavo",
+        "Nes tai užtrunka ilgiau",
+        "Nes DI negali duoti rekomendacijų",
+        "Nes rekomendacijos visada klaidingos"
+      ],
+      "answer": 0,
+      "explain": "Kai kriterijai tavo, sprendimas tampa tavo, o ne „vidutinio žmogaus“."
+    },
+    {
+      "type": "single",
+      "prompt": "Kas yra pre-mortem technika?",
+      "options": [
+        "Įsivaizduoji, kad planas jau žlugo, ir ieškai priežasčių atgaline data",
+        "Planas parašomas po projekto pabaigos",
+        "DI vertina planą pagal biudžetą",
+        "Technika, taikoma tik verslo planams"
+      ],
+      "answer": 0,
+      "explain": "Taip rizikas pamatai, kol dar pigu jų išvengti, ir žinai, kokių ankstyvų požymių stebėti."
+    },
+    {
+      "type": "single",
+      "prompt": "Kodėl idėjų prompte prašoma ne tik sąrašo, bet ir atrankos?",
+      "options": [
+        "Aiškūs atrankos kriterijai paverčia sąrašą sprendimu",
+        "20 idėjų visada per daug generuoti",
+        "Atranka pagreitina DI atsakymą",
+        "Sąrašas be atrankos yra klaida"
+      ],
+      "answer": 0,
+      "explain": "Sąrašas be atrankos tik perkelia darbo naštą tau — kriterijai (kaina, tikimybė, nauda) padeda apsispręsti."
+    },
+    {
+      "type": "gap",
+      "prompt": "Užpildyk kriterijų prompto dalį.",
+      "code": "Pirmiausia užduok man 5 __, kurie padėtų išsiaiškinti, kas man iš tikrųjų svarbu.\nTik tada sudaryk lentelę pagal MANO __.",
+      "bank": ["klausimus", "kriterijus", "atsakymus", "planus"],
+      "gaps": ["klausimus", "kriterijus"],
+      "explain": "Klausimai atskleidžia tavo prioritetus, o lentelė sudaroma būtent pagal juos."
+    },
+    {
+      "type": "multi",
+      "prompt": "Ką turėtų apimti geras savaitės plano promptas?",
+      "options": ["Prioritetus", "Ką atidėti", "Vieną mažą žingsnį šiandien", "Metinį biudžetą"],
+      "answers": [0, 1, 2],
+      "explain": "Savaitės planas: prioritetai, realistinis planas, kas atidedama, ir vienas žingsnis šiandien."
+    }
+  ]
+}

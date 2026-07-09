@@ -1,0 +1,52 @@
+{
+  "questions": [
+    {
+      "type": "fill",
+      "prompt": "Įrašyk komandą, kuri parodo įdiegtą Python versiją.",
+      "code": "python3 __",
+      "accept": ["--version"],
+      "explain": "python3 --version terminale parodo, kuri Python versija įdiegta."
+    },
+    {
+      "type": "single",
+      "prompt": "Iš kurios pusės verta skaityti ilgą klaidos pranešimą (traceback)?",
+      "options": [
+        "Nuo apačios — paskutinė eilutė pasako, kas nutiko",
+        "Nuo viršaus — pirmoji eilutė svarbiausia",
+        "Nesvarbu, visos eilutės vienodai svarbios",
+        "Klaidos pranešimų skaityti nereikia"
+      ],
+      "answer": 0,
+      "explain": "Paskutinė eilutė pasako klaidos tipą ir priežastį, o aukščiau — failą ir eilutę, kur ji įvyko."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "„Windows“ sistemoje diegiant Python svarbu pažymėti „Add Python to PATH“.",
+      "answer": true,
+      "explain": "Be PATH terminalas neranda python komandos — tai dažniausia pradedančiųjų kliūtis."
+    },
+    {
+      "type": "single",
+      "prompt": "Ką reiškia klaida „NameError: name 'printt' is not defined“?",
+      "options": [
+        "Python nežino vardo printt — greičiausiai rašybos klaida",
+        "Trūksta kabučių",
+        "Failas nepaleistas",
+        "Python neįdiegtas"
+      ],
+      "answer": 0,
+      "explain": "NameError reiškia nežinomą vardą; Python net pasiūlo: „Did you mean: 'print'?“."
+    },
+    {
+      "type": "order",
+      "prompt": "Sudėliok pirmos programos žingsnius teisinga tvarka.",
+      "items": [
+        "Sukurti failą hello.py",
+        "Įrašyti print(\"Veikia!\")",
+        "Terminale paleisti python3 hello.py",
+        "Pamatyti rezultatą ekrane"
+      ],
+      "explain": "Failas — tik tekstas; programa jis tampa, kai jį paleidi su python3."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Ką duoda Dockerfile, ko neduoda paprastas pip install?",
+      "options": [
+        "Atkuriamą aplinką — Python versija ir bibliotekos užfiksuotos ir veikia bet kur",
+        "Automatinį API rakto sugeneravimą",
+        "Greitesnį modelio atsakymą",
+        "Nemokamą serverio hostingą"
+      ],
+      "answer": 0,
+      "explain": "Tas pats image identiškai veikia tavo kompiuteryje ir bet kuriame hostinge."
+    },
+    {
+      "type": "single",
+      "prompt": "Kur laikyti API raktus produkcijoje?",
+      "options": [
+        "Aplinkos kintamuosiuose, nustatytuose hostingo valdymo skydelyje",
+        "Dockerfile faile",
+        "docker-compose.yml faile su tikra reikšme",
+        "GitHub repozitorijos README faile"
+      ],
+      "answer": 0,
+      "explain": ".env failas tinka lokaliai, bet jis privalo būti .gitignore sąraše, o produkcijoje raktus nustato hostingas."
+    },
+    {
+      "type": "single",
+      "prompt": "Kodėl naudojimo limitai yra produkcijos būtinybė, o ne patogumas?",
+      "options": [
+        "Be limitų vienas vartotojas gali per naktį išeikvoti visą biudžetą",
+        "Limitai pagreitina atsakymus",
+        "Be jų kodas tiesiog neveiks",
+        "Limitai reikalingi tik nemokamiems planams"
+      ],
+      "answer": 0,
+      "explain": "Kiekvienas LLM kvietimas kainuoja — limitai apsaugo biudžetą nuo perteklinio naudojimo."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kas turėtų būti produkcijos kontroliniame sąraše prieš paleidimą?",
+      "options": [
+        "Duomenų bazės migracijos (alembic upgrade head)",
+        "HTTPS",
+        "Naudojimo limitai ir klaidų stebėjimas",
+        "Kuo aukštesnė temperature reikšmė"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "Temperature nustatoma pagal atsakymo tikslą, ne pagal produkcijos paruoštumą."
+    },
+    {
+      "type": "gap",
+      "prompt": "Užpildyk komandą, kuri paleidžia programą ir duomenų bazę kartu.",
+      "code": "docker __ up --build",
+      "bank": ["compose", "run", "build", "start"],
+      "gaps": ["compose"],
+      "explain": "docker compose up --build paleidžia visus docker-compose.yml apibrėžtus servisus."
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kuo skiriasi klasė nuo objekto?",
+      "options": [
+        "Klasė yra planas, objektas — pagal jį sukurtas egzempliorius",
+        "Tai sinonimai",
+        "Objektas yra planas, klasė — egzempliorius",
+        "Klasės naudojamos tik DI bibliotekose"
+      ],
+      "answer": 0,
+      "explain": "Iš vienos Student klasės gali sukurti daug skirtingų studentų objektų."
+    },
+    {
+      "type": "single",
+      "prompt": "Ką reiškia self metodo viduje?",
+      "options": [
+        "Tą konkretų objektą, kuriam iškviestas metodas",
+        "Pačią klasę",
+        "Pirmą sukurtą objektą",
+        "Specialų Python raktažodį ciklams"
+      ],
+      "answer": 0,
+      "explain": "aiste.complete_lesson() viduje self yra aiste — keičiasi būtent jos duomenys."
+    },
+    {
+      "type": "fill",
+      "prompt": "Įrašyk konstruktoriaus metodo pavadinimą.",
+      "code": "class Student:\n    def __(self, name):\n        self.name = name",
+      "accept": ["__init__"],
+      "explain": "__init__ paleidžiamas automatiškai kuriant objektą — jame nustatomi pradiniai atributai."
+    },
+    {
+      "type": "single",
+      "prompt": "Ką išves šis kodas?",
+      "code": "aiste = Student(\"Aiste\", plan=\"paid\")\naiste.complete_lesson()\naiste.complete_lesson()\nprint(aiste.completed_lessons)",
+      "options": ["2", "0", "1", "Klaidą"],
+      "answer": 0,
+      "explain": "Kiekvienas kvietimas padidina atributą vienetu, o būsena saugoma pačiame objekte."
+    },
+    {
+      "type": "gap",
+      "prompt": "Užpildyk metodą, kuris tikrina prenumeratą.",
+      "code": "def is_subscribed(__):\n    return __.plan == \"paid\"",
+      "bank": ["self", "self", "this", "obj"],
+      "gaps": ["self", "self"],
+      "explain": "Python metoduose pirmasis parametras visada self — nuoroda į patį objektą."
+    }
+  ]
+}

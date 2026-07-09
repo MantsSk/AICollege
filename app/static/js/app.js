@@ -60,14 +60,16 @@ document.body.addEventListener('htmx:afterSwap', function () { initPathPickers()
 
 const LESSON_I18N = {
   lt: {
-    ask: 'Klausk mentoriaus →',
-    check: 'Patikrink su mentoriumi →',
+    ask: 'Klausk mentoriaus',
+    check: 'Patikrink su mentoriumi',
     gateHint: 'Pirmiausia atsiverk bent vieną „Pasitikrink“ klausimą žemiau.',
+    gateHintQuiz: 'Pirmiausia išspręsk žinių patikrą.',
   },
   en: {
-    ask: 'Ask the mentor →',
-    check: 'Check with the mentor →',
+    ask: 'Ask the mentor',
+    check: 'Check with the mentor',
     gateHint: 'Open at least one self-check question above first.',
+    gateHintQuiz: 'Finish the knowledge check first.',
   },
 };
 
@@ -107,39 +109,61 @@ function initMentorTips() {
   });
 }
 
-// Light completion gate: if the lesson has self-check questions, the
-// "mark complete" button stays disabled until at least one is opened.
+// Completion gate. Lessons with a quiz require passing it; lessons without
+// one keep the light gate of opening at least one self-check answer.
 function initCompleteGate() {
-  const button = document.querySelector('#complete-zone form button');
+  const form = document.querySelector('#complete-zone form[data-complete-gate]');
+  const button = form && form.querySelector('button');
   const hint = document.querySelector('#complete-zone [data-gate-hint]');
+  if (!button || button.dataset.gateReady) return;
+
+  const quizGate = form.dataset.gateQuiz;
   const checks = document.querySelectorAll('.prose-lesson details.selfcheck');
-  if (!button || !checks.length || button.dataset.gateReady) return;
+  if (!quizGate && !checks.length) return;
   button.dataset.gateReady = '1';
 
-  const key = 'selfcheck:' + location.pathname;
-  let done = false;
-  try { done = localStorage.getItem(key) === '1'; } catch (e) {}
-
   function unlock() {
-    try { localStorage.setItem(key, '1'); } catch (e) {}
     button.disabled = false;
     button.classList.remove('opacity-50', 'cursor-not-allowed');
     button.removeAttribute('title');
     if (hint) hint.classList.add('hidden');
   }
 
+  function lock() {
+    button.disabled = true;
+    button.classList.add('opacity-50', 'cursor-not-allowed');
+    button.title = quizGate ? lessonStrings().gateHintQuiz : lessonStrings().gateHint;
+    if (hint) hint.classList.remove('hidden');
+  }
+
+  if (quizGate) {
+    // Server already knows a pass ("done"), or the quiz was passed earlier
+    // in this page's lifetime (quiz.js sets data-quiz-passed after reporting).
+    const quizRoot = document.querySelector('[data-quiz]');
+    if (quizGate === 'done' || (quizRoot && quizRoot.dataset.quizPassed === '1')) return;
+    lock();
+    document.addEventListener('quiz:passed', unlock, { once: true });
+    return;
+  }
+
+  const key = 'selfcheck:' + location.pathname;
+  let done = false;
+  try { done = localStorage.getItem(key) === '1'; } catch (e) {}
   if (done) return;
-  button.disabled = true;
-  button.classList.add('opacity-50', 'cursor-not-allowed');
-  button.title = lessonStrings().gateHint;
-  if (hint) hint.classList.remove('hidden');
+
+  function unlockAndRemember() {
+    try { localStorage.setItem(key, '1'); } catch (e) {}
+    unlock();
+  }
+
+  lock();
   checks.forEach(function (d) {
-    d.addEventListener('toggle', function () { if (d.open) unlock(); });
+    d.addEventListener('toggle', function () { if (d.open) unlockAndRemember(); });
   });
   // Messaging the mentor also counts as engaging with the lesson.
   document.body.addEventListener('htmx:afterRequest', function (e) {
     const el = e.detail && e.detail.elt;
-    if (el && el.matches && el.matches('form[hx-post^="/mentor/"]')) unlock();
+    if (el && el.matches && el.matches('form[hx-post^="/mentor/"]')) unlockAndRemember();
   });
 }
 

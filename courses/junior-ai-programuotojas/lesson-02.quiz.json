@@ -1,0 +1,55 @@
+{
+  "questions": [
+    {
+      "type": "fill",
+      "prompt": "Įrašyk metodą, kuris sujungia terminalo argumentus į vieną eilutę.",
+      "code": "question = \" \".__(sys.argv[1:])",
+      "accept": ["join"],
+      "explain": "\" \".join(...) sujungia sąrašo elementus tarpais — čia visus žodžius po programos vardo."
+    },
+    {
+      "type": "single",
+      "prompt": "Kodėl kode pasirinkta temperature=0.3?",
+      "options": [
+        "Įrankis atsako į klausimus, ne kuria — žema temperatūra duoda nuoseklesnius atsakymus",
+        "0.3 yra numatytoji reikšmė, kurios keisti negalima",
+        "Aukštesnė temperatūra kainuoja daugiau",
+        "Temperatūra veikia tik lietuvių kalbai"
+      ],
+      "answer": 0,
+      "explain": "Faktams ir atsakymams tinka žema temperatūra; kūrybai — aukštesnė."
+    },
+    {
+      "type": "single",
+      "prompt": "Kas nutinka, jei ask_ai.py paleidžiamas be interneto ryšio?",
+      "options": [
+        "completion() meta išimtį, kurią reikia sugauti su try/except",
+        "Programa automatiškai palaukia ir bando vėl",
+        "Grąžinamas tuščias tekstas be klaidos",
+        "Python išjungia virtualią aplinką"
+      ],
+      "answer": 0,
+      "explain": "Gera programa pagauna išimtį ir parodo žmogui suprantamą žinutę vietoj ilgo traceback."
+    },
+    {
+      "type": "multi",
+      "prompt": "Ką turi suprasti kurdamas šį LLM įrankį?",
+      "options": [
+        "Kur saugomas API raktas",
+        "Kas yra system ir user žinutės",
+        "Kodėl verta riboti temperatūrą",
+        "Kaip veikia GPU architektūra"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "GPU architektūra nereikalinga naudojant LLM per API — tai tiekėjo infrastruktūros dalis."
+    },
+    {
+      "type": "gap",
+      "prompt": "Užpildyk žinučių sąrašą API kvietime.",
+      "code": "messages=[\n    {\"role\": \"__\", \"content\": \"Atsakyk trumpai...\"},\n    {\"role\": \"__\", \"content\": question},\n]",
+      "bank": ["system", "user", "assistant", "admin"],
+      "gaps": ["system", "user"],
+      "explain": "system nustato modelio elgesį, user — tikrą vartotojo klausimą."
+    }
+  ]
+}
