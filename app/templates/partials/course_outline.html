@@ -1,0 +1,28 @@
+<aside class="course-outline" aria-label="{{ course.title }}">
+  <div class="course-outline-head">
+    <a href="/courses/{{ course.slug }}">{{ course.title }}</a>
+    <div class="course-outline-progress">
+      <span><strong>{{ progress_done }}</strong> / {{ progress_total }}</span>
+      <span>{{ course_points }} XP</span>
+    </div>
+    <div class="course-outline-track"><span style="width: {{ progress_percent }}%"></span></div>
+  </div>
+  <ol>
+    {% for item in lesson_outline %}
+    <li>
+      {% if item.accessible %}
+      <a href="/courses/{{ course.slug }}/{{ item.lesson.slug }}"
+         class="course-outline-item{% if item.current %} is-current{% endif %}{% if item.completed %} is-complete{% endif %}"
+         {% if item.current %}aria-current="page"{% endif %}>
+        <span class="course-outline-number">{% if item.completed %}✓{% else %}{{ item.number }}{% endif %}</span>
+        <span>{{ item.lesson.title }}</span>
+      </a>
+      {% else %}
+      <span class="course-outline-item is-locked">
+        <span class="course-outline-number">·</span><span>{{ item.lesson.title }}</span>
+      </span>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</aside>

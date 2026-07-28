@@ -1,0 +1,10 @@
+{"pass_percent":70,"questions":[
+{"type":"single","prompt":"Kuri dalis aprašo pastovų asistento vaidmenį?","options":["instructions","Atsitiktinis history elementas","API status code","CSV separatorius"],"answer":0,"explain":"instructions perduoda elgesio sutartį."},
+{"type":"truefalse","prompt":"Vartotojo istorija automatiškai tampa aukštesnio prioriteto instrukcija.","answer":false,"explain":"Istorija yra kontekstas, ne sistemos taisyklės."},
+{"type":"fill","prompt":"Įrašyk žodį istorijos sutrumpinimo konstantai.","code":"MAX_ __(8 * 2)","accept":["MESSAGES","messages","TURNS","turns"],"explain":"Aiškus limitas saugo konteksto dydį."},
+{"type":"single","prompt":"Ką leidžia previous_response_id?","options":["Tęsti ankstesnio atsakymo kontekstą","Pakeisti API raktą","Paleisti Python kodą serveryje","Sukurti CSV"],"answer":0,"explain":"ID nurodo ankstesnį Responses API atsakymą."},
+{"type":"multi","prompt":"Kokios prompto instrukcijos yra testuojamos?","options":["Atsakyk 3 punktais","Būk protingas","Pridėk vieną pavyzdį","Aiškiai pasakyk, jei nežinai"],"answers":[0,2,3],"explain":"Konkretūs formos ir nežinomybės reikalavimai patikrinami scenarijais."},
+{"type":"gap","prompt":"Užpildyk istorijos elemento pridėjimą.","code":"history.append({\"role\": \"__\", \"content\": message})","bank":["user","assistant","system"],"gaps":["user"],"explain":"Vartotojo naujam tekstui naudojamas role user."},
+{"type":"single","prompt":"Kodėl ribojame istorijos ilgį?","options":["Mažiname kontekstą, delsą ir kainą","Kad modelis pamirštų instrukcijas","Kad JSON būtų CSV","Kad vartotojas negalėtų rašyti"],"answer":0,"explain":"Trumpesnis kontekstas taupo resursus, bet turi išlaikyti svarbią informaciją."},
+{"type":"order","prompt":"Sudėliok pokalbio turą.","items":["Normalizuoti vartotojo tekstą","Pridėti user pranešimą į history","Kviesti modelį su instructions ir history","Pridėti modelio output į history","Parodyti atsakymą"],"explain":"Atsakymas įrašomas į istoriją prieš kitą turą."}
+]}

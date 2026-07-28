@@ -12,6 +12,8 @@ os.environ["SECRET_KEY"] = "test-secret"
 os.environ["DEBUG"] = "true"
 os.environ["FREE_DAILY_AI_MESSAGES"] = "2"
 os.environ["FREE_LESSONS_PER_COURSE"] = "2"
+os.environ["PAYMENTS_ENABLED"] = "false"
+os.environ["AI_MENTOR_REQUIRES_SUBSCRIPTION"] = "false"
 
 import app.config as config  # noqa: E402
 

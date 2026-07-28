@@ -1,45 +1,13 @@
 {
+  "pass_percent": 70,
   "questions": [
-    {
-      "type": "single",
-      "prompt": "Ką išves šis kodas?",
-      "code": "for i in range(3):\n    print(i)",
-      "options": ["0, 1, 2", "1, 2, 3", "0, 1, 2, 3", "1, 2"],
-      "answer": 0,
-      "explain": "range(3) pradeda nuo 0 ir baigia ties 2 — riba neįtraukiama."
-    },
-    {
-      "type": "single",
-      "prompt": "Kada rinktis while vietoj for?",
-      "options": [
-        "Kai nežinai, kiek kartų reikės kartoti",
-        "Kai eini per sąrašą",
-        "Kai reikia skaičių sekos",
-        "while ir for niekuo nesiskiria"
-      ],
-      "answer": 0,
-      "explain": "while kartoja, kol sąlyga teisinga; for tinka žinomam rinkiniui ar sekai."
-    },
-    {
-      "type": "gap",
-      "prompt": "Užpildyk kodą: sustabdyk ciklą ties 5, praleisk lyginius.",
-      "code": "for n in range(10):\n    if n == 5:\n        __\n    if n % 2 == 0:\n        __\n    print(n)",
-      "bank": ["break", "continue", "return", "pass"],
-      "gaps": ["break", "continue"],
-      "explain": "break nutraukia visą ciklą, continue praleidžia tik dabartinį žingsnį."
-    },
-    {
-      "type": "truefalse",
-      "prompt": "while ciklas, kurio sąlyga niekada netampa klaidinga, veiks amžinai.",
-      "answer": true,
-      "explain": "Todėl while cikle svarbu keisti sąlygos kintamąjį, pvz., attempts += 1."
-    },
-    {
-      "type": "fill",
-      "prompt": "Įrašyk metodą, kuris prideda elementą į sąrašo galą.",
-      "code": "squares = []\nfor n in range(1, 6):\n    squares.__(n * n)",
-      "accept": ["append"],
-      "explain": "append() prideda elementą į sąrašo pabaigą — taip sąrašai auga cikluose."
-    }
+    {"type":"single","prompt":"Koks yra pirmo sąrašo elemento indeksas?","options":["-1","0","1","first"],"answer":1,"explain":"Python sekų indeksai prasideda nuo 0."},
+    {"type":"single","prompt":"Ką grąžina range(1, 4)?","options":["1, 2, 3","1, 2, 3, 4","0, 1, 2, 3","Tik 4"],"answer":0,"explain":"Pabaigos reikšmė į range seką neįtraukiama."},
+    {"type":"truefalse","prompt":"continue nutraukia visą ciklą.","answer":false,"explain":"continue pereina prie kito apsisukimo, o break nutraukia ciklą."},
+    {"type":"fill","prompt":"Įrašyk metodą naujam elementui pridėti į sąrašo pabaigą.","code":"history.__(message)","accept":["append"],"explain":"append() prideda vieną elementą į sąrašo pabaigą."},
+    {"type":"multi","prompt":"Kurios situacijos gali sukelti begalinį while ciklą?","options":["Sąlygos reikšmė cikle nesikeičia","Naudojamas break","while True be pasiekiamos išėjimo šakos","Naudojamas enumerate"],"answers":[0,2],"explain":"Ciklas nesibaigs, jei jo sąlyga niekada netaps False ir nėra pasiekiamo break."},
+    {"type":"gap","prompt":"Užpildyk dialogo išėjimo logiką.","code":"__ True:\n    command = input(\"> \" )\n    if command == \"baigti\":\n        __","bank":["while","break","for","continue"],"gaps":["while","break"],"explain":"while True kartoja dialogą, o break jį užbaigia."},
+    {"type":"single","prompt":"Koks bus len(history)?","code":"history = []\nhistory.append(\"A\")\nhistory.append(\"B\")\nprint(len(history))","options":["0","1","2","AB"],"answer":2,"explain":"Į sąrašą pridėti du atskiri elementai."},
+    {"type":"order","prompt":"Sudėliok žinutės apdorojimo žingsnius.","items":["message = input(\"Tu: \").strip()","if not message:","    continue","history.append(message)","print(f\"Priimta: {message}\")"],"explain":"Pirma gauname įvestį, atmetame tuščią, tada saugome ir rodome."}
   ]
 }

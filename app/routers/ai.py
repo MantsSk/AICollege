@@ -4,6 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.ai import ask_mentor, build_messages
+from app.config import settings
 from app.course_i18n import localize_course
 from app.database import get_db
 from app.deps import require_user
@@ -52,9 +53,19 @@ def chat(
     if not can_access_lesson(user, lesson, course):
         return HTMLResponse("Forbidden", status_code=403)
 
+    if settings.ai_mentor_requires_subscription and not user.is_subscribed:
+        return templates.TemplateResponse(
+            request,
+            "partials/ai_limit.html",
+            {"request": request, "user": user},
+            status_code=403,
+        )
+
     message = message.strip()
     if not message:
         return HTMLResponse("", status_code=204)
+    if len(message) > settings.mentor_max_message_chars:
+        return HTMLResponse("Message is too long.", status_code=413)
 
     remaining = ai_messages_remaining(db, user)
     if remaining <= 0:

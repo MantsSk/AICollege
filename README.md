@@ -14,9 +14,11 @@ The UI is **Lithuanian-first** (default `lt`) with English (`en`) as a switchabl
 - **Auth** — email register/login/password reset with server-side sessions.
 - **Dashboard** — continue learning, per-course progress, manage subscription.
 - **Course catalog & lessons** — clean markdown rendering with syntax-highlighted code, prev/next navigation, progress indicator.
+- **Interactive learning workspace** — course outline, lesson/lab/check tabs, saved hands-on activities, completion gates, and a contextual mentor in one view.
+- **Challenges & achievements** — randomized practice rounds, instant feedback, passed-check counts, and transparent skill points earned from completed lessons.
 - **AI Mentor** — a chat panel inside every lesson, grounded in the lesson content via LiteLLM (works with Gemini, GPT, or Claude by config).
 - **Free/testing tier** — anonymous users read the first lesson of each course; while payments are disabled, registered users can access all lessons and the AI Mentor (5 messages/day). With payments enabled, registered free users get the first 2 lessons and upgrade prompts appear at limits.
-- **Paid tier (€20/mo)** — all lessons, all courses, higher AI limits, via Stripe Checkout + billing portal.
+- **Paid tier (€9.99/mo)** — all lessons, all courses, higher AI limits, via Stripe Checkout + billing portal.
 - **HTMX everywhere** — mentor chat, mark-complete, and progress updates with no page reloads and minimal JS.
 - **Bilingual (LT/EN)** — UI strings and course content are translatable; visitors switch language via `/language/{lang}` (persisted in a cookie). Lithuanian is the default; English course content is layered on as file overlays with no schema changes.
 - **Dark mode**, responsive, fast-loading.
@@ -80,11 +82,8 @@ Courses are plain markdown files — **no admin panel**. The layout:
 
 ```
 courses/
-  python-basics/
-    course.yml          # title, description, order
-    lesson-01.md
-    lesson-02.md
-  ai-fundamentals/
+  python-basics/        # programmer path (build an AI assistant with Python)
+    course.yml           # title, description, order
     ...
 ```
 
@@ -105,7 +104,7 @@ order: 1
 
 Run `python -m app.seed` (or `make seed`, or just restart) to sync files into the database. Seeding is idempotent: it upserts by slug and removes lessons whose files were deleted.
 
-The three seeded courses: **Python Basics**, **AI Fundamentals**, **Build Your Own AI Assistant**.
+Currently the only published course is **Python nuo nulio iki tavo DI asistento** (programmer path). Which courses are published and how they group into learning paths is controlled by `app/course_paths.py`.
 
 ### Translations
 
@@ -126,7 +125,7 @@ courses_i18n/
 
 ## Stripe setup
 
-1. Create a recurring **€20/month** Price in Stripe; put its ID in `STRIPE_PRICE_ID`.
+1. Create a recurring **€9.99/month** Price in Stripe; put its ID in `STRIPE_PRICE_ID`.
 2. Set `STRIPE_SECRET_KEY`.
 3. Add a webhook endpoint pointing to `https://your-domain/billing/webhook` for events:
    `checkout.session.completed`, `customer.subscription.created/updated/deleted`. Put the signing secret in `STRIPE_WEBHOOK_SECRET`.

@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, Depends, Header, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 
@@ -10,6 +12,7 @@ from app.deps import require_user
 from app.models import User
 
 router = APIRouter(prefix="/billing")
+logger = logging.getLogger(__name__)
 
 
 @router.post("/checkout")
@@ -48,6 +51,8 @@ async def webhook(
     payload = await request.body()
     try:
         billing.handle_webhook(db, payload, stripe_signature or "")
-    except Exception as exc:  # noqa: BLE001
-        return HTMLResponse(f"Webhook error: {exc}", status_code=400)
+    except Exception:  # noqa: BLE001
+        # Signature and provider errors may include implementation details.
+        logger.exception("Stripe webhook processing failed")
+        return HTMLResponse("Invalid webhook.", status_code=400)
     return {"received": True}

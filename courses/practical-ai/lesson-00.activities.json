@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "title": "Patikimumo misija",
+  "intro": "Du sprendimai ir vienas išsaugomas rezultatas. Užduotis atliekama naršyklėje – tavo tekstas niekur nesiunčiamas.",
+  "activities": [
+    {
+      "id": "send-or-check",
+      "type": "decision",
+      "skill": "Rizikos atpažinimas",
+      "minutes": 5,
+      "title": "01 · Sustabdyk automatinį pasitikėjimą",
+      "instructions": "DI parašė: „Pagal jūsų sutarties 8.2 punktą kompensacija bus išmokėta iki penktadienio.“ Sutartis modeliui nebuvo pateikta. Ką darai?",
+      "scenario": "Atsakymas skamba profesionaliai, tačiau mini nematytą sutarties punktą ir pažada konkrečią išmokos datą.",
+      "choices": [
+        {"id": "send", "label": "Siunčiu – formuluotė skamba užtikrintai", "correct": false, "feedback": "Sklandus tonas nėra faktų įrodymas. Taip klientui būtų perduoti du nepatikrinti teiginiai."},
+        {"id": "soften", "label": "Pakeičiu toną į atsargesnį ir siunčiu", "correct": false, "feedback": "Atsargesnis tonas nepataiso neegzistuojančio šaltinio ir nepatvirtinto pažado."},
+        {"id": "verify", "label": "Sutikrinu sutartį, datą ir įgaliojimą žadėti", "correct": true, "feedback": "Teisingai. Tikrinami šaltinis, faktas ir žmogaus teisė priimti galutinį sprendimą."}
+      ],
+      "explanation": "Patikra turi būti proporcinga žalai: kuo svarbesnis teiginys, tuo stipresnio šaltinio ir žmogaus patvirtinimo reikia."
+    },
+    {
+      "id": "risk-map",
+      "type": "diagnose",
+      "skill": "Teiginių diagnozė",
+      "minutes": 5,
+      "title": "02 · Pažymėk tikrąsias rizikas",
+      "instructions": "Pasirink visas priežastis, dėl kurių šio atsakymo dar negalima naudoti.",
+      "sample": "„Pagal jūsų sutarties 8.2 punktą kompensacija bus išmokėta iki penktadienio.“",
+      "options": [
+        {"id": "source", "label": "Modelis nematė sutarties, kurią cituoja."},
+        {"id": "promise", "label": "Atsakyme duodamas nepatvirtintas pažadas."},
+        {"id": "length", "label": "Atsakymas yra trumpesnis nei 100 žodžių."},
+        {"id": "tone", "label": "Atsakymas parašytas taisyklinga kalba."}
+      ],
+      "answers": ["source", "promise"],
+      "explanation": "Problema yra ne stilius, o nepagrįstas šaltinis ir veiksmo pažadas."
+    },
+    {
+      "id": "verification-card",
+      "type": "artifact_builder",
+      "skill": "Patikros protokolas",
+      "minutes": 10,
+      "artifact_label": "Mano DI atsakymo patikros kortelė",
+      "title": "03 · Susikurk patikros kortelę",
+      "instructions": "Užpildyk keturis laukus. Kortelė bus išsaugota šiame įrenginyje ir ją galėsi eksportuoti.",
+      "fields": [
+        {"id": "facts", "label": "Kokius faktus tikrinsiu?", "placeholder": "Datos, sumos, vardai, citatos…", "min_length": 12},
+        {"id": "sources", "label": "Su kokiais šaltiniais sutikrinsiu?", "placeholder": "Originali sutartis, oficialus puslapis…", "min_length": 12},
+        {"id": "risk", "label": "Kas nutiktų, jei atsakymas klaidingas?", "placeholder": "Finansinė, teisinė, reputacijos ar maža rizika…", "min_length": 12},
+        {"id": "owner", "label": "Kas priima galutinį sprendimą?", "placeholder": "Aš, vadovas, teisininkas…", "min_length": 4}
+      ]
+    }
+  ]
+}

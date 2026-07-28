@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/Users/mantasskara/Desktop/AICollege/.venv/bin/python -m pip install -q pytest httpx)",
+      "Bash(/Users/mantasskara/Desktop/AICollege/.venv/bin/python -m pytest)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 -m app.seed)"
+    ]
+  }
+}

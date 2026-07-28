@@ -12,6 +12,6 @@
     <span class="htmx-indicator typing"><span></span><span></span><span></span></span>
     {{ _('complete.mark') }}
   </button>
-  <p data-gate-hint class="hidden mt-2 text-sm text-stone-500 dark:text-stone-400">{{ _('quiz.gate_hint') if quiz else _('complete.hint') }}</p>
+  <p data-gate-hint class="hidden mt-2 text-sm text-stone-500 dark:text-stone-400">{{ _('quiz.gate_hint') if quiz else (_('complete.activity_hint') if activities else _('complete.hint')) }}</p>
 </form>
 {% endif %}

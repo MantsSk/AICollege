@@ -1,0 +1,17 @@
+{
+  "course": {
+    "keywords": ["kursas", "programa", "trunka", "valandos"],
+    "answer": "Python ir DI asistento kursas trunka 88 akademines valandas.",
+    "source": "Kurso programa"
+  },
+  "topics": {
+    "keywords": ["temos", "mokysiuosi", "turinys"],
+    "answer": "Mokysiesi Python pagrindų, failų, API, Responses API, atminties, File Search ir įrankių.",
+    "source": "Kurso programa"
+  },
+  "contact": {
+    "keywords": ["kontakt", "pašt", "email"],
+    "answer": "Kreipkis į mokymų koordinatorių el. paštu mokymai@example.lt.",
+    "source": "Kurso kontaktai"
+  }
+}

@@ -2,11 +2,28 @@
 {% import "partials/icons.html" as icons %}
 {% block title %}{{ course.title }} — {{ app_name }}{% endblock %}
 {% block content %}
-<div class="max-w-3xl mx-auto px-4 py-10">
+{% set studio = course_profile(course.slug) %}
+<div class="max-w-4xl mx-auto px-4 py-12 sm:py-16">
   <nav class="text-sm text-stone-500"><a href="/courses" class="hover:text-brand-500">{{ _('nav.courses') }}</a> <span class="mx-1">/</span> {{ course.title }}</nav>
 
-  <h1 class="mt-3 text-3xl font-bold tracking-tight">{{ course.title }}</h1>
-  <p class="mt-3 text-stone-600 dark:text-stone-300">{{ course.description }}</p>
+  <div class="mt-6 border-b border-stone-300 dark:border-stone-700 pb-9">
+  {% if studio %}
+  <div class="mb-5 flex flex-wrap gap-2">
+    <span class="studio-chip studio-chip-accent">{{ studio.format }}</span>
+    <span class="studio-chip">{{ studio.level }}</span>
+    <span class="studio-chip">{{ studio.duration }}</span>
+  </div>
+  {% endif %}
+  <h1 class="font-display text-4xl sm:text-6xl font-semibold leading-tight tracking-[-.035em] break-words">{{ course.title }}</h1>
+  <p class="mt-5 max-w-3xl text-lg leading-relaxed text-stone-600 dark:text-stone-300">{{ course.description }}</p>
+
+  {% if studio %}
+  <p class="studio-promise">{{ studio.promise }}</p>
+  <div class="studio-artifact">
+    <span>{{ icons.icon("wrench", "h-5 w-5") }}</span>
+    <div><small>Ką parsineši</small><strong>{{ studio.artifact }}</strong></div>
+  </div>
+  {% endif %}
 
   {% if user %}
   <div class="mt-5 max-w-xs">{% include "partials/progress_bar.html" %}</div>
@@ -17,40 +34,67 @@
   </a>
   {% endif %}
   {% endif %}
+  </div>
+
+  {% if studio %}
+  <div class="studio-course-grid">
+    <section>
+      <p class="studio-section-kicker">Po šio kurso gebėsi</p>
+      <ul class="studio-outcome-list">
+        {% for outcome in studio.outcomes %}
+        <li>{{ icons.icon("check", "h-4 w-4") }}<span>{{ outcome }}</span></li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section>
+      <p class="studio-section-kicker">Įrodomi įgūdžiai</p>
+      <div class="studio-skill-list">
+        {% for skill in studio.skills %}<span>{{ skill }}</span>{% endfor %}
+      </div>
+    </section>
+  </div>
+  {% endif %}
 
   {% if not user %}
   <div class="mt-6 rounded-xl bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800 px-4 py-3 text-sm">
     {{ _('course.free_note') }} <a href="/register" class="font-semibold text-brand-600 dark:text-brand-400 hover:underline">{{ _('course.create_to_unlock') }}</a> {{ _('course.unlock_suffix', count=total) }}
   </div>
   {% elif payments_enabled and not user.is_subscribed %}
-  <div class="mt-6 rounded-xl bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800 px-4 py-3 text-sm flex items-center justify-between gap-3">
+  <div class="mt-6 rounded-xl bg-brand-50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800 px-4 py-3 text-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
     <span>{{ _('course.upgrade_note', free_count=free_lessons_per_course, total=total) }}</span>
     <form action="/billing/checkout" method="post"><button class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-brand-600 text-white font-semibold text-sm hover:bg-brand-500">{{ _('pricing.go_pro') }}</button></form>
   </div>
   {% endif %}
 
-  <ol class="mt-8 space-y-2">
+  <ol class="mt-10 grid gap-3">
     {% for item in lessons %}
     {% set lesson = item.lesson %}
+    {% set mission = lesson_profile(course.slug, lesson.slug) %}
     <li>
       {% if item.accessible %}
-      <a href="/courses/{{ course.slug }}/{{ lesson.slug }}" class="group flex items-center gap-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-4 hover:border-brand-400 dark:hover:border-brand-600 transition">
-        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold
+      <a href="/courses/{{ course.slug }}/{{ lesson.slug }}" class="group flex items-center gap-4 sm:gap-5 rounded-xl border border-stone-200 bg-white px-4 py-4 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-400 hover:shadow-md dark:border-stone-800 dark:bg-stone-900 dark:hover:border-brand-600">
+        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold
           {% if item.completed %}bg-green-500 text-white{% else %}bg-stone-100 dark:bg-stone-800 text-stone-500{% endif %}">
           {% if item.completed %}{{ icons.icon("check", "h-4 w-4") }}{% else %}{{ loop.index }}{% endif %}
         </span>
         <div class="flex-1 min-w-0">
-          {% if lesson.module %}<div class="text-xs font-medium uppercase tracking-wide text-brand-600 dark:text-brand-400">{{ lesson.module }}</div>{% endif %}
-          <div class="font-semibold group-hover:text-brand-600 dark:group-hover:text-brand-400 truncate">{{ lesson.title }}</div>
+          {% if mission %}
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-wide text-accent-700 dark:text-accent-400">
+            <span>{{ mission.kind }}</span><span class="text-stone-400">{{ mission.minutes }} min.</span><span class="text-stone-400">{{ mission.skill }}</span>
+          </div>
+          {% elif lesson.module %}<div class="text-xs font-medium uppercase tracking-wide text-brand-600 dark:text-brand-400">{{ lesson.module }}</div>{% endif %}
+          <div class="font-display text-lg font-semibold leading-snug break-words group-hover:text-brand-600 dark:group-hover:text-brand-400">{{ lesson.title }}</div>
+          {% if mission.deliverable %}<div class="mt-1 text-xs text-stone-500">Rezultatas: {{ mission.deliverable }}</div>{% endif %}
         </div>
         <span class="text-stone-400 group-hover:text-brand-500">{{ icons.icon("arrow-right", "h-4 w-4") }}</span>
       </a>
       {% else %}
-      <div class="flex items-center gap-4 rounded-xl border border-dashed border-stone-200 dark:border-stone-800 p-4 opacity-70">
+      <div class="flex items-center gap-4 sm:gap-5 rounded-xl border border-dashed border-stone-300 bg-stone-100/40 px-4 py-4 opacity-70 dark:border-stone-800 dark:bg-stone-900/40">
         <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-stone-100 dark:bg-stone-800 text-stone-400">{{ icons.icon("lock", "h-4 w-4") }}</span>
         <div class="flex-1 min-w-0">
-          {% if lesson.module %}<div class="text-xs font-medium uppercase tracking-wide text-stone-400">{{ lesson.module }}</div>{% endif %}
-          <div class="font-semibold text-stone-500 truncate">{{ lesson.title }}</div>
+          {% if mission %}<div class="text-xs font-medium uppercase tracking-wide text-stone-400">{{ mission.kind }} · {{ mission.minutes }} min.</div>
+          {% elif lesson.module %}<div class="text-xs font-medium uppercase tracking-wide text-stone-400">{{ lesson.module }}</div>{% endif %}
+          <div class="font-semibold leading-snug text-stone-500 break-words">{{ lesson.title }}</div>
         </div>
         <span class="text-xs text-stone-400">{{ _('course.account_required') }}</span>
       </div>

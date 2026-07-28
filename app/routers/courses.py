@@ -6,7 +6,8 @@ from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.course_paths import group_by_path
+from app.course_paths import PUBLISHED_COURSE_SLUGS, group_by_path, is_published_course
+from app.activities import get_activities
 from app.database import get_db
 from app.deps import current_user_optional, require_user
 from app.course_i18n import localize_course
@@ -30,7 +31,11 @@ router = APIRouter()
 
 @router.get("/courses", response_class=HTMLResponse)
 def catalog(request: Request, db: Session = Depends(get_db), user=Depends(current_user_optional)):
-    courses = db.scalars(select(Course).order_by(Course.order)).all()
+    courses = db.scalars(
+        select(Course)
+        .where(Course.slug.in_(PUBLISHED_COURSE_SLUGS))
+        .order_by(Course.order)
+    ).all()
     lang = get_language(request)
     cards = []
     for course in courses:
@@ -49,6 +54,43 @@ def catalog(request: Request, db: Session = Depends(get_db), user=Depends(curren
     )
 
 
+@router.get("/challenges", response_class=HTMLResponse)
+def challenges(
+    request: Request,
+    db: Session = Depends(get_db),
+    user=Depends(current_user_optional),
+):
+    """A practice catalog assembled from each course's existing quiz bank."""
+    courses = db.scalars(
+        select(Course)
+        .where(Course.slug.in_(PUBLISHED_COURSE_SLUGS))
+        .order_by(Course.order)
+    ).all()
+    lang = get_language(request)
+    cards = []
+    for course in courses:
+        display_course = localize_course(course, lang)
+        accessible_slugs = [
+            lesson.slug
+            for lesson in display_course.lessons
+            if can_access_lesson(user, lesson, display_course)
+        ]
+        question_count = len(course_questions(course.slug, accessible_slugs, lang))
+        if question_count:
+            cards.append(
+                {
+                    "course": display_course,
+                    "question_count": question_count,
+                    "round_size": min(12, question_count),
+                }
+            )
+    return templates.TemplateResponse(
+        request,
+        "challenges.html",
+        {"request": request, "user": user, "cards": cards},
+    )
+
+
 @router.get("/courses/{course_slug}", response_class=HTMLResponse)
 def course_detail(
     course_slug: str,
@@ -56,6 +98,10 @@ def course_detail(
     db: Session = Depends(get_db),
     user=Depends(current_user_optional),
 ):
+    if not is_published_course(course_slug):
+        return templates.TemplateResponse(
+            request, "errors/404.html", {"request": request, "user": user}, status_code=404
+        )
     course = db.scalar(select(Course).where(Course.slug == course_slug))
     if course is None:
         return templates.TemplateResponse(
@@ -103,6 +149,10 @@ def practice(
     db: Session = Depends(get_db),
     user: User = Depends(require_user),
 ):
+    if not is_published_course(course_slug):
+        return templates.TemplateResponse(
+            request, "errors/404.html", {"request": request, "user": user}, status_code=404
+        )
     course = db.scalar(select(Course).where(Course.slug == course_slug))
     if course is None:
         return templates.TemplateResponse(
@@ -150,6 +200,10 @@ def lesson_page(
     db: Session = Depends(get_db),
     user=Depends(current_user_optional),
 ):
+    if not is_published_course(course_slug):
+        return templates.TemplateResponse(
+            request, "errors/404.html", {"request": request, "user": user}, status_code=404
+        )
     course, lesson = _load_lesson(db, course_slug, lesson_slug)
     if course is None or lesson is None:
         return templates.TemplateResponse(
@@ -194,7 +248,20 @@ def lesson_page(
                 {"role": m.role, "content": m.content} for m in convo.messages
             ]
 
-    quiz = get_quiz(course.slug, lesson.slug, get_language(request))
+    lang = get_language(request)
+    quiz = get_quiz(course.slug, lesson.slug, lang)
+    activities = get_activities(course.slug, lesson.slug, lang)
+    lesson_outline = []
+    for position, outline_lesson in enumerate(lessons, start=1):
+        lesson_outline.append(
+            {
+                "lesson": outline_lesson,
+                "number": position,
+                "current": outline_lesson.id == lesson.id,
+                "completed": outline_lesson.id in done_ids,
+                "accessible": can_access_lesson(user, outline_lesson, display_course),
+            }
+        )
     quiz_result = None
     if user and quiz:
         db_lesson = db.get(Lesson, lesson.id)
@@ -219,6 +286,9 @@ def lesson_page(
             "mentor_history": mentor_history,
             "mentor_remaining": mentor_remaining,
             "quiz": quiz,
+            "activities": activities,
+            "lesson_outline": lesson_outline,
+            "course_points": done * 100,
             "quiz_passed": bool(quiz_result and quiz_result.passed),
             "quiz_result_url": f"/courses/{course.slug}/{lesson.slug}/quiz/result",
         },

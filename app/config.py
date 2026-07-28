@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     ai_model: str = "gemini/gemini-1.5-flash"
     ai_temperature: float = 0.3
     ai_max_tokens: int = 1024
+    mentor_max_message_chars: int = 4000
+    ai_mentor_requires_subscription: bool = False
     gemini_api_key: str = ""
     openai_api_key: str = ""
     anthropic_api_key: str = ""
@@ -36,7 +38,7 @@ class Settings(BaseSettings):
     stripe_publishable_key: str = ""
     stripe_webhook_secret: str = ""
     stripe_price_id: str = ""
-    subscription_price_eur: int = 20
+    subscription_price_eur: float = 9.99
 
     @property
     def allowed_host_list(self) -> list[str]:
@@ -47,6 +49,17 @@ class Settings(BaseSettings):
             raise RuntimeError("Set SECRET_KEY to a long random value before running with DEBUG=false.")
         if not self.debug and self.base_url.startswith("http://"):
             raise RuntimeError("Set BASE_URL to your public https:// URL before running with DEBUG=false.")
+        if self.payments_enabled:
+            required = {
+                "STRIPE_SECRET_KEY": self.stripe_secret_key,
+                "STRIPE_WEBHOOK_SECRET": self.stripe_webhook_secret,
+                "STRIPE_PRICE_ID": self.stripe_price_id,
+            }
+            missing = [name for name, value in required.items() if not value]
+            if missing:
+                raise RuntimeError(
+                    "Payments are enabled but Stripe is incomplete: " + ", ".join(missing)
+                )
 
 
 @lru_cache

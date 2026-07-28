@@ -1,0 +1,43 @@
+<section data-lesson-activities class="lesson-activities mt-12" aria-labelledby="lesson-activities-title">
+  <script type="application/json" data-activities-payload>{{ activities | tojson }}</script>
+  <div class="lesson-lab-heading">
+    <div>
+      <p class="lesson-lab-kicker">Praktinė laboratorija</p>
+      <h2 id="lesson-activities-title">{{ activities.title }}</h2>
+      {% if activities.intro %}<p>{{ activities.intro }}</p>{% endif %}
+    </div>
+    <div class="lesson-lab-meter" aria-live="polite">
+      <strong data-activity-score>0</strong><span>/ {{ activities.activities | length }}</span>
+      <small>atlikta</small>
+    </div>
+  </div>
+
+  {% if activities.references %}
+  <div class="official-reference-grid" aria-label="Oficialios dokumentacijos pavyzdžiai">
+    {% for reference in activities.references %}
+    <figure class="official-reference-card">
+      {% if reference.image_url %}
+      <img src="{{ reference.image_url }}" alt="{{ reference.alt }}" loading="lazy" referrerpolicy="no-referrer">
+      {% endif %}
+      <figcaption>
+        <strong>{{ reference.title }}</strong>
+        <span>{{ reference.caption }}</span>
+        <a href="{{ reference.url }}" target="_blank" rel="noopener noreferrer">Atverti oficialų šaltinį ↗</a>
+        <small>Patikrinta {{ reference.checked }}</small>
+      </figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div data-activities-mount class="lesson-activity-list"></div>
+
+  <div class="lesson-lab-summary" data-activity-summary>
+    <div>
+      <p class="lesson-lab-kicker">Tavo rezultatas</p>
+      <h3>Laboratorijos kortelė</h3>
+      <p data-activity-summary-text>Pradėk nuo pirmos veiklos – tavo įrašai bus išsaugomi šiame įrenginyje.</p>
+    </div>
+    <button type="button" data-activity-export disabled>Eksportuoti mano darbą</button>
+  </div>
+</section>

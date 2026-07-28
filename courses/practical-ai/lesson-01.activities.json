@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "title": "Užklausos darbo stalas",
+  "intro": "Paversk vienkartinį prašymą į aiškią, patikrinamą darbo instrukciją.",
+  "activities": [
+    {
+      "id": "prompt-choice",
+      "type": "decision",
+      "skill": "Užklausos struktūra",
+      "minutes": 7,
+      "title": "01 · Pasirink stipresnę instrukciją",
+      "instructions": "Reikia parengti atsakymo klientui juodraštį apie projekto vėlavimą. Kuri instrukcija patikimiausia?",
+      "scenario": "Žinomi faktai: darbai vėluoja dvi dienas; nauja data dar nepatvirtinta; laišką prieš siunčiant peržiūrės projekto vadovas.",
+      "choices": [
+        {"id": "nice", "label": "Parašyk gražų ir profesionalų laišką klientui.", "correct": false, "feedback": "Trūksta faktų, ribų, auditorijos ir aiškaus rezultato."},
+        {"id": "confident", "label": "Įtikinamai paaiškink vėlavimą ir pažadėk naują terminą.", "correct": false, "feedback": "Instrukcija tiesiogiai prašo išgalvoti dar nepatvirtintą pažadą."},
+        {"id": "bounded", "label": "Pagal pateiktus faktus sukurk iki 120 žodžių juodraštį. Pripažink 2 dienų vėlavimą, nežadėk datos ir pažymėk vietą vadovo sprendimui.", "correct": true, "feedback": "Teisingai. Instrukcija apibrėžia faktus, ribą, formatą ir žmogaus sprendimo vietą."}
+      ],
+      "explanation": "Gera užklausa ne tik padeda generuoti – ji leidžia patikrinti, ar rezultatas atitinka reikalavimus."
+    },
+    {
+      "id": "prompt-workbench",
+      "type": "artifact_builder",
+      "skill": "Pakartotinė užklausa",
+      "minutes": 18,
+      "artifact_label": "Mano patikrinama užklausa",
+      "title": "02 · Sukurk savo darbo šabloną",
+      "instructions": "Pasirink realią užduotį iš savo darbo ar kasdienybės ir aprašyk ją taip, kad rezultatą būtų galima patikrinti.",
+      "fields": [
+        {"id": "goal", "label": "Tikslas", "prefix": "TIKSLAS", "placeholder": "Kokį konkretų darbą turi atlikti DI?", "min_length": 15},
+        {"id": "context", "label": "Kontekstas ir faktai", "prefix": "KONTEKSTAS", "placeholder": "Ką modelis turi žinoti ir kuo gali remtis?", "min_length": 20},
+        {"id": "boundaries", "label": "Ribos", "prefix": "RIBOS", "placeholder": "Ko negalima išgalvoti, atskleisti ar nuspręsti?", "min_length": 15},
+        {"id": "format", "label": "Rezultato formatas", "prefix": "FORMATAS", "placeholder": "Ilgis, struktūra, kalba, privalomos dalys…", "min_length": 12},
+        {"id": "check", "label": "Kokybės patikra", "prefix": "PATIKRA", "placeholder": "Pagal kokius 2–3 kriterijus vertinsi rezultatą?", "min_length": 15}
+      ]
+    }
+  ]
+}

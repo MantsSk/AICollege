@@ -1,0 +1,25 @@
+<div class="lesson-visual {{ 'lesson-visual-python' if course.slug == 'python-basics' else 'lesson-visual-work' }}" aria-hidden="true">
+  {% if course.slug == 'python-basics' %}
+  <svg viewBox="0 0 260 180" role="img">
+    <rect class="visual-window" x="20" y="22" width="220" height="136" rx="15"/>
+    <circle cx="40" cy="41" r="4"/><circle cx="54" cy="41" r="4"/><circle cx="68" cy="41" r="4"/>
+    <path class="visual-code visual-code-1" d="M42 70h54"/>
+    <path class="visual-code visual-code-2" d="M58 91h76"/>
+    <path class="visual-code visual-code-3" d="M58 112h48"/>
+    <path class="visual-code visual-code-4" d="M42 133h92"/>
+    <path class="visual-spark" d="m183 68 5 11 12 2-9 8 2 12-10-6-11 6 3-12-9-8 12-2z"/>
+    <path class="visual-connector" d="M146 101c18 0 19-20 34-20"/>
+  </svg>
+  {% else %}
+  <svg viewBox="0 0 260 180" role="img">
+    <rect class="visual-paper visual-paper-back" x="48" y="30" width="118" height="132" rx="10" transform="rotate(-7 48 30)"/>
+    <rect class="visual-paper" x="70" y="22" width="122" height="138" rx="10"/>
+    <path class="visual-line visual-line-1" d="M91 57h60"/>
+    <path class="visual-line visual-line-2" d="M91 78h78"/>
+    <path class="visual-line visual-line-3" d="M91 99h50"/>
+    <circle class="visual-human" cx="191" cy="116" r="32"/>
+    <path class="visual-check" d="m177 116 10 10 20-24"/>
+    <path class="visual-spark" d="m207 49 4 9 10 2-8 7 2 10-8-5-9 5 3-10-8-7 10-2z"/>
+  </svg>
+  {% endif %}
+</div>

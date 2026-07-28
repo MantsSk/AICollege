@@ -368,7 +368,10 @@
     const root = this.root;
     fetch(this.resultUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') || {}).content || '',
+      },
       body: JSON.stringify({ score: this.score }),
       credentials: 'same-origin',
     }).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {

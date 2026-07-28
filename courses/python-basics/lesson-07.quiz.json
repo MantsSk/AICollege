@@ -1,0 +1,10 @@
+{"pass_percent":70,"questions":[
+{"type":"single","prompt":"Nuo kurios traceback vietos dažniausiai verta pradėti skaityti?","options":["Nuo paskutinės eilutės","Nuo terminalo viršaus","Nuo failo pavadinimo raidžių","Traceback skaityti nereikia"],"answer":0,"explain":"Paskutinėje eilutėje paprastai yra klaidos tipas ir žinutė."},
+{"type":"truefalse","prompt":"Plikas except: yra geriausias pasirinkimas, nes paslepia visas klaidas.","answer":false,"explain":"Jis slepia ir nenumatytas programavimo problemas; gaudyk konkrečias išimtis."},
+{"type":"single","prompt":"Kuri klaida tikėtina vykdant int('du')?","options":["ValueError","KeyError","ImportError","Nė viena"],"answer":0,"explain":"Tekstas neatitinka sveikojo skaičiaus formato."},
+{"type":"fill","prompt":"Įrašyk pytest patikros raktažodį.","code":"__ normalize_text(\" Labas \" ) == \"labas\"","accept":["assert"],"explain":"assert išreiškia tikėtiną rezultatą."},
+{"type":"multi","prompt":"Kokius atvejus verta testuoti?","options":["Tipinį","Ribinį","Klaidingą įvestį","Tik tą, kurį jau žinome veikiant"],"answers":[0,1,2],"explain":"Skirtingos atvejų klasės atskleidžia skirtingas klaidas."},
+{"type":"gap","prompt":"Užpildyk konkrečios klaidos valdymą.","code":"__ ValueError:\n    print(\"Bloga reikšmė\")\n__:\n    print(\"Tinkama\")","bank":["except","else","try","finally"],"gaps":["except","else"],"explain":"except tvarko klaidą, else vyksta, kai klaidos nebuvo."},
+{"type":"single","prompt":"Ko nederėtų rašyti į logus?","options":["Žinių bazė įkelta","Klaidos tipas","API raktas","Temos nerasta faktas"],"answer":2,"explain":"Paslaptys ir jautrūs duomenys neturi patekti į žurnalus."},
+{"type":"order","prompt":"Sudėliok TDD regresijos taisymo eigą.","items":["Atkartoti klaidą","Parašyti nepavykstantį testą","Pataisyti kodą","Paleisti visus testus","Palikti testą ateičiai"],"explain":"Testas pirmiausia įrodo problemą, vėliau saugo nuo jos sugrįžimo."}
+]}

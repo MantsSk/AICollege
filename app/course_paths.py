@@ -1,21 +1,22 @@
 """Course path grouping for learner-facing pages."""
 from __future__ import annotations
 
+PUBLISHED_COURSE_SLUGS = ("practical-ai", "python-basics")
+
 COURSE_PATHS = [
     {
         "id": "casual",
-        "course_slugs": ("ai-fundamentals", "di-irankiai-kasdienai"),
+        "course_slugs": ("practical-ai",),
     },
     {
         "id": "junior",
-        "course_slugs": (
-            "python-basics",
-            "junior-ai-programuotojas",
-            "build-ai-assistant",
-            "applied-ai-engineering",
-        ),
+        "course_slugs": ("python-basics",),
     },
 ]
+
+
+def is_published_course(slug: str) -> bool:
+    return slug in PUBLISHED_COURSE_SLUGS
 
 
 def group_by_path(items: list[dict], *, course_key: str = "course") -> list[dict]:

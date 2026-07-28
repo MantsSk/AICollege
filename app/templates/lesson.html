@@ -4,7 +4,14 @@
 {% block footer %}{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 py-8 grid lg:grid-cols-[1fr_380px] gap-8">
+{% set studio = course_profile(course.slug) %}
+{% set mission = lesson_profile(course.slug, lesson.slug) %}
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<div data-lesson-layout data-copy-label="{{ _('lesson.copy') }}" data-copied-label="{{ _('lesson.copied') }}" class="lesson-layout learning-workspace max-w-[1536px] mx-auto px-4 py-6 sm:py-8 grid justify-center gap-8 2xl:gap-10">
+
+  <div class="hidden xl:block xl:sticky xl:top-20 xl:self-start">
+    {% include "partials/course_outline.html" %}
+  </div>
 
   <!-- Lesson content -->
   <article class="min-w-0">
@@ -14,12 +21,34 @@
       <a href="/courses/{{ course.slug }}" class="hover:text-brand-500">{{ course.title }}</a>
     </nav>
 
-    <div class="mt-4 flex items-center justify-between gap-4">
-      <div>
-        {% if lesson.module %}<div class="text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">{{ lesson.module }}</div>{% endif %}
-        <h1 class="mt-1 text-3xl font-bold tracking-tight">{{ lesson.title }}</h1>
+    <details class="course-outline-mobile xl:hidden">
+      <summary>
+        <span>{{ _('lesson.course_contents') }}</span>
+        <strong>{{ lesson_number }} / {{ lesson_total }}</strong>
+      </summary>
+      {% include "partials/course_outline.html" %}
+    </details>
+
+    <div class="lesson-stage mt-8 grid sm:grid-cols-[1fr_190px] items-center gap-5 border-b border-stone-300 dark:border-stone-700 pb-7">
+      <div class="min-w-0">
+        {% if mission %}
+        <div class="flex flex-wrap gap-2">
+          <span class="studio-chip studio-chip-accent">{{ mission.kind }}</span>
+          <span class="studio-chip">{{ mission.minutes }} min.</span>
+          <span class="studio-chip">{{ mission.skill }}</span>
+        </div>
+        {% elif lesson.module %}<div class="text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">{{ lesson.module }}</div>{% endif %}
+        <h1 class="font-display mt-2 text-3xl min-[380px]:text-4xl sm:text-5xl font-semibold leading-[1.08] tracking-[-.03em] break-words">{{ lesson.title }}</h1>
+        {% if mission.deliverable %}<p class="mt-3 text-sm text-stone-500">Šios misijos rezultatas: <strong class="text-stone-700 dark:text-stone-300">{{ mission.deliverable }}</strong></p>{% endif %}
+        <div class="mt-4 flex flex-wrap items-center gap-3">
+          <span class="text-sm text-stone-500 tabular-nums">{{ _('lesson.label', number=lesson_number, total=lesson_total) }}</span>
+          <button type="button" data-focus-toggle data-label-on="{{ _('lesson.focus') }}" data-label-off="{{ _('lesson.focus_exit') }}"
+                  class="inline-flex items-center gap-2 rounded-full border border-stone-300 px-3 py-1.5 text-xs font-semibold hover:border-accent-500 dark:border-stone-700">
+            <span aria-hidden="true">◉</span><span data-focus-label>{{ _('lesson.focus') }}</span>
+          </button>
+        </div>
       </div>
-      <span class="shrink-0 text-sm text-stone-500 tabular-nums">{{ _('lesson.label', number=lesson_number, total=lesson_total) }}</span>
+      {% include "partials/lesson_visual.html" %}
     </div>
 
     <!-- Course progress -->
@@ -29,9 +58,30 @@
       {% endwith %}
     </div>
 
-    <div class="mt-8 prose-lesson">
+    <nav class="lesson-workspace-tabs" aria-label="{{ _('lesson.workspace') }}">
+      <a href="#lesson-content" class="is-active">{{ _('lesson.learn') }}</a>
+      {% if activities %}<a href="#lesson-lab">{{ _('lesson.lab') }}</a>{% endif %}
+      {% if quiz %}<a href="#lesson-quiz">{{ _('lesson.check') }}</a>{% endif %}
+      <a href="#lesson-mentor">{{ _('mentor.title') }}</a>
+    </nav>
+
+    <div id="lesson-content" class="mt-10 prose-lesson scroll-mt-24">
       {{ lesson.content_md | markdown | safe }}
     </div>
+
+    {% if activities %}<div id="lesson-lab" class="scroll-mt-24">
+    {% include "partials/lesson_activities.html" %}
+    </div>{% endif %}
+
+    <section data-lesson-reflection class="lesson-reflection mt-10 rounded-2xl border border-accent-200 bg-accent-50 p-5 sm:p-6 dark:border-accent-500/30 dark:bg-[#1d170c]">
+      <p class="text-xs font-semibold uppercase tracking-[.15em] text-accent-700 dark:text-accent-400">{{ _('lesson.reflect_title') }}</p>
+      <p class="mt-2 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{{ _('lesson.reflect_body') }}</p>
+      <div class="mt-4 flex flex-col sm:flex-row gap-2">
+        <button type="button" data-reflection-choice="clear" data-reply="{{ _('lesson.reflect_clear_reply') }}" class="reflection-choice">{{ _('lesson.reflect_clear') }}</button>
+        <button type="button" data-reflection-choice="practice" data-reply="{{ _('lesson.reflect_practice_reply') }}" class="reflection-choice">{{ _('lesson.reflect_practice') }}</button>
+      </div>
+      <p data-reflection-reply hidden class="mt-4 border-t border-accent-200 pt-4 text-sm leading-relaxed text-stone-700 dark:border-accent-500/20 dark:text-stone-300"></p>
+    </section>
 
     {% if quiz %}
     <!-- Knowledge check -->
@@ -58,18 +108,18 @@
         {% endif %}
       </div>
 
-      <div class="flex items-center justify-between gap-4">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
         {% if prev_lesson %}
           <a href="/courses/{{ course.slug }}/{{ prev_lesson.slug }}" class="flex-1 rounded-xl border border-stone-200 dark:border-stone-800 p-4 hover:border-brand-400 dark:hover:border-brand-600 transition">
             <div class="text-xs text-stone-400">{{ _('lesson.prev') }}</div>
-            <div class="font-semibold truncate">{{ prev_lesson.title }}</div>
+            <div class="font-semibold leading-snug break-words">{{ prev_lesson.title }}</div>
           </a>
         {% else %}<div class="flex-1"></div>{% endif %}
 
         {% if next_lesson %}
           <a href="/courses/{{ course.slug }}/{{ next_lesson.slug }}" class="flex-1 rounded-xl border border-stone-200 dark:border-stone-800 p-4 text-right hover:border-brand-400 dark:hover:border-brand-600 transition">
             <div class="text-xs text-stone-400">{{ _('lesson.next') }}</div>
-            <div class="font-semibold truncate">{{ next_lesson.title }}</div>
+            <div class="font-semibold leading-snug break-words">{{ next_lesson.title }}</div>
           </a>
         {% else %}<div class="flex-1"></div>{% endif %}
       </div>
@@ -77,7 +127,7 @@
   </article>
 
   <!-- AI Mentor panel -->
-  <aside class="lg:sticky lg:top-20 lg:self-start">
+  <aside id="lesson-mentor" class="scroll-mt-24 lg:sticky lg:top-20 lg:self-start">
     {% include "partials/mentor_panel.html" %}
   </aside>
 </div>

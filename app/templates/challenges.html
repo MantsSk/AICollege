@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% import "partials/icons.html" as icons %}
+{% block title %}{{ _('challenges.title') }} — {{ app_name }}{% endblock %}
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-12 sm:py-16">
+  <div class="challenge-hero">
+    <div>
+      <p class="challenge-kicker">{{ _('challenges.kicker') }}</p>
+      <h1>{{ _('challenges.title') }}</h1>
+      <p>{{ _('challenges.lead') }}</p>
+    </div>
+    <div class="challenge-hero-mark" aria-hidden="true">{ }</div>
+  </div>
+
+  <div class="challenge-grid">
+    {% for card in cards %}
+    <article class="challenge-card">
+      <div class="challenge-card-topline">
+        <span>{{ icons.icon("zap", "h-4 w-4") }} {{ _('challenges.random_round') }}</span>
+        <span>{{ card.round_size }} {{ _('challenges.tasks') }}</span>
+      </div>
+      <h2>{{ card.course.title }}</h2>
+      <p>{{ _('challenges.available', count=card.question_count) }}</p>
+      <div class="challenge-tags">
+        <span>{{ _('challenges.instant_feedback') }}</span>
+        <span>{{ _('challenges.mixed') }}</span>
+      </div>
+      {% if user %}
+      <a href="/courses/{{ card.course.slug }}/practice" class="challenge-start">
+        {{ _('challenges.start') }} {{ icons.icon("arrow-right", "h-4 w-4") }}
+      </a>
+      {% else %}
+      <a href="/register" class="challenge-start">
+        {{ _('challenges.signup') }} {{ icons.icon("arrow-right", "h-4 w-4") }}
+      </a>
+      {% endif %}
+    </article>
+    {% else %}
+    <p class="text-stone-500">{{ _('challenges.empty') }}</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

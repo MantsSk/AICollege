@@ -1,39 +1,76 @@
 {
+  "pass_percent": 70,
   "questions": [
     {
       "type": "single",
-      "prompt": "Kokio tipo yra reikšmė \"19.99\" (su kabutėmis)?",
-      "options": ["str", "float", "int", "bool"],
-      "answer": 0,
-      "explain": "Viskas, kas parašyta kabutėse, yra tekstas (str), net jei atrodo kaip skaičius."
+      "prompt": "Kuris kintamojo vardas geriausiai atitinka profesionalią Python praktiką?",
+      "options": ["x", "Kliento Vardas", "customer_name", "1customer"],
+      "answer": 2,
+      "explain": "customer_name yra aiškus, angliškas ir parašytas snake_case stiliumi."
     },
     {
-      "type": "truefalse",
-      "prompt": "Python reikia iš anksto deklaruoti kintamojo tipą.",
-      "answer": false,
-      "explain": "Python tipą nustato automatiškai pagal priskirtą reikšmę."
-    },
-    {
-      "type": "gap",
-      "prompt": "Užpildyk kodą, kad jis išvestų „Aiste baigė 12 pamokų.“",
-      "code": "name = \"Aiste\"\nlessons = 12\nprint(__\"{name} baigė {lessons} pamokų.\")",
-      "bank": ["f", "s", "format", "%"],
-      "gaps": ["f"],
-      "explain": "f-string prasideda raide f prieš kabutes: f\"...{kintamasis}...\"."
-    },
-    {
-      "type": "fill",
-      "prompt": "Įrašyk funkciją, kuri parodo reikšmės tipą.",
-      "code": "print(__(42))   # <class 'int'>",
-      "accept": ["type"],
-      "explain": "type() grąžina reikšmės tipą, pvz., type(42) yra <class 'int'>."
+      "type": "single",
+      "prompt": "Kokio tipo yra reikšmė \"19.99\"?",
+      "options": ["int", "float", "str", "bool"],
+      "answer": 2,
+      "explain": "Kabutėse esanti reikšmė yra tekstas, net jei ją sudaro skaitmenys."
     },
     {
       "type": "multi",
-      "prompt": "Kurios reikšmės yra bool tipo?",
-      "options": ["True", "\"True\"", "False", "0"],
-      "answers": [0, 2],
-      "explain": "Tik True ir False be kabučių yra bool. \"True\" yra tekstas, o 0 — int."
+      "prompt": "Kurios reikšmės yra skaitinių tipų? Pasirink visus tinkamus atsakymus.",
+      "options": ["42", "3.14", "\"8\"", "True"],
+      "answers": [0, 1],
+      "explain": "42 yra int, 3.14 – float. \"8\" yra str, o True – bool."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "input() visada grąžina tekstą, net jei vartotojas įveda tik skaitmenis.",
+      "answer": true,
+      "explain": "Prieš matematinį skaičiavimą įvestį reikia tinkamai konvertuoti."
+    },
+    {
+      "type": "fill",
+      "prompt": "Įrašyk funkciją, tinkamą dešimtainei kainai konvertuoti.",
+      "code": "price = __(input(\"Kaina: \"))",
+      "accept": ["float"],
+      "explain": "float() priima skaitinį tekstą su dešimtaine dalimi, pavyzdžiui, 12.5."
+    },
+    {
+      "type": "single",
+      "prompt": "Ką išves programa?",
+      "code": "count = 3\ncount = count + 2\nprint(count)",
+      "options": ["2", "3", "5", "count + 2"],
+      "answer": 2,
+      "explain": "Sena count reikšmė 3 padidinama 2 ir nauja reikšmė tampa 5."
+    },
+    {
+      "type": "gap",
+      "prompt": "Užpildyk skaičiavimą ir aiškią rezultato žinutę.",
+      "code": "total = price __ quantity\nprint(__\"Suma: {total} Eur\")",
+      "bank": ["*", "f", "+", "str"],
+      "gaps": ["*", "f"],
+      "explain": "Kaina dauginama iš kiekio, o f prieš kabutes leidžia įstatyti total reikšmę."
+    },
+    {
+      "type": "order",
+      "prompt": "Sudėliok eilutes, kad programa priimtų kiekį, apskaičiuotų sumą ir ją parodytų.",
+      "items": ["quantity_text = input(\"Kiekis: \")", "quantity = int(quantity_text)", "total = quantity * 5", "print(f\"Suma: {total}\")"],
+      "explain": "Pirma gaunama įvestis, tada ji konvertuojama, naudojama skaičiavime ir galiausiai parodoma."
+    },
+    {
+      "type": "single",
+      "prompt": "Kuris tipas tinkamiausias pašto kodui 01100?",
+      "options": ["str", "int", "float", "bool"],
+      "answer": 0,
+      "explain": "Pašto kodas nėra skirtas matematikai, o pradinis nulis turi išlikti, todėl tinka str."
+    },
+    {
+      "type": "single",
+      "prompt": "Kodėl šis kodas negali pridėti 1 prie amžiaus?",
+      "code": "age = input(\"Amžius: \")\nprint(age + 1)",
+      "options": ["age yra tekstas", "print negali rodyti skaičių", "1 turi būti kintamasis", "input negali priimti amžiaus"],
+      "answer": 0,
+      "explain": "input() grąžina str. Naudok age = int(input(...)) prieš sudėtį."
     }
   ]
 }

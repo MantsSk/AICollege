@@ -1,52 +1,74 @@
 {
+  "pass_percent": 70,
   "questions": [
     {
-      "type": "fill",
-      "prompt": "Įrašyk komandą, kuri parodo įdiegtą Python versiją.",
-      "code": "python3 __",
-      "accept": ["--version"],
-      "explain": "python3 --version terminale parodo, kuri Python versija įdiegta."
-    },
-    {
       "type": "single",
-      "prompt": "Iš kurios pusės verta skaityti ilgą klaidos pranešimą (traceback)?",
-      "options": [
-        "Nuo apačios — paskutinė eilutė pasako, kas nutiko",
-        "Nuo viršaus — pirmoji eilutė svarbiausia",
-        "Nesvarbu, visos eilutės vienodai svarbios",
-        "Klaidos pranešimų skaityti nereikia"
-      ],
-      "answer": 0,
-      "explain": "Paskutinė eilutė pasako klaidos tipą ir priežastį, o aukščiau — failą ir eilutę, kur ji įvyko."
+      "prompt": "Kuri komanda Python programoje parodo tekstą ekrane?",
+      "options": ["show(\"Labas\")", "print(\"Labas\")", "say(\"Labas\")", "python(\"Labas\")"],
+      "answer": 1,
+      "explain": "Python išvesčiai naudojama funkcija print()."
     },
     {
       "type": "truefalse",
-      "prompt": "„Windows“ sistemoje diegiant Python svarbu pažymėti „Add Python to PATH“.",
+      "prompt": "Python įprastai vykdo failo eilutes iš viršaus į apačią.",
       "answer": true,
-      "explain": "Be PATH terminalas neranda python komandos — tai dažniausia pradedančiųjų kliūtis."
+      "explain": "Jei nėra kitų valdymo konstrukcijų, komandos vykdomos tokia tvarka, kokia parašytos."
     },
     {
       "type": "single",
-      "prompt": "Ką reiškia klaida „NameError: name 'printt' is not defined“?",
-      "options": [
-        "Python nežino vardo printt — greičiausiai rašybos klaida",
-        "Trūksta kabučių",
-        "Failas nepaleistas",
-        "Python neįdiegtas"
-      ],
+      "prompt": "Ką parodys šis kodas?",
+      "code": "print(4 + 3)",
+      "options": ["4 + 3", "43", "7", "Klaidą"],
+      "answer": 2,
+      "explain": "Skaičiavimas nėra kabutėse, todėl Python pirmiausia sudeda ir parodo 7."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kurios eilutės yra sintaksiškai taisyklingos? Pasirink visus tinkamus atsakymus.",
+      "options": ["print(\"Labas\")", "Print(\"Labas\")", "print(5)", "print(\"Labas)"],
+      "answers": [0, 2],
+      "explain": "print rašomas mažosiomis; tekstui reikia abiejų kabučių ir uždaromojo skliausto."
+    },
+    {
+      "type": "fill",
+      "prompt": "Įrašyk trūkstamą funkcijos vardą.",
+      "code": "__(\"Programa veikia\")",
+      "accept": ["print"],
+      "explain": "Funkcija print() perduotą reikšmę parodo ekrane."
+    },
+    {
+      "type": "single",
+      "prompt": "Nuo kurios klaidos pranešimo dalies geriausia pradėti skaityti?",
+      "options": ["Nuo paskutinės eilutės", "Nuo failo pirmos eilutės", "Nuo terminalo pavadinimo", "Nuo kompiuterio laikrodžio"],
       "answer": 0,
-      "explain": "NameError reiškia nežinomą vardą; Python net pasiūlo: „Did you mean: 'print'?“."
+      "explain": "Paskutinė eilutė dažniausiai įvardija klaidos tipą ir priežastį."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "Komentarą, prasidedantį #, Python parodo programos išvestyje.",
+      "answer": false,
+      "explain": "Komentaras skirtas kodo skaitytojui; Python jo nevykdo."
     },
     {
       "type": "order",
-      "prompt": "Sudėliok pirmos programos žingsnius teisinga tvarka.",
-      "items": [
-        "Sukurti failą hello.py",
-        "Įrašyti print(\"Veikia!\")",
-        "Terminale paleisti python3 hello.py",
-        "Pamatyti rezultatą ekrane"
-      ],
-      "explain": "Failas — tik tekstas; programa jis tampa, kai jį paleidi su python3."
+      "prompt": "Sudėliok programą taip, kad ji parodytų proceso pradžią, darbą ir pabaigą.",
+      "items": ["print(\"Pradžia\")", "print(\"Duomenys tikrinami\")", "print(\"Pabaiga\")"],
+      "explain": "Python vykdo eilutes iš viršaus į apačią."
+    },
+    {
+      "type": "single",
+      "prompt": "Kokia problema yra eilutėje print(\"Labas)?",
+      "options": ["Trūksta uždaromosios kabutės", "print turi būti didžiąja raide", "Negalima naudoti lietuviško teksto", "Trūksta #"],
+      "answer": 0,
+      "explain": "Teksto pradžios ir pabaigos kabutės turi sudaryti porą."
+    },
+    {
+      "type": "gap",
+      "prompt": "Užpildyk kodą, kuris komentaru paaiškina antraštę ir ją parodo.",
+      "code": "__ Ataskaitos pradžia\n__(\"SAVAITĖS ATASKAITA\")",
+      "bank": ["#", "print", "Print", "//"],
+      "gaps": ["#", "print"],
+      "explain": "# pradeda komentarą, o print() parodo tekstą."
     }
   ]
 }

@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from app.course_paths import group_by_path
+from app.course_paths import PUBLISHED_COURSE_SLUGS, group_by_path
 from app.database import get_db
 from app.deps import current_user_optional, require_user
 from app.course_i18n import localize_course, localize_courses
 from app.i18n import SUPPORTED_LANGUAGES, get_language
-from app.models import Course, User
+from app.models import Course, QuizResult, User
 from app.services import completed_lesson_ids, course_progress
 from app.templating import templates
 
@@ -17,7 +17,11 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 def landing(request: Request, db: Session = Depends(get_db), user=Depends(current_user_optional)):
-    courses = db.scalars(select(Course).order_by(Course.order)).all()
+    courses = db.scalars(
+        select(Course)
+        .where(Course.slug.in_(PUBLISHED_COURSE_SLUGS))
+        .order_by(Course.order)
+    ).all()
     courses = localize_courses(courses, get_language(request))
     path_sections = group_by_path([{"course": course} for course in courses])
     return templates.TemplateResponse(
@@ -46,7 +50,11 @@ def dashboard(
     user: User = Depends(require_user),
     upgraded: int = 0,
 ):
-    courses = db.scalars(select(Course).order_by(Course.order)).all()
+    courses = db.scalars(
+        select(Course)
+        .where(Course.slug.in_(PUBLISHED_COURSE_SLUGS))
+        .order_by(Course.order)
+    ).all()
     lang = get_language(request)
     done_ids = completed_lesson_ids(db, user)
 
@@ -72,6 +80,17 @@ def dashboard(
         if continue_target is None and percent > 0 and percent < 100 and next_lesson:
             continue_target = card
     path_sections = group_by_path(course_cards)
+    passed_checks = db.scalar(
+        select(func.count()).select_from(QuizResult).where(
+            QuizResult.user_id == user.id, QuizResult.passed.is_(True)
+        )
+    ) or 0
+    learner_stats = {
+        "lessons": len(done_ids),
+        "checks": passed_checks,
+        # Keep the score legible: every completed lesson is worth 100 points.
+        "points": len(done_ids) * 100,
+    }
 
     return templates.TemplateResponse(
         request,
@@ -83,6 +102,7 @@ def dashboard(
             "path_sections": path_sections,
             "continue_target": continue_target,
             "upgraded": bool(upgraded),
+            "learner_stats": learner_stats,
         },
     )
 

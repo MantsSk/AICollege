@@ -7,14 +7,14 @@
     'icon': 'book-open',
     'badge': 'bg-accent-500 text-white',
     'kicker': 'text-accent-600 dark:text-accent-400',
-    'panel': 'border-accent-200 dark:border-accent-500/30 bg-accent-50 dark:bg-accent-500/5',
+    'panel': 'border-accent-200 dark:border-accent-500/40 bg-accent-50 dark:bg-[#1d170c]',
     'btn': 'bg-accent-500 text-white hover:bg-accent-600'
   },
   'junior': {
     'icon': 'wrench',
     'badge': 'bg-brand-600 text-white',
     'kicker': 'text-brand-600 dark:text-brand-400',
-    'panel': 'border-brand-200 dark:border-brand-500/30 bg-brand-50 dark:bg-brand-500/5',
+    'panel': 'border-brand-200 dark:border-brand-500/40 bg-brand-50 dark:bg-[#171322]',
     'btn': 'bg-brand-600 text-white hover:bg-brand-500'
   },
   'other': {
@@ -57,11 +57,33 @@
     </div>
   </div>
 
+  <section class="learner-stat-grid" aria-label="{{ _('dashboard.stats') }}">
+    <div class="learner-stat-card">
+      <span>{{ icons.icon("check", "h-4 w-4") }}</span>
+      <strong>{{ learner_stats.lessons }}</strong>
+      <small>{{ _('dashboard.lessons_done') }}</small>
+    </div>
+    <div class="learner-stat-card">
+      <span>{{ icons.icon("zap", "h-4 w-4") }}</span>
+      <strong>{{ learner_stats.checks }}</strong>
+      <small>{{ _('dashboard.checks_passed') }}</small>
+    </div>
+    <div class="learner-stat-card learner-stat-points">
+      <span>XP</span>
+      <strong>{{ learner_stats.points }}</strong>
+      <small>{{ _('dashboard.points') }}</small>
+    </div>
+    <a href="/challenges" class="learner-stat-action">
+      <span>{{ _('dashboard.challenge_cta') }}</span>
+      {{ icons.icon("arrow-right", "h-5 w-5") }}
+    </a>
+  </section>
+
   {% if continue_target %}
   <a href="/courses/{{ continue_target.course.slug }}/{{ continue_target.next_lesson.slug }}"
      class="mt-8 block rounded-xl border border-brand-300 dark:border-brand-700 bg-brand-50 dark:bg-brand-900/20 p-6 hover:border-brand-500 transition">
     <div class="text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">{{ _('dashboard.continue') }}</div>
-    <h3 class="mt-1 text-xl font-bold">{{ continue_target.next_lesson.title }}</h3>
+    <h3 class="mt-1 text-xl font-bold break-words">{{ continue_target.next_lesson.title }}</h3>
     <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">{{ continue_target.course.title }} · {{ _('dashboard.complete', percent=continue_target.percent) }}</p>
   </a>
   {% endif %}
@@ -95,19 +117,20 @@
             <h3 class="mt-0.5 text-lg font-bold">{{ _('paths.' ~ section["id"] ~ '.title') }}</h3>
           </div>
         </div>
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-6 md:grid-cols-2">
           {% for card in section["items"] %}
           {% set percent = card.percent %}{% set done = card.done %}{% set total = card.total %}
-          <div class="rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 flex flex-col hover:shadow-md transition">
+          {% set studio = course_profile(card.course.slug) %}
+          <a href="/courses/{{ card.course.slug }}" class="group rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 flex flex-col hover:-translate-y-0.5 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition">
             <div class="text-xs font-semibold uppercase tracking-wide {{ t.kicker }}">{{ _('courses.lessons', count=card.total) }}</div>
-            <h3 class="mt-2 text-lg font-bold">{{ card.course.title }}</h3>
-            <p class="mt-2 text-sm text-stone-600 dark:text-stone-400 line-clamp-2 flex-1">{{ card.course.description }}</p>
+            <h3 class="mt-2 text-lg font-bold break-words">{{ card.course.title }}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-stone-600 dark:text-stone-400 flex-1">{{ card.course.description }}</p>
+            {% if studio %}<p class="mt-3 text-xs text-stone-500"><strong>Kuri:</strong> {{ studio.artifact }}</p>{% endif %}
             <div class="mt-4">{% include "partials/progress_bar.html" %}</div>
-            <a href="/courses/{{ card.course.slug }}{{ '/' ~ card.next_lesson.slug if card.next_lesson else '' }}"
-               class="mt-4 inline-block text-center w-full px-4 py-2 rounded-lg font-semibold {{ t.btn }}">
+            <span class="mt-4 inline-flex min-h-10 items-center justify-center text-center w-full px-4 py-2 rounded-lg font-semibold leading-snug {{ t.btn }}">
               {{ _('dashboard.review') if card.percent == 100 else (_('dashboard.continue') if card.percent > 0 else _('dashboard.start')) }}
-            </a>
-          </div>
+            </span>
+          </a>
           {% endfor %}
         </div>
       </section>

@@ -1,46 +1,13 @@
 {
+  "pass_percent": 70,
   "questions": [
-    {
-      "type": "single",
-      "prompt": "Kokį pažymį išves šis kodas, jei score = 90?",
-      "code": "if score >= 90:\n    grade = \"A\"\nelif score >= 70:\n    grade = \"B\"\nelse:\n    grade = \"C\"",
-      "options": ["A", "B", "C", "Bus klaida"],
-      "answer": 0,
-      "explain": "score >= 90 yra tiesa, todėl elif ir else šakos net netikrinamos."
-    },
-    {
-      "type": "gap",
-      "prompt": "Užpildyk sąlygą: įleisti tik pilnamečius su bilietu.",
-      "code": "if age >= 18 __ has_ticket:\n    print(\"Sveiki atvykę!\")",
-      "bank": ["and", "or", "not", "=="],
-      "gaps": ["and"],
-      "explain": "and reikalauja, kad abi sąlygos būtų teisingos vienu metu."
-    },
-    {
-      "type": "single",
-      "prompt": "Kuo skiriasi = ir ==?",
-      "options": [
-        "= priskiria reikšmę, == palygina reikšmes",
-        "Tai tas pats",
-        "== priskiria reikšmę, = palygina",
-        "= naudojamas tik skaičiams"
-      ],
-      "answer": 0,
-      "explain": "= priskiria reikšmę kintamajam, o == palygina ir grąžina True arba False."
-    },
-    {
-      "type": "multi",
-      "prompt": "Kurios reikšmės Python laikomos „netiesa“?",
-      "options": ["\"\"", "0", "[]", "\"0\""],
-      "answers": [0, 1, 2],
-      "explain": "Tušti dalykai ir nulis yra netiesa. \"0\" — netuščias tekstas, todėl tiesa."
-    },
-    {
-      "type": "fill",
-      "prompt": "Įrašyk raktažodį, kad pranešimas būtų rodomas, kai vardas tuščias.",
-      "code": "name = \"\"\nif __ name:\n    print(\"Įveskite savo vardą\")",
-      "accept": ["not"],
-      "explain": "not apverčia reikšmę: not \"\" yra True, nes tuščias tekstas — netiesa."
-    }
+    {"type":"single","prompt":"Kuris operatorius palygina, ar dvi reikšmės lygios?","options":["=","==","!=",">="],"answer":1,"explain":"== palygina, o = priskiria reikšmę."},
+    {"type":"truefalse","prompt":"Python vykdo visas tinkamas if ir elif šakas.","answer":false,"explain":"Vienoje if–elif–else grandinėje vykdoma tik pirmoji tinkama šaka."},
+    {"type":"single","prompt":"Koks rezultatas?","code":"age = 20\nhas_ticket = False\nprint(age >= 18 and has_ticket)","options":["True","False","20","Klaida"],"answer":1,"explain":"and reikalauja, kad abi sąlygos būtų True."},
+    {"type":"multi","prompt":"Kas padeda patikimai tikrinti vartotojo tekstą?","options":["strip()","lower()","Atsitiktinis indeksas","Aiški tuščios įvesties patikra"],"answers":[0,1,3],"explain":"Tarpų ir registro normalizavimas bei tuščios įvesties patikra sumažina netikėtų atvejų."},
+    {"type":"fill","prompt":"Įrašyk metodą, kad Labas ir LABAS būtų palyginti vienodai.","code":"message = input(\"Žinutė: \").__()","accept":["lower"],"explain":"lower() grąžina tekstą mažosiomis raidėmis."},
+    {"type":"gap","prompt":"Užpildyk amžiaus ir bilieto sąlygą.","code":"if age __ 18 __ has_ticket:\n    print(\"Leidžiama\")","bank":[">=","and","or","="],"gaps":[">=","and"],"explain":"Amžius turi būti bent 18 ir bilietas turi būti turimas."},
+    {"type":"single","prompt":"Kodėl score >= 9 šaka nepasiekiama?","code":"if score >= 5:\n    print(\"Išlaikyta\")\nelif score >= 9:\n    print(\"Puikiai\")","options":["Trūksta else","Pirma, platesnė sąlyga pagauna ir devynetą","Negalima naudoti >=","score turi būti tekstas"],"answer":1,"explain":"Tikrinama nuo viršaus, todėl konkretesnę >= 9 sąlygą reikia rašyti pirmą."},
+    {"type":"order","prompt":"Sudėliok saugios paprastos įvesties patikros eilutes.","items":["message = input(\"Klausimas: \").strip()","if not message:","    print(\"Klausimas tuščias\")","else:","    print(\"Klausimas priimtas\")"],"explain":"Pirma gaunama ir valoma įvestis, tada tikrinama jos būsena."}
   ]
 }

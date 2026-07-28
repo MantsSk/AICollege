@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}{{ app_name }}{% endblock %}</title>
   <meta name="description" content="{{ _('meta.description') }}" />
+  <meta name="csrf-token" content="{{ csrf_token }}" />
 
   <script>
     // Apply theme before paint to avoid a flash of the wrong color scheme.
@@ -17,10 +18,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/css/app.css" />
+  <link rel="stylesheet" href="/static/css/app.css?v=20260728-1" />
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
 </head>
-<body class="min-h-screen bg-white text-stone-900 dark:bg-stone-950 dark:text-stone-100 antialiased flex flex-col">
+<body class="site-shell min-h-screen bg-[#f7f5ef] text-stone-900 dark:bg-stone-950 dark:text-stone-100 antialiased flex flex-col">
   {% include "partials/nav.html" %}
 
   <main class="flex-1 w-full">
@@ -28,11 +29,12 @@
   </main>
 
   {% block footer %}
-  <footer class="border-t border-stone-200 dark:border-stone-800 mt-16">
+  <footer class="border-t border-stone-300/70 dark:border-stone-800 mt-20">
     <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-stone-500 dark:text-stone-400 flex flex-col sm:flex-row items-center justify-between gap-3">
       <p>&copy; {{ app_name }}. {{ _('footer.tagline') }}</p>
       <div class="flex gap-5">
         <a href="/courses" class="hover:text-brand-500">{{ _('nav.courses') }}</a>
+        <a href="/challenges" class="hover:text-brand-500">{{ _('nav.challenges') }}</a>
         {% if payments_enabled %}
           <a href="/pricing" class="hover:text-brand-500">{{ _('nav.pricing') }}</a>
         {% endif %}
@@ -41,7 +43,7 @@
   </footer>
   {% endblock %}
 
-  <script src="/static/js/app.js"></script>
-  <script src="/static/js/quiz.js"></script>
+  <script src="/static/js/app.js?v=20260728-1"></script>
+  <script src="/static/js/quiz.js?v=20260711-3"></script>
 </body>
 </html>

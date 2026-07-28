@@ -6,18 +6,28 @@ from pathlib import Path
 from fastapi.templating import Jinja2Templates
 
 from app.config import settings
+from app.course_profiles import get_course_profile, get_lesson_profile
 from app.i18n import i18n_context
 from app.services import render_markdown
 
 TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
 
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR), context_processors=[i18n_context])
+
+
+def csrf_context(request):
+    return {"csrf_token": request.session.get("csrf_token", "")}
+
+
+templates.context_processors.append(csrf_context)
 templates.env.globals["app_name"] = settings.app_name
 templates.env.globals["payments_enabled"] = settings.payments_enabled
 templates.env.globals["subscription_price"] = settings.subscription_price_eur
 templates.env.globals["free_lessons_per_course"] = settings.free_lessons_per_course
 templates.env.globals["free_daily_ai_messages"] = settings.free_daily_ai_messages
 templates.env.filters["markdown"] = render_markdown
+templates.env.globals["course_profile"] = get_course_profile
+templates.env.globals["lesson_profile"] = get_lesson_profile
 
 
 def is_htmx(request) -> bool:

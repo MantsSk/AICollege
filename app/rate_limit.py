@@ -10,9 +10,8 @@ _BUCKETS: dict[str, deque[float]] = defaultdict(deque)
 
 
 def client_ip(request: Request) -> str:
-    forwarded_for = request.headers.get("x-forwarded-for")
-    if forwarded_for:
-        return forwarded_for.split(",", 1)[0].strip()
+    # Do not trust X-Forwarded-For here. It is client-controlled unless a
+    # trusted reverse proxy has explicitly stripped and rewritten it.
     return request.client.host if request.client else "unknown"
 
 

@@ -1,3 +1,5 @@
+import hmac
+import secrets
 from urllib.parse import urlparse
 
 from fastapi import FastAPI, Request
@@ -47,9 +49,31 @@ class SameOriginPostMiddleware(BaseHTTPMiddleware):
         return await call_next(request)
 
 
+class CsrfMiddleware(BaseHTTPMiddleware):
+    """Require a session-bound token for browser state-changing requests."""
+
+    _SAFE_METHODS = {"GET", "HEAD", "OPTIONS"}
+    _EXEMPT_PATHS = {"/billing/webhook"}  # Stripe uses its own signed payload.
+
+    async def dispatch(self, request: Request, call_next):
+        token = request.session.setdefault("csrf_token", secrets.token_urlsafe(32))
+        if request.method not in self._SAFE_METHODS and request.url.path not in self._EXEMPT_PATHS:
+            supplied = request.headers.get("X-CSRF-Token")
+            if not supplied:
+                # Cache the body before form-parsing so the downstream
+                # endpoint can still read it (parsing alone consumes the stream).
+                await request.body()
+                form = await request.form()
+                supplied = form.get("csrf_token")
+            if not supplied or not hmac.compare_digest(token, supplied):
+                return HTMLResponse("Forbidden", status_code=403)
+        return await call_next(request)
+
+
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(SameOriginPostMiddleware)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_host_list)
+app.add_middleware(CsrfMiddleware)
 
 if settings.secure_ssl_redirect:
     app.add_middleware(HTTPSRedirectMiddleware)

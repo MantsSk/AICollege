@@ -1,8 +1,8 @@
 {% import "partials/icons.html" as icons %}
-<div class="rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 flex flex-col h-[70vh] lg:h-[calc(100vh-7rem)] overflow-hidden">
+<div class="mentor-panel border border-stone-300 dark:border-stone-700 bg-[#fbfaf6] dark:bg-stone-900 flex flex-col h-[70vh] lg:h-[calc(100vh-8rem)] overflow-hidden">
   <div class="px-4 py-3 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between">
     <div class="flex items-center gap-2 font-semibold">
-      <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-brand-600 text-white">{{ icons.icon("bot", "h-4 w-4") }}</span>
+      <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-accent-400 text-stone-900">{{ icons.icon("bot", "h-4 w-4") }}</span>
       {{ _('mentor.title') }}
     </div>
     {% if user %}

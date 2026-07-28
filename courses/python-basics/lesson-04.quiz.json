@@ -1,45 +1,13 @@
 {
+  "pass_percent": 70,
   "questions": [
-    {
-      "type": "single",
-      "prompt": "Ką grąžina funkcija, kurioje nėra return?",
-      "options": ["None", "0", "Tuščią tekstą", "Klaidą"],
-      "answer": 0,
-      "explain": "Be return funkcija visada grąžina None, net jei viduje kažką išveda su print."
-    },
-    {
-      "type": "single",
-      "prompt": "Ką išves print(power(3)), jei def power(base, exponent=2)?",
-      "code": "def power(base, exponent=2):\n    return base ** exponent\n\nprint(power(3))",
-      "options": ["9", "6", "3", "Klaidą — trūksta argumento"],
-      "answer": 0,
-      "explain": "Nenurodžius antro argumento naudojama numatytoji reikšmė exponent=2, taigi 3 ** 2 = 9."
-    },
-    {
-      "type": "gap",
-      "prompt": "Užpildyk funkcijos apibrėžimą.",
-      "code": "__ greet(name):\n    __ f\"Labas, {name}!\"",
-      "bank": ["def", "return", "func", "print"],
-      "gaps": ["def", "return"],
-      "explain": "def apibrėžia funkciją, o return grąžina jos rezultatą kvietėjui."
-    },
-    {
-      "type": "multi",
-      "prompt": "Kodėl verta logiką dėti į funkcijas?",
-      "options": [
-        "Išvengi kodo kartojimo",
-        "Gali pavadinti idėją aiškiu vardu",
-        "Gali testuoti mažas dalis atskirai",
-        "Kodas veikia greičiau"
-      ],
-      "answers": [0, 1, 2],
-      "explain": "Funkcijos — dėl aiškumo ir pakartotinio naudojimo; greičiui jos įtakos beveik neturi."
-    },
-    {
-      "type": "truefalse",
-      "prompt": "create_user(email=\"a@b.com\", plan=\"paid\") — čia argumentai perduodami pagal vardą.",
-      "answer": true,
-      "explain": "Vardiniai argumentai daro kvietimą aiškesnį — matai, kuri reikšmė kur keliauja."
-    }
+    {"type":"single","prompt":"Kuris metodas saugiai grąžina atsarginę reikšmę, jei žodyne nėra rakto?","options":["append()","get()","split()","lower()"],"answer":1,"explain":"dict.get(raktas, atsarginė_reikšmė) nesukelia KeyError."},
+    {"type":"truefalse","prompt":"message.lower() pakeičia patį message kintamąjį net nepriskyrus rezultato.","answer":false,"explain":"Tekstas nekintamas; metodo grąžintą reikšmę reikia priskirti."},
+    {"type":"single","prompt":"Ką grąžina split()?","code":"print(\"vienas du trys\".split())","options":["Skaičių","Žodyną","Teksto dalių sąrašą","Vieną ilgą tekstą"],"answer":2,"explain":"Be argumento split() suskaido pagal tarpus ir grąžina sąrašą."},
+    {"type":"multi","prompt":"Kurie teiginiai apie žodyną teisingi?","options":["Reikšmės pasiekiamos pagal raktus","Gali saugoti sąrašus","Visi raktai privalo būti skaičiai","items() leidžia gauti rakto ir reikšmės poras"],"answers":[0,1,3],"explain":"Žodynas sieja raktus su reikšmėmis, o reikšmės gali būti sudėtingos struktūros."},
+    {"type":"fill","prompt":"Įrašyk metodą kraštiniams tarpams pašalinti.","code":"cleaned = message.__()","accept":["strip"],"explain":"strip() pašalina tarpus teksto pradžioje ir pabaigoje."},
+    {"type":"gap","prompt":"Užpildyk saugų žodyno skaitymą.","code":"answer = knowledge.__(topic, __)","bank":["get","None","append","split"],"gaps":["get","None"],"explain":"get() gali grąžinti None, kai rakto nėra."},
+    {"type":"single","prompt":"Kaip pasiekti kursų valandas?","code":"data = {\"course\": {\"hours\": 88}}","options":["data[hours]","data[\"hours\"]","data[\"course\"][\"hours\"]","data.course.hours"],"answer":2,"explain":"Pirmiausia pasirenkamas išorinio, tada vidinio žodyno raktas."},
+    {"type":"order","prompt":"Sudėliok teksto normalizavimo ir skaidymo veiksmus.","items":["message = input(\"Klausimas: \")","cleaned = message.strip().lower()","cleaned = cleaned.replace(\"!\", \"\")","words = cleaned.split()","print(words)"],"explain":"Įvestis nuosekliai išvaloma ir tik tada skaidoma."}
   ]
 }
