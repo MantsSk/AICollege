@@ -7,11 +7,13 @@
 {% set studio = course_profile(course.slug) %}
 {% set mission = lesson_profile(course.slug, lesson.slug) %}
 <div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
-<div data-lesson-layout data-copy-label="{{ _('lesson.copy') }}" data-copied-label="{{ _('lesson.copied') }}" class="lesson-layout learning-workspace max-w-[1536px] mx-auto px-4 py-6 sm:py-8 grid justify-center gap-8 2xl:gap-10">
+<div data-lesson-layout data-copy-label="{{ _('lesson.copy') }}" data-copied-label="{{ _('lesson.copied') }}" class="lesson-layout learning-workspace {% if lesson_total > 1 %}has-outline{% endif %} max-w-[1536px] mx-auto px-4 py-6 sm:py-8 grid justify-center gap-8 2xl:gap-10">
 
-  <div class="hidden xl:block xl:sticky xl:top-20 xl:self-start">
+  {% if lesson_total > 1 %}
+  <div class="hidden 2xl:block 2xl:sticky 2xl:top-20 2xl:self-start">
     {% include "partials/course_outline.html" %}
   </div>
+  {% endif %}
 
   <!-- Lesson content -->
   <article class="min-w-0">
@@ -21,13 +23,13 @@
       <a href="/courses/{{ course.slug }}" class="hover:text-brand-500">{{ course.title }}</a>
     </nav>
 
-    <details class="course-outline-mobile xl:hidden">
+    {% if lesson_total > 1 %}<details class="course-outline-mobile 2xl:hidden">
       <summary>
         <span>{{ _('lesson.course_contents') }}</span>
         <strong>{{ lesson_number }} / {{ lesson_total }}</strong>
       </summary>
       {% include "partials/course_outline.html" %}
-    </details>
+    </details>{% endif %}
 
     <div class="lesson-stage mt-8 grid sm:grid-cols-[1fr_190px] items-center gap-5 border-b border-stone-300 dark:border-stone-700 pb-7">
       <div class="min-w-0">
@@ -62,7 +64,6 @@
       <a href="#lesson-content" class="is-active">{{ _('lesson.learn') }}</a>
       {% if activities %}<a href="#lesson-lab">{{ _('lesson.lab') }}</a>{% endif %}
       {% if quiz %}<a href="#lesson-quiz">{{ _('lesson.check') }}</a>{% endif %}
-      <a href="#lesson-mentor">{{ _('mentor.title') }}</a>
     </nav>
 
     <div id="lesson-content" class="mt-10 prose-lesson scroll-mt-24">
@@ -72,16 +73,6 @@
     {% if activities %}<div id="lesson-lab" class="scroll-mt-24">
     {% include "partials/lesson_activities.html" %}
     </div>{% endif %}
-
-    <section data-lesson-reflection class="lesson-reflection mt-10 rounded-2xl border border-accent-200 bg-accent-50 p-5 sm:p-6 dark:border-accent-500/30 dark:bg-[#1d170c]">
-      <p class="text-xs font-semibold uppercase tracking-[.15em] text-accent-700 dark:text-accent-400">{{ _('lesson.reflect_title') }}</p>
-      <p class="mt-2 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{{ _('lesson.reflect_body') }}</p>
-      <div class="mt-4 flex flex-col sm:flex-row gap-2">
-        <button type="button" data-reflection-choice="clear" data-reply="{{ _('lesson.reflect_clear_reply') }}" class="reflection-choice">{{ _('lesson.reflect_clear') }}</button>
-        <button type="button" data-reflection-choice="practice" data-reply="{{ _('lesson.reflect_practice_reply') }}" class="reflection-choice">{{ _('lesson.reflect_practice') }}</button>
-      </div>
-      <p data-reflection-reply hidden class="mt-4 border-t border-accent-200 pt-4 text-sm leading-relaxed text-stone-700 dark:border-accent-500/20 dark:text-stone-300"></p>
-    </section>
 
     {% if quiz %}
     <!-- Knowledge check -->

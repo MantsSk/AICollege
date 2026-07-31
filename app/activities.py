@@ -14,6 +14,7 @@ ACTIVITY_TYPES = {
     "diagnose",
     "decision",
     "artifact_builder",
+    "code_exercise",
 }
 
 
@@ -52,6 +53,14 @@ def _validate(payload: dict, source: Path) -> dict:
                 raise ActivityError(f"{where}: artifact_builder requires fields")
             if any(not field.get("id") or not field.get("label") for field in fields):
                 raise ActivityError(f"{where}: every artifact field requires id and label")
+        if activity_type == "code_exercise":
+            if not isinstance(activity.get("starter_code"), str):
+                raise ActivityError(f"{where}: code_exercise requires starter_code")
+            checks = activity.get("checks")
+            if not isinstance(checks, list) or not checks:
+                raise ActivityError(f"{where}: code_exercise requires checks")
+            if any(not check.get("type") or not check.get("label") for check in checks):
+                raise ActivityError(f"{where}: every code check requires type and label")
 
     payload.setdefault("version", 1)
     payload.setdefault("title", "Praktinė laboratorija")

@@ -1,18 +1,32 @@
 {
-  "format": "Misijų laboratorija",
+  "format": "Praktinis DI kursas",
   "level": "Pradedantiesiems",
-  "duration": "3 misijos · apie 75 min.",
-  "artifact": "Patikrinto DI asistento specifikacija",
-  "promise": "Ne skaitysi apie DI, o priimsi sprendimus, taisysi jo darbą ir sukursi išbandytą asistento planą.",
-  "skills": ["Atsakymų tikrinimas", "Užklausų projektavimas", "Privatumo sprendimai", "Kokybės kriterijai"],
+  "duration": "Kuriama po vieną pamoką",
+  "promise": "Ne tik rašysi užklausas – išmoksi nuspręsti, kada DI gali padėti, kaip apriboti jo vaidmenį ir kaip patikrinti rezultatą.",
+  "artifact": "Patikrintas DI asistentas vienai realiai darbo užduočiai",
+  "skills": [
+    "Užduoties atranka",
+    "Žmogaus priežiūra",
+    "Aiškios instrukcijos",
+    "Rezultato tikrinimas"
+  ],
   "outcomes": [
-    "Atskirtum sklandų atsakymą nuo patikimo atsakymo.",
-    "Sukurtum užklausą su aiškiu tikslu, kontekstu ir rezultato formatu.",
-    "Suprojektuotum siaurą DI asistentą su ribomis ir testais."
+    "Atskirsi, kur DI tinka juodraščiui, o kur sprendimą turi priimti žmogus.",
+    "Sukursi aiškią asistento instrukciją su ribomis ir rezultato formatu.",
+    "Išbandysi asistentą realiais scenarijais ir pastebėsi nepatikimus atsakymus."
   ],
   "lessons": {
-    "lesson-00": {"kind": "Sprendimo misija", "minutes": 20, "skill": "Atsakymų tikrinimas", "deliverable": "Patikros protokolas"},
-    "lesson-01": {"kind": "Darbo laboratorija", "minutes": 25, "skill": "Užklausų projektavimas", "deliverable": "Pakartotinai naudojama užklausa"},
-    "lesson-02": {"kind": "Kūrimo misija", "minutes": 30, "skill": "Asistento projektavimas", "deliverable": "Asistento specifikacija"}
+    "lesson-00": {
+      "kind": "1-oji misija",
+      "minutes": 30,
+      "skill": "Prompto kūrimas",
+      "deliverable": "aiškus promptas susitikimo santraukai"
+    },
+    "lesson-01": {
+      "kind": "2-oji misija",
+      "minutes": 25,
+      "skill": "Rezultato tikrinimas",
+      "deliverable": "atskirti DI atsakymo faktai ir spėjimai"
+    }
   }
 }

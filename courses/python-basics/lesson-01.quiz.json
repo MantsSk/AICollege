@@ -3,74 +3,60 @@
   "questions": [
     {
       "type": "single",
-      "prompt": "Kuris kintamojo vardas geriausiai atitinka profesionalią Python praktiką?",
-      "options": ["x", "Kliento Vardas", "customer_name", "1customer"],
-      "answer": 2,
-      "explain": "customer_name yra aiškus, angliškas ir parašytas snake_case stiliumi."
+      "prompt": "Kuri eilutė sukuria kintamąjį vardas?",
+      "options": [
+        "vardas == Aistė",
+        "vardas = \"Aistė\"",
+        "\"vardas\" = \"Aistė\"",
+        "print = vardas"
+      ],
+      "answer": 1,
+      "explain": "Kintamojo pavadinimas rašomas kairėje, priskyrimo ženklas = viduryje, o tekstinė reikšmė kabutėse – dešinėje."
     },
     {
       "type": "single",
-      "prompt": "Kokio tipo yra reikšmė \"19.99\"?",
-      "options": ["int", "float", "str", "bool"],
-      "answer": 2,
-      "explain": "Kabutėse esanti reikšmė yra tekstas, net jei ją sudaro skaitmenys."
+      "prompt": "Ką parodys ši programa?",
+      "code": "taskai = 10\ntaskai = taskai + 5\nprint(taskai)",
+      "options": ["10", "15", "taskai + 5", "Klaidą"],
+      "answer": 1,
+      "explain": "Esama reikšmė 10 padidinama 5, todėl kintamajam iš naujo priskiriama reikšmė 15."
     },
     {
       "type": "multi",
-      "prompt": "Kurios reikšmės yra skaitinių tipų? Pasirink visus tinkamus atsakymus.",
-      "options": ["42", "3.14", "\"8\"", "True"],
-      "answers": [0, 1],
-      "explain": "42 yra int, 3.14 – float. \"8\" yra str, o True – bool."
+      "prompt": "Kurie kintamųjų pavadinimai parašyti taisyklingai?",
+      "options": ["mano_miestas", "2miestas", "prekes_kaina", "mano miestas"],
+      "answers": [0, 2],
+      "explain": "Pavadinimas negali prasidėti skaitmeniu ar turėti tarpų. Žodžius galima atskirti apatiniu brūkšniu."
+    },
+    {
+      "type": "single",
+      "prompt": "Kuri reikšmė yra skaičius, tinkamas skaičiavimui?",
+      "options": ["\"24\"", "\"amzius\"", "24", "\"24 metai\""],
+      "answer": 2,
+      "explain": "Skaičius 24 parašytas be kabučių. Kabutėse esančios reikšmės yra tekstas."
     },
     {
       "type": "truefalse",
-      "prompt": "input() visada grąžina tekstą, net jei vartotojas įveda tik skaitmenis.",
-      "answer": true,
-      "explain": "Prieš matematinį skaičiavimą įvestį reikia tinkamai konvertuoti."
-    },
-    {
-      "type": "fill",
-      "prompt": "Įrašyk funkciją, tinkamą dešimtainei kainai konvertuoti.",
-      "code": "price = __(input(\"Kaina: \"))",
-      "accept": ["float"],
-      "explain": "float() priima skaitinį tekstą su dešimtaine dalimi, pavyzdžiui, 12.5."
-    },
-    {
-      "type": "single",
-      "prompt": "Ką išves programa?",
-      "code": "count = 3\ncount = count + 2\nprint(count)",
-      "options": ["2", "3", "5", "count + 2"],
-      "answer": 2,
-      "explain": "Sena count reikšmė 3 padidinama 2 ir nauja reikšmė tampa 5."
-    },
-    {
-      "type": "gap",
-      "prompt": "Užpildyk skaičiavimą ir aiškią rezultato žinutę.",
-      "code": "total = price __ quantity\nprint(__\"Suma: {total} Eur\")",
-      "bank": ["*", "f", "+", "str"],
-      "gaps": ["*", "f"],
-      "explain": "Kaina dauginama iš kiekio, o f prieš kabutes leidžia įstatyti total reikšmę."
+      "prompt": "Kintamieji vardas ir Vardas Python kalboje reiškia tą patį.",
+      "answer": false,
+      "explain": "Python skiria didžiąsias ir mažąsias raides, todėl tai yra du skirtingi pavadinimai."
     },
     {
       "type": "order",
-      "prompt": "Sudėliok eilutes, kad programa priimtų kiekį, apskaičiuotų sumą ir ją parodytų.",
-      "items": ["quantity_text = input(\"Kiekis: \")", "quantity = int(quantity_text)", "total = quantity * 5", "print(f\"Suma: {total}\")"],
-      "explain": "Pirma gaunama įvestis, tada ji konvertuojama, naudojama skaičiavime ir galiausiai parodoma."
+      "prompt": "Sudėliok programos eilutes teisinga vykdymo tvarka.",
+      "items": [
+        "amzius = 24",
+        "kitu_metu_amzius = amzius + 1",
+        "print(kitu_metu_amzius)"
+      ],
+      "explain": "Pirmiausia sukuriamas amzius, tada iš jo apskaičiuojama nauja reikšmė ir tik tuomet ji parodoma."
     },
     {
-      "type": "single",
-      "prompt": "Kuris tipas tinkamiausias pašto kodui 01100?",
-      "options": ["str", "int", "float", "bool"],
-      "answer": 0,
-      "explain": "Pašto kodas nėra skirtas matematikai, o pradinis nulis turi išlikti, todėl tinka str."
-    },
-    {
-      "type": "single",
-      "prompt": "Kodėl šis kodas negali pridėti 1 prie amžiaus?",
-      "code": "age = input(\"Amžius: \")\nprint(age + 1)",
-      "options": ["age yra tekstas", "print negali rodyti skaičių", "1 turi būti kintamasis", "input negali priimti amžiaus"],
-      "answer": 0,
-      "explain": "input() grąžina str. Naudok age = int(input(...)) prieš sudėtį."
+      "type": "fill",
+      "prompt": "Įrašyk trūkstamą kintamojo pavadinimą.",
+      "code": "miestas = \"Vilnius\"\nprint(__)",
+      "accept": ["miestas"],
+      "explain": "Be kabučių parašytas miestas nurodo į kintamajame išsaugotą reikšmę."
     }
   ]
 }

@@ -32,12 +32,14 @@
 
   <div data-activities-mount class="lesson-activity-list"></div>
 
+  {% if activities.show_summary %}
   <div class="lesson-lab-summary" data-activity-summary>
     <div>
       <p class="lesson-lab-kicker">Tavo rezultatas</p>
-      <h3>Laboratorijos kortelė</h3>
-      <p data-activity-summary-text>Pradėk nuo pirmos veiklos – tavo įrašai bus išsaugomi šiame įrenginyje.</p>
+      <h3>Atliktų darbų suvestinė</h3>
+      <p data-activity-summary-text>Pradėk nuo pirmosios užduoties — tavo įrašai bus išsaugoti šiame įrenginyje.</p>
     </div>
-    <button type="button" data-activity-export disabled>Eksportuoti mano darbą</button>
+    <button type="button" data-activity-export disabled>Atsisiųsti rezultatus</button>
   </div>
+  {% endif %}
 </section>

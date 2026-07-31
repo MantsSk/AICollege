@@ -393,30 +393,34 @@ function initLessonExperience() {
     });
     block.prepend(button);
   });
-
-  const reflection = layout.querySelector('[data-lesson-reflection]');
-  if (reflection && !reflection.dataset.ready) {
-    reflection.dataset.ready = '1';
-    const key = 'reflection:' + location.pathname;
-    const choices = Array.from(reflection.querySelectorAll('[data-reflection-choice]'));
-    const reply = reflection.querySelector('[data-reflection-reply]');
-    function choose(choice) {
-      choices.forEach(function (item) { item.classList.toggle('is-selected', item.dataset.reflectionChoice === choice.dataset.reflectionChoice); });
-      reply.textContent = choice.dataset.reply;
-      reply.hidden = false;
-      try { localStorage.setItem(key, choice.dataset.reflectionChoice); } catch (e) {}
-    }
-    choices.forEach(function (choice) { choice.addEventListener('click', function () { choose(choice); }); });
-    let saved = null;
-    try { saved = localStorage.getItem(key); } catch (e) {}
-    const savedChoice = choices.find(function (item) { return item.dataset.reflectionChoice === saved; });
-    if (savedChoice) choose(savedChoice);
-  }
 }
 
 // Interactive lesson labs are authored as JSON and rendered client-side. The
 // learner's draft stays in localStorage: no private exercise text is sent to
 // the server or AI mentor unless the learner explicitly copies it there.
+const PYODIDE_BASE_URL = 'https://cdn.jsdelivr.net/pyodide/v0.28.3/full/';
+let pythonRuntimePromise = null;
+
+function loadPythonRuntime() {
+  if (pythonRuntimePromise) return pythonRuntimePromise;
+  pythonRuntimePromise = new Promise(function (resolve, reject) {
+    function initialize() {
+      window.loadPyodide({ indexURL: PYODIDE_BASE_URL }).then(resolve).catch(reject);
+    }
+    if (window.loadPyodide) {
+      initialize();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = PYODIDE_BASE_URL + 'pyodide.js';
+    script.async = true;
+    script.onload = initialize;
+    script.onerror = function () { reject(new Error('Nepavyko įkelti Python aplinkos. Patikrink interneto ryšį.')); };
+    document.head.appendChild(script);
+  });
+  return pythonRuntimePromise;
+}
+
 function initLessonActivities() {
   document.querySelectorAll('[data-lesson-activities]').forEach(function (root) {
     if (root.dataset.ready) return;
@@ -430,10 +434,13 @@ function initLessonActivities() {
     try { payload = JSON.parse(payloadNode.textContent); } catch (e) { return; }
 
     const storageKey = 'lesson-activities:' + location.pathname + ':v' + (payload.version || 1);
-    let state = { answers: {}, completed: {} };
+    let state = { answers: {}, completed: {}, outputs: {} };
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
-      if (saved && saved.answers && saved.completed) state = saved;
+      if (saved && saved.answers && saved.completed) {
+        state = saved;
+        if (!state.outputs) state.outputs = {};
+      }
     } catch (e) {}
 
     const score = root.querySelector('[data-activity-score]');
@@ -494,6 +501,12 @@ function initLessonActivities() {
 
     function renderPromptBuilder(activity) {
       const article = card(activity);
+      if (activity.scenario) {
+        const scenario = element('div', 'decision-scenario');
+        scenario.appendChild(element('span', '', 'Medžiaga užduočiai'));
+        scenario.appendChild(element('p', '', activity.scenario));
+        article.appendChild(scenario);
+      }
       const layout = element('div', 'prompt-builder-grid');
       const fields = element('div', 'prompt-builder-fields');
       const preview = element('div', 'prompt-builder-preview');
@@ -769,6 +782,163 @@ function initLessonActivities() {
       return article;
     }
 
+    function renderCodeExercise(activity) {
+      const article = card(activity);
+      article.classList.add('code-lab-card');
+
+      const shell = element('div', 'code-lab-shell');
+      const topbar = element('div', 'code-lab-topbar');
+      const fileTab = element('div', 'code-lab-file-tab');
+      fileTab.append(element('span', 'code-lab-python-mark', 'Py'), element('strong', '', activity.file_name || 'main.py'));
+      const runtimeState = element('span', 'code-lab-runtime-state', 'Python naršyklėje');
+      topbar.append(fileTab, runtimeState);
+
+      const workspace = element('div', 'code-lab-workspace');
+      const editorPane = element('div', 'code-lab-editor-pane');
+      const lineNumbers = element('pre', 'code-lab-lines');
+      const editor = document.createElement('textarea');
+      editor.className = 'code-lab-editor';
+      editor.setAttribute('aria-label', (activity.file_name || 'main.py') + ' kodo redaktorius');
+      editor.setAttribute('spellcheck', 'false');
+      editor.value = state.answers[activity.id] || activity.starter_code;
+      editorPane.append(lineNumbers, editor);
+
+      const outputPane = element('div', 'code-lab-output-pane');
+      const outputHeader = element('div', 'code-lab-output-header');
+      outputHeader.append(element('strong', '', 'Išvestis'), element('span', '', 'Terminalas'));
+      const output = element('pre', 'code-lab-output', state.outputs[activity.id] || 'Paleisk programą, kad čia pamatytum rezultatą.');
+      output.setAttribute('aria-live', 'polite');
+      outputPane.append(outputHeader, output);
+      workspace.append(editorPane, outputPane);
+
+      const footer = element('div', 'code-lab-footer');
+      const shortcut = element('span', 'code-lab-shortcut', '⌘/Ctrl + Enter — paleisti');
+      const actions = element('div', 'code-lab-actions');
+      const resetButton = element('button', 'activity-button code-lab-reset', 'Atkurti kodą');
+      resetButton.type = 'button';
+      const runButton = element('button', 'activity-button code-lab-run', '▶ Paleisti');
+      runButton.type = 'button';
+      const submitButton = element('button', 'activity-button activity-button-primary', 'Tikrinti sprendimą');
+      submitButton.type = 'button';
+      actions.append(resetButton, runButton, submitButton);
+      footer.append(shortcut, actions);
+
+      const checksPanel = element('div', 'code-lab-checks');
+      checksPanel.appendChild(element('p', 'code-lab-checks-title', 'Automatiniai testai'));
+      const checkNodes = activity.checks.map(function (check) {
+        const row = element('div', 'code-lab-check');
+        row.append(element('span', 'code-lab-check-icon', '○'), element('span', '', check.label));
+        checksPanel.appendChild(row);
+        return row;
+      });
+
+      function updateLineNumbers() {
+        const count = Math.max(1, editor.value.split('\n').length);
+        lineNumbers.textContent = Array.from({ length: count }, function (_, index) { return index + 1; }).join('\n');
+      }
+
+      function persistCode() {
+        state.answers[activity.id] = editor.value;
+        if (state.completed[activity.id]) mark(activity, false); else save();
+        updateLineNumbers();
+      }
+
+      function checkResult(check, code, result) {
+        const normalized = result.replace(/\r\n/g, '\n').trim();
+        const lines = normalized ? normalized.split('\n') : [];
+        if (check.type === 'min_output_lines') return lines.length >= Number(check.value);
+        if (check.type === 'output_contains') return normalized.includes(String(check.value));
+        if (check.type === 'last_output_line') return (lines[lines.length - 1] || '').trim() === String(check.value);
+        if (check.type === 'code_contains') return code.includes(String(check.value));
+        if (check.type === 'code_not_contains') return !code.includes(String(check.value));
+        if (check.type === 'code_regex') return new RegExp(String(check.value), 'm').test(code);
+        if (check.type === 'output_equals') return normalized === String(check.value).trim();
+        return false;
+      }
+
+      async function execute(shouldCheck) {
+        const code = editor.value;
+        state.answers[activity.id] = code;
+        runButton.disabled = true;
+        submitButton.disabled = true;
+        runtimeState.textContent = pythonRuntimePromise ? 'Vykdoma…' : 'Kraunama Python…';
+        output.classList.remove('is-error');
+        output.textContent = 'Ruošiama Python aplinka…';
+
+        try {
+          const runtime = await loadPythonRuntime();
+          const stdout = [];
+          const stderr = [];
+          runtime.setStdout({ batched: function (message) { stdout.push(message); } });
+          runtime.setStderr({ batched: function (message) { stderr.push(message); } });
+          const globals = runtime.globals.get('dict')();
+          try {
+            await runtime.runPythonAsync(code, { globals: globals });
+          } finally {
+            globals.destroy();
+          }
+          const rendered = stdout.concat(stderr).join('\n');
+          state.outputs[activity.id] = rendered;
+          output.textContent = rendered || '(Programa nieko neparodė)';
+          runtimeState.textContent = 'Python paruoštas';
+
+          if (shouldCheck) {
+            const results = activity.checks.map(function (check) { return checkResult(check, code, rendered); });
+            checkNodes.forEach(function (row, index) {
+              row.classList.toggle('is-pass', results[index]);
+              row.classList.toggle('is-fail', !results[index]);
+              row.querySelector('.code-lab-check-icon').textContent = results[index] ? '✓' : '×';
+            });
+            mark(activity, results.every(Boolean));
+          } else {
+            save();
+          }
+        } catch (error) {
+          const message = error && error.message ? error.message : String(error);
+          state.outputs[activity.id] = message;
+          output.textContent = message;
+          output.classList.add('is-error');
+          runtimeState.textContent = 'Kodo klaida';
+          if (shouldCheck) mark(activity, false); else save();
+        } finally {
+          runButton.disabled = false;
+          submitButton.disabled = false;
+        }
+      }
+
+      editor.addEventListener('input', persistCode);
+      editor.addEventListener('keydown', function (event) {
+        if (event.key === 'Tab') {
+          event.preventDefault();
+          const start = editor.selectionStart;
+          editor.setRangeText('    ', start, editor.selectionEnd, 'end');
+          persistCode();
+        }
+        if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+          event.preventDefault();
+          execute(false);
+        }
+      });
+      resetButton.addEventListener('click', function () {
+        editor.value = activity.starter_code;
+        state.outputs[activity.id] = '';
+        output.textContent = 'Kodas atkurtas. Paleisk programą dar kartą.';
+        checkNodes.forEach(function (row) {
+          row.classList.remove('is-pass', 'is-fail');
+          row.querySelector('.code-lab-check-icon').textContent = '○';
+        });
+        persistCode();
+        editor.focus();
+      });
+      runButton.addEventListener('click', function () { execute(false); });
+      submitButton.addEventListener('click', function () { execute(true); });
+
+      updateLineNumbers();
+      shell.append(topbar, workspace, footer);
+      article.append(shell, checksPanel);
+      return article;
+    }
+
     payload.activities.forEach(function (activity) {
       let node = null;
       if (activity.type === 'prompt_builder') node = renderPromptBuilder(activity);
@@ -776,6 +946,7 @@ function initLessonActivities() {
       if (activity.type === 'diagnose') node = renderDiagnose(activity);
       if (activity.type === 'decision') node = renderDecision(activity);
       if (activity.type === 'artifact_builder') node = renderArtifactBuilder(activity);
+      if (activity.type === 'code_exercise') node = renderCodeExercise(activity);
       if (node) mount.appendChild(node);
     });
 

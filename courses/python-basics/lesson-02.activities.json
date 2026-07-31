@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "title": "Vartotojo įvesties laboratorija",
+  "intro": "Programa turi sudėti du vartotojo įvestus skaičius. Kai programa pasieks input(), naršyklėje iškils langelis – įrašyk sveiką skaičių ir paspausk Enter. Pataisyk kodą taip, kad suma būtų teisinga.",
+  "show_summary": false,
+  "activities": [
+    {
+      "id": "input-sum-fix",
+      "type": "code_exercise",
+      "title": "Sudėk du įvestus skaičius",
+      "instructions": "Šiuo metu input() grąžina tekstą, todėl \"2\" + \"3\" duotų \"23\", o ne 5. Paversk abi įvestis skaičiais su int(), kad programa parodytų teisingą sumą. Tikrindamas sprendimą į abu langelius įrašyk sveikus skaičius.",
+      "file_name": "suma.py",
+      "starter_code": "# Programa turi sudėti du vartotojo įvestus skaičius.\n# Dabar input() grąžina tekstą, todėl vietoj sumos gaunamas sujungtas tekstas.\n# Pataisyk: paversk abi įvestis skaičiais su int().\n\na = input(\"Pirmas skaičius: \")\nb = input(\"Antras skaičius: \")\n\nprint(\"Suma:\", a + b)",
+      "checks": [
+        {
+          "type": "code_regex",
+          "value": "int\\s*\\(",
+          "label": "Įvestis paverčiama skaičiumi su int()"
+        },
+        {
+          "type": "code_regex",
+          "value": "input\\s*\\(",
+          "label": "Programa klausia vartotojo su input()"
+        },
+        {
+          "type": "output_contains",
+          "value": "Suma:",
+          "label": "Programa sėkmingai parodo sumą su užrašu „Suma:“"
+        }
+      ]
+    }
+  ]
+}

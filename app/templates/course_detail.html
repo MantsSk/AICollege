@@ -21,7 +21,7 @@
   <p class="studio-promise">{{ studio.promise }}</p>
   <div class="studio-artifact">
     <span>{{ icons.icon("wrench", "h-5 w-5") }}</span>
-    <div><small>Ką parsineši</small><strong>{{ studio.artifact }}</strong></div>
+    <div><small>Kurso rezultatas</small><strong>{{ studio.artifact }}</strong></div>
   </div>
   {% endif %}
 
@@ -47,7 +47,7 @@
       </ul>
     </section>
     <section>
-      <p class="studio-section-kicker">Įrodomi įgūdžiai</p>
+      <p class="studio-section-kicker">Įgyti įgūdžiai</p>
       <div class="studio-skill-list">
         {% for skill in studio.skills %}<span>{{ skill }}</span>{% endfor %}
       </div>

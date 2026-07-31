@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "title": "Pirmosios programos laboratorija",
+  "intro": "Rašyk ir paleisk tikrą Python kodą tiesiai naršyklėje. Nieko diegti nereikia, o tavo kodas išsaugomas šiame įrenginyje.",
+  "show_summary": false,
+  "activities": [
+    {
+      "id": "first-python-program",
+      "type": "code_exercise",
+      "title": "Sukurk trumpą programą apie save",
+      "instructions": "Pakeisk main.py taip, kad programa parodytų bent tris eilutes: tavo vardą, tekstą „Mokausi Python“ ir skaičiavimo 12 + 8 rezultatą.",
+      "file_name": "main.py",
+      "starter_code": "print(\"Mano vardas: įrašyk vardą\")\nprint(\"Mokausi Python\")\nprint(12 + 8)",
+      "checks": [
+        {
+          "type": "min_output_lines",
+          "value": 3,
+          "label": "Programa parodo bent tris eilutes"
+        },
+        {
+          "type": "output_contains",
+          "value": "Mokausi Python",
+          "label": "Išvestyje yra tekstas „Mokausi Python“"
+        },
+        {
+          "type": "last_output_line",
+          "value": "20",
+          "label": "Paskutinėje eilutėje parodytas skaičiavimo rezultatas 20"
+        },
+        {
+          "type": "code_not_contains",
+          "value": "įrašyk vardą",
+          "label": "Pavyzdinis vardas pakeistas savu vardu"
+        }
+      ]
+    }
+  ]
+}

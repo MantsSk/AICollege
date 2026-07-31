@@ -21,46 +21,97 @@ def test_public_pages(client):
         "/pricing",
         "/courses",
         "/challenges",
+        "/courses/python-basics",
+        "/courses/python-basics/lesson-00",
         "/courses/practical-ai",
         "/courses/practical-ai/lesson-00",
-        "/courses/python-basics",
         "/healthz",
     ):
         assert client.get(path).status_code == 200
 
 
-def test_mission_course_exposes_workbench_and_profile(client):
-    course = client.get("/courses/practical-ai")
-    assert "Misijų laboratorija" in course.text
-    assert "Patikrinto DI asistento specifikacija" in course.text
+def test_landing_copy_is_concise(client):
+    page = client.get("/").text
+    assert "Išmok Python nuo nulio" in page
+    assert "po vieną žingsnį" in page
+    assert "Paversk chaosą darbo procesu" not in page
+    assert "Kursų katalogas" not in page
+    assert "Kaip mokysiesi" not in page
+    assert "Pradėk mokytis DI šiandien" not in page
+    assert 'href="/courses/python-basics"' in page
+    assert 'href="/courses/python-basics/lesson-00"' in page
+    assert "DI darbe: patikimas asistentas" in page
 
-    mission = client.get("/courses/practical-ai/lesson-00")
-    assert 'data-lesson-activities' in mission.text
-    assert '"artifact_builder"' in mission.text
-    assert "Patikimumo misija" in mission.text
-    assert 'class="course-outline"' in mission.text
-    assert 'class="lesson-workspace-tabs"' in mission.text
+
+def test_python_course_starts_with_two_progressive_lessons(client):
+    course = client.get("/courses/python-basics")
+    assert course.status_code == 200
+    assert "Python nuo nulio" in course.text
+    assert course.text.count('href="/courses/python-basics/lesson-00"') == 1
+    assert "Kintamieji: duomenims suteik vardus" in course.text
+
+    lesson = client.get("/courses/python-basics/lesson-00")
+    assert "Pirmoji Python programa" in lesson.text
+    assert "Klaida nėra nesėkmė" in lesson.text
+    assert 'class="course-outline"' in lesson.text
+    assert 'class="lesson-workspace-tabs"' in lesson.text
+    assert 'data-lesson-activities' in lesson.text
+    assert '"code_exercise"' in lesson.text
+
+    assert client.get("/courses/python-basics/lesson-01").status_code == 403
+
+
+def test_second_python_lesson_has_variables_lab(client):
+    _register(client)
+    lesson = client.get("/courses/python-basics/lesson-01")
+    assert lesson.status_code == 200
+    assert "Kintamieji: duomenims suteik vardus" in lesson.text
+    assert "Kintamojo reikšmę galima pakeisti" in lesson.text
+    assert 'data-lesson-activities' in lesson.text
+    assert '"code_exercise"' in lesson.text
+    assert 'vizitine.py' in lesson.text
+
+
+def test_ai_course_starts_with_one_practical_lesson(client):
+    course = client.get("/courses/practical-ai")
+    assert course.status_code == 200
+    assert "DI darbe: patikimas asistentas" in course.text
+    assert "Patikrintas DI asistentas" in course.text
+    assert course.text.count('href="/courses/practical-ai/lesson-00"') == 1
+
+    lesson = client.get("/courses/practical-ai/lesson-00")
+    assert lesson.status_code == 200
+    assert "Pirmasis geras promptas" in lesson.text
+    assert "Keturi gero prompto elementai" in lesson.text
+    assert 'data-lesson-activities' in lesson.text
+    assert '"prompt_builder"' in lesson.text
+    assert client.get("/courses/practical-ai/lesson-01").status_code == 404
 
 
 def test_challenges_catalog_uses_course_question_banks(client):
     page = client.get("/challenges")
     assert page.status_code == 200
     assert "Iššūkiai" in page.text
-    assert "Python programavimo mokymai" in page.text
+    assert "Python nuo nulio" in page.text
 
 
-def test_mission_activity_files_validate():
+def test_lesson_laboratories_are_available():
     from app.activities import get_activities
 
-    expected = {
-        "lesson-00": {"decision", "diagnose", "artifact_builder"},
-        "lesson-01": {"decision", "artifact_builder"},
-        "lesson-02": {"decision", "artifact_builder"},
-    }
-    for lesson_slug, activity_types in expected.items():
-        payload = get_activities("practical-ai", lesson_slug, "lt")
-        assert payload is not None
-        assert {item["type"] for item in payload["activities"]} == activity_types
+    ai_payload = get_activities("practical-ai", "lesson-00", "lt")
+    assert ai_payload is not None
+    assert [activity["type"] for activity in ai_payload["activities"]] == [
+        "decision",
+        "prompt_builder",
+    ]
+    payload = get_activities("python-basics", "lesson-00", "lt")
+    assert payload is not None
+    assert payload["activities"][0]["type"] == "code_exercise"
+    assert payload["activities"][0]["file_name"] == "main.py"
+    second_payload = get_activities("python-basics", "lesson-01", "lt")
+    assert second_payload is not None
+    assert second_payload["activities"][0]["type"] == "code_exercise"
+    assert second_payload["activities"][0]["file_name"] == "vizitine.py"
 
 
 def test_state_changing_requests_require_csrf_token(client):
@@ -82,7 +133,7 @@ def test_form_field_csrf_token_preserves_body(client):
 
 
 def test_anonymous_lesson_gating(client):
-    # First lesson is public, second is locked for anonymous visitors.
+    # The first and currently only lesson is public.
     assert client.get("/courses/python-basics/lesson-00").status_code == 200
     assert client.get("/courses/python-basics/lesson-01").status_code == 403
 
@@ -95,9 +146,9 @@ def test_dashboard_requires_login(client):
 
 def test_registered_account_unlocks_courses(client):
     _register(client)
-    # Payments are disabled for testing, so an account unlocks full courses.
-    assert client.get("/courses/python-basics/lesson-02").status_code == 200
-    assert client.get("/courses/python-basics/lesson-03").status_code == 200
+    assert client.get("/courses/python-basics").status_code == 200
+    assert client.get("/courses/python-basics/lesson-00").status_code == 200
+    assert client.get("/courses/python-basics/lesson-01").status_code == 200
 
 
 def test_login_flow(client):
@@ -125,7 +176,7 @@ def test_password_reset(client):
 
 def test_mark_complete(client):
     _register(client)
-    r = _post(client, "/courses/python-basics/lesson-01/complete")
+    r = _post(client, "/courses/python-basics/lesson-00/complete")
     assert r.status_code == 200
     assert "baigta" in r.text.lower()
 
@@ -139,15 +190,15 @@ def test_billing_disabled(client):
 
 def test_ai_mentor_and_limit(client, mock_mentor):
     _register(client)
-    r = _post(client, "/mentor/python-basics/lesson-01", data={"message": "hello"})
+    r = _post(client, "/mentor/python-basics/lesson-00", data={"message": "hello"})
     assert "Mock reply" in r.text
-    _post(client, "/mentor/python-basics/lesson-01", data={"message": "again"})
-    r3 = _post(client, "/mentor/python-basics/lesson-01", data={"message": "third"})
+    _post(client, "/mentor/python-basics/lesson-00", data={"message": "again"})
+    r3 = _post(client, "/mentor/python-basics/lesson-00", data={"message": "third"})
     assert "dienos DI mentoriaus limitą" in r3.text
 
 
 def test_markdown_rendering(client):
     _register(client)
-    r = client.get("/courses/python-basics/lesson-01")
+    r = client.get("/courses/python-basics/lesson-00")
     assert "codehilite" in r.text  # syntax-highlighted code block
     assert "DI mentorius" in r.text

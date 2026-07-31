@@ -14,6 +14,7 @@ from app.models import Course, Lesson
 
 def seed() -> None:
     courses = load_courses()
+    source_slugs = {course.slug for course in courses}
     db = SessionLocal()
     try:
         for c in courses:
@@ -49,6 +50,10 @@ def seed() -> None:
             for lesson in existing:
                 if lesson.slug not in seen_slugs:
                     db.delete(lesson)
+
+        for course in db.scalars(select(Course)).all():
+            if course.slug not in source_slugs:
+                db.delete(course)
 
         db.commit()
         print(f"Seeded {len(courses)} courses.")

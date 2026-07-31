@@ -5,12 +5,12 @@
 {% block content %}
 <!-- Hero -->
 <section class="editorial-hero relative overflow-hidden border-b border-stone-300/70 dark:border-stone-800">
-  <div class="max-w-6xl mx-auto px-4 pt-16 sm:pt-24 pb-16 sm:pb-24 grid lg:grid-cols-[1.35fr_.65fr] gap-12 items-end relative z-10">
+  <div class="max-w-6xl mx-auto px-4 pt-16 sm:pt-24 pb-16 sm:pb-24 grid lg:grid-cols-[1.25fr_.75fr] gap-10 items-center relative z-10">
     <div>
     <p class="eyebrow text-xs font-semibold uppercase tracking-[.18em] text-accent-700 dark:text-accent-400">
       {{ _('landing.badge') }}
     </p>
-    <h1 class="font-display mt-6 text-4xl min-[380px]:text-5xl sm:text-7xl lg:text-[5.4rem] font-semibold leading-[.98] sm:leading-[.93] tracking-[-.04em] max-w-4xl break-words">
+    <h1 class="font-display mt-6 text-4xl min-[380px]:text-5xl sm:text-7xl lg:text-[4.7rem] font-semibold leading-[.98] sm:leading-[.94] tracking-[-.04em] max-w-4xl break-words">
       {{ _('landing.h1') }}
       <em class="block text-accent-600 dark:text-accent-400 font-medium">{{ _('landing.h1_highlight') }}</em>
     </h1>
@@ -18,7 +18,7 @@
       {{ _('landing.lead') }}
     </p>
     <div class="mt-9 flex flex-col sm:flex-row gap-3">
-      <a href="{{ '/dashboard' if user else '/courses/practical-ai/lesson-00' }}"
+      <a href="{{ '/dashboard' if user else '/courses/python-basics/lesson-00' }}"
         class="button-primary px-6 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 font-semibold text-base">
         {{ _('nav.dashboard') if user else _('landing.try_mission') }}
       </a>
@@ -28,10 +28,10 @@
     </div>
     <p class="mt-5 text-sm text-stone-500">{{ _('landing.note') }}</p>
     </div>
-    <a href="/courses/practical-ai/lesson-00" class="hero-mission-card group lg:ml-auto max-w-sm">
+    <a href="/courses/python-basics/lesson-00" class="hero-mission-card group lg:ml-auto max-w-sm">
       <div class="flex items-center justify-between gap-3">
         <span class="studio-chip studio-chip-accent">{{ _('landing.preview.badge') }}</span>
-        <span class="text-xs font-semibold text-stone-400">20 min.</span>
+        <span class="text-xs font-semibold text-stone-400">25 min.</span>
       </div>
       <p class="mt-5 text-xs font-bold uppercase tracking-[.14em] text-brand-600 dark:text-brand-400">{{ _('landing.preview.skill') }}</p>
       <h2 class="font-display mt-2 text-2xl font-semibold leading-tight">{{ _('landing.preview.title') }}</h2>
@@ -45,136 +45,39 @@
   </div>
 </section>
 
-{% include "partials/landing_interactive.html" %}
-
-<!-- Learning paths -->
+<!-- Courses -->
 <section class="max-w-6xl mx-auto px-4 py-20">
   <div class="max-w-3xl">
     <h2 class="font-display text-3xl sm:text-5xl font-semibold tracking-tight">{{ _('paths.title') }}</h2>
     <p class="mt-3 text-stone-600 dark:text-stone-400">{{ _('paths.lead') }}</p>
   </div>
 
-  <div class="mt-10 grid gap-px lg:grid-cols-2 border-y border-stone-300 dark:border-stone-700 bg-stone-300 dark:bg-stone-700">
+  <div class="mt-10 grid max-w-3xl gap-px border-y border-stone-300 dark:border-stone-700 bg-stone-300 dark:bg-stone-700">
     {% for section in path_sections if section["id"] != 'other' %}
-    {% set is_casual = section["id"] == 'casual' %}
-    <a href="/courses#{{ section["id"] }}"
-       class="group relative overflow-hidden p-7 sm:p-9 transition
-       {% if is_casual %}path-card-casual{% else %}path-card-developer{% endif %}">
+    {% set is_casual = section["id"] == 'ai' %}
+    {% for item in section["items"] %}
+    {% set course = item.course %}
+    {% set studio = course_profile(course.slug) %}
+    <a href="/courses/{{ course.slug }}"
+       class="group relative overflow-hidden p-7 sm:p-9 transition {% if is_casual %}path-card-casual{% else %}path-card-developer{% endif %}">
       <span class="absolute inset-x-0 top-0 h-1 {% if is_casual %}bg-accent-500{% else %}bg-brand-600{% endif %}"></span>
       <div class="flex items-start gap-4">
-        <div class="font-display text-4xl {% if is_casual %}text-accent-600 dark:text-accent-400{% else %}text-brand-600 dark:text-brand-400{% endif %}">
-          0{{ loop.index }}
-        </div>
         <div class="min-w-0">
           <div class="text-xs font-semibold uppercase tracking-wide {% if is_casual %}text-accent-700 dark:text-accent-300{% else %}text-brand-700 dark:text-brand-300{% endif %}">{{ _('paths.' ~ section["id"] ~ '.kicker') }}</div>
-          <h3 class="font-display mt-2 text-2xl font-semibold break-words {% if is_casual %}group-hover:text-accent-700 dark:group-hover:text-accent-300{% else %}group-hover:text-brand-600 dark:group-hover:text-brand-400{% endif %}">{{ _('paths.' ~ section["id"] ~ '.title') }}</h3>
-          <p class="mt-3 leading-relaxed text-stone-600 dark:text-stone-400">{{ _('paths.' ~ section["id"] ~ '.body') }}</p>
+          <h3 class="font-display mt-2 text-2xl font-semibold break-words {% if is_casual %}group-hover:text-accent-700 dark:group-hover:text-accent-300{% else %}group-hover:text-brand-600 dark:group-hover:text-brand-400{% endif %}">{{ course.title }}</h3>
+          <p class="mt-3 leading-relaxed text-stone-600 dark:text-stone-400">{{ course.description }}</p>
         </div>
       </div>
-      <div class="mt-6 flex flex-wrap gap-2">
-        {% for item in section["items"] %}
-        <span class="max-w-full break-words border-b border-stone-300 dark:border-stone-700 py-1 text-xs font-medium text-stone-600 dark:text-stone-300">{{ item.course.title }}</span>
-        {% endfor %}
+      {% if studio %}
+      <div class="mt-5 flex flex-wrap gap-2">
+        <span class="studio-chip studio-chip-accent">{{ studio.format }}</span>
+        <span class="studio-chip">{{ studio.duration }}</span>
       </div>
-      <div class="mt-6 inline-flex items-center gap-1.5 font-semibold {% if is_casual %}text-accent-700 dark:text-accent-300{% else %}text-brand-600 dark:text-brand-400{% endif %} group-hover:underline">{{ _('paths.' ~ section["id"] ~ '.cta') }} {{ icons.icon("arrow-right", "h-4 w-4") }}</div>
+      {% endif %}
+      <div class="mt-6 inline-flex items-center gap-1.5 font-semibold {% if is_casual %}text-accent-700 dark:text-accent-300{% else %}text-brand-600 dark:text-brand-400{% endif %} group-hover:underline">{{ _('courses.view') }} {{ icons.icon("arrow-right", "h-4 w-4") }}</div>
     </a>
     {% endfor %}
-  </div>
-</section>
-
-<!-- Course catalog preview -->
-<section class="max-w-6xl mx-auto px-4 py-20 border-t border-stone-300/70 dark:border-stone-800">
-  <div class="flex items-end justify-between mb-8">
-    <h2 class="font-display text-3xl sm:text-5xl font-semibold tracking-tight">{{ _('landing.catalog') }}</h2>
-    <a href="/courses" class="text-accent-700 dark:text-accent-400 font-medium hover:underline">{{ _('landing.view_all') }}</a>
-  </div>
-  <div class="space-y-8">
-    {% for section in path_sections %}
-    {% set is_casual = section["id"] == 'casual' %}
-    <div>
-      <div class="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide {% if is_casual %}text-accent-700 dark:text-accent-300{% else %}text-brand-600 dark:text-brand-400{% endif %}">
-        <span class="h-2 w-2 rounded-full {% if is_casual %}bg-accent-500{% else %}bg-brand-600{% endif %}"></span>
-        {{ _('paths.' ~ section["id"] ~ '.kicker') }}
-      </div>
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {% for item in section["items"] %}
-        {% set course = item.course %}
-        {% set studio = course_profile(course.slug) %}
-        <a href="/courses/{{ course.slug }}" class="course-card group flex h-full flex-col rounded-xl border bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:bg-stone-900 {% if is_casual %}border-accent-200 hover:border-accent-500 dark:border-accent-500/30{% else %}border-brand-200 hover:border-brand-500 dark:border-brand-500/30{% endif %}">
-          <div class="text-xs font-semibold uppercase tracking-wide {% if is_casual %}text-accent-700 dark:text-accent-300{% else %}text-brand-600 dark:text-brand-400{% endif %}">{{ _('courses.lessons', count=course.lessons|length) }}</div>
-          <h3 class="font-display mt-3 text-xl font-semibold {% if is_casual %}group-hover:text-accent-700 dark:group-hover:text-accent-300{% else %}group-hover:text-brand-600 dark:group-hover:text-brand-400{% endif %}">{{ course.title }}</h3>
-          <p class="mt-2 text-sm leading-relaxed text-stone-600 dark:text-stone-400 line-clamp-3 flex-1">{{ course.description }}</p>
-          {% if studio %}
-          <div class="mt-4 flex flex-wrap gap-2"><span class="studio-chip studio-chip-accent">{{ studio.format }}</span><span class="studio-chip">{{ studio.duration }}</span></div>
-          {% endif %}
-          <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold {% if is_casual %}text-accent-700 dark:text-accent-300{% else %}text-brand-600 dark:text-brand-400{% endif %}">
-            {{ _('courses.view') }} {{ icons.icon("arrow-right", "h-4 w-4") }}
-          </span>
-        </a>
-        {% endfor %}
-      </div>
-    </div>
     {% endfor %}
-  </div>
-</section>
-
-<!-- Benefits -->
-<section class="bg-stone-50 dark:bg-stone-900/50 border-y border-stone-200 dark:border-stone-800">
-  <div class="max-w-6xl mx-auto px-4 py-16">
-    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-center">{{ _('landing.why') }}</h2>
-    <div class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-      {% set benefits = [
-        ("book-open", _("benefit.text_title"), _("benefit.text_body")),
-        ("bot", _("benefit.mentor_title"), _("benefit.mentor_body")),
-        ("wrench", _("benefit.projects_title"), _("benefit.projects_body")),
-        ("zap", _("benefit.fast_title"), _("benefit.fast_body")),
-      ] %}
-      {% for name, title, body in benefits %}
-      <div class="rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 p-6">
-        <div class="inline-flex h-11 w-11 items-center justify-center rounded-xl {% if loop.index is odd %}bg-accent-50 text-accent-700 dark:bg-accent-500/12 dark:text-accent-400{% else %}bg-brand-50 text-brand-600 dark:bg-brand-600/12 dark:text-brand-400{% endif %}">{{ icons.icon(name, "h-6 w-6") }}</div>
-        <h3 class="mt-3 font-bold">{{ title }}</h3>
-        <p class="mt-2 text-sm text-stone-600 dark:text-stone-400">{{ body }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-<!-- Pricing -->
-<section id="pricing" class="max-w-3xl mx-auto px-4 py-16">
-  <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-center">{{ _('pricing.simple') }}</h2>
-  <p class="mt-3 text-center text-stone-600 dark:text-stone-400">{{ _('pricing.lead') }}</p>
-  <div class="mt-10 grid gap-6 {% if payments_enabled %}md:grid-cols-2{% endif %}">
-    <div class="rounded-xl border border-stone-200 dark:border-stone-800 p-7 bg-white dark:bg-stone-900">
-      <h3 class="font-bold text-lg">{{ _('pricing.free') }}</h3>
-      <p class="mt-2 text-3xl font-bold">€0</p>
-      <ul class="mt-5 space-y-2 text-sm text-stone-600 dark:text-stone-300">
-        {% for feature in [_('pricing.full_courses'), _('pricing.mentor', count=free_daily_ai_messages), _('pricing.progress')] %}
-        <li class="flex items-start gap-2">{{ icons.icon("check", "mt-0.5 h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400") }}<span>{{ feature }}</span></li>
-        {% endfor %}
-      </ul>
-      <a href="/register" class="mt-6 block text-center px-5 py-3 rounded-lg border border-stone-300 dark:border-stone-700 font-semibold hover:bg-stone-100 dark:hover:bg-stone-800">{{ _('pricing.create') }}</a>
-    </div>
-    {% if payments_enabled %}
-    <div class="rounded-xl border-2 border-brand-500 p-7 bg-white dark:bg-stone-900 relative shadow-sm">
-      <span class="absolute -top-3 left-7 rounded-full bg-accent-400 text-stone-900 text-xs font-semibold px-3 py-1">{{ _('pricing.popular') }}</span>
-      <h3 class="font-bold text-lg">Pro</h3>
-      <p class="mt-2 text-3xl font-bold">€{{ subscription_price }}<span class="text-base font-medium text-stone-500">{{ _('pricing.month') }}</span></p>
-      <ul class="mt-5 space-y-2 text-sm text-stone-600 dark:text-stone-300">
-        {% for feature in [_('pricing.all_lessons'), _('pricing.higher_limits'), _('pricing.future'), _('pricing.cancel')] %}
-        <li class="flex items-start gap-2">{{ icons.icon("check", "mt-0.5 h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400") }}<span>{{ feature }}</span></li>
-        {% endfor %}
-      </ul>
-      {% if user and not user.is_subscribed %}
-      <form action="/billing/checkout" method="post">
-        <button class="mt-6 w-full px-5 py-3 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-500">{{ _('pricing.go_pro') }}</button>
-      </form>
-      {% else %}
-      <a href="{{ '/pricing' if not user else '/billing/checkout' }}"
-         class="mt-6 block text-center px-5 py-3 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-500">{{ _('pricing.go_pro') }}</a>
-      {% endif %}
-    </div>
-    {% endif %}
   </div>
 </section>
 
@@ -203,12 +106,4 @@
   </div>
 </section>
 
-<!-- CTA -->
-<section class="max-w-4xl mx-auto px-4 py-20 text-center">
-  <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">{{ _('landing.cta_title') }}</h2>
-  <p class="mt-4 text-lg text-stone-600 dark:text-stone-300">{{ _('landing.cta_body') }}</p>
-  <a href="{{ '/dashboard' if user else '/register' }}" class="mt-8 inline-block px-8 py-4 rounded-lg bg-brand-600 text-white font-semibold text-lg hover:bg-brand-500">
-    {{ _('nav.start') }}
-  </a>
-</section>
 {% endblock %}

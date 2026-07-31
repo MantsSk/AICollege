@@ -1,53 +1,71 @@
 {
-  "version": 1,
-  "title": "Patikimumo misija",
-  "intro": "Du sprendimai ir vienas išsaugomas rezultatas. Užduotis atliekama naršyklėje – tavo tekstas niekur nesiunčiamas.",
+  "version": 2,
+  "title": "Pirmojo prompto laboratorija",
+  "intro": "Palygink dvi užklausas, tada iš keturių aiškių dalių sudėk promptą susitikimo santraukai.",
+  "show_summary": true,
   "activities": [
     {
-      "id": "send-or-check",
+      "id": "choose-clear-prompt",
       "type": "decision",
-      "skill": "Rizikos atpažinimas",
-      "minutes": 5,
-      "title": "01 · Sustabdyk automatinį pasitikėjimą",
-      "instructions": "DI parašė: „Pagal jūsų sutarties 8.2 punktą kompensacija bus išmokėta iki penktadienio.“ Sutartis modeliui nebuvo pateikta. Ką darai?",
-      "scenario": "Atsakymas skamba profesionaliai, tačiau mini nematytą sutarties punktą ir pažada konkrečią išmokos datą.",
+      "title": "1. Kuris promptas aiškesnis?",
+      "instructions": "Pasirink užklausą, kuri tiksliau paaiškina norimą rezultatą.",
+      "skill": "Prompto aiškumas",
+      "minutes": 2,
+      "scenario": "Turi susitikimo užrašus ir nori perduoti svarbiausią informaciją nedalyvavusiai projekto komandai.",
       "choices": [
-        {"id": "send", "label": "Siunčiu – formuluotė skamba užtikrintai", "correct": false, "feedback": "Sklandus tonas nėra faktų įrodymas. Taip klientui būtų perduoti du nepatikrinti teiginiai."},
-        {"id": "soften", "label": "Pakeičiu toną į atsargesnį ir siunčiu", "correct": false, "feedback": "Atsargesnis tonas nepataiso neegzistuojančio šaltinio ir nepatvirtinto pažado."},
-        {"id": "verify", "label": "Sutikrinu sutartį, datą ir įgaliojimą žadėti", "correct": true, "feedback": "Teisingai. Tikrinami šaltinis, faktas ir žmogaus teisė priimti galutinį sprendimą."}
+        {
+          "id": "vague",
+          "label": "Sutvarkyk šiuos užrašus.",
+          "correct": false,
+          "feedback": "Neaišku, ką reiškia „sutvarkyk“, kam skirtas rezultatas ir kaip jis turi atrodyti."
+        },
+        {
+          "id": "clear",
+          "label": "Parenk 3 punktų santrauką projekto komandai ir atskirai išvardyk sutartus darbus su atsakingais žmonėmis.",
+          "correct": true,
+          "feedback": "Teisingai. Užduotis, auditorija ir atsakymo formatas yra aiškūs."
+        },
+        {
+          "id": "generic",
+          "label": "Parašyk ką nors profesionalaus.",
+          "correct": false,
+          "feedback": "Žodis „profesionalaus“ nepaaiškina nei užduoties, nei pageidaujamo rezultato."
+        }
       ],
-      "explanation": "Patikra turi būti proporcinga žalai: kuo svarbesnis teiginys, tuo stipresnio šaltinio ir žmogaus patvirtinimo reikia."
+      "explanation": "Aiškus promptas sumažina dalykų, kuriuos DI turi atspėti, skaičių."
     },
     {
-      "id": "risk-map",
-      "type": "diagnose",
-      "skill": "Teiginių diagnozė",
-      "minutes": 5,
-      "title": "02 · Pažymėk tikrąsias rizikas",
-      "instructions": "Pasirink visas priežastis, dėl kurių šio atsakymo dar negalima naudoti.",
-      "sample": "„Pagal jūsų sutarties 8.2 punktą kompensacija bus išmokėta iki penktadienio.“",
-      "options": [
-        {"id": "source", "label": "Modelis nematė sutarties, kurią cituoja."},
-        {"id": "promise", "label": "Atsakyme duodamas nepatvirtintas pažadas."},
-        {"id": "length", "label": "Atsakymas yra trumpesnis nei 100 žodžių."},
-        {"id": "tone", "label": "Atsakymas parašytas taisyklinga kalba."}
-      ],
-      "answers": ["source", "promise"],
-      "explanation": "Problema yra ne stilius, o nepagrįstas šaltinis ir veiksmo pažadas."
-    },
-    {
-      "id": "verification-card",
-      "type": "artifact_builder",
-      "skill": "Patikros protokolas",
-      "minutes": 10,
-      "artifact_label": "Mano DI atsakymo patikros kortelė",
-      "title": "03 · Susikurk patikros kortelę",
-      "instructions": "Užpildyk keturis laukus. Kortelė bus išsaugota šiame įrenginyje ir ją galėsi eksportuoti.",
+      "id": "meeting-summary-prompt",
+      "type": "prompt_builder",
+      "title": "2. Sudėk pirmąjį promptą",
+      "instructions": "Remkis pateiktais užrašais. Kiekviename lauke parašyk po vieną konkrečią prompto dalį – dešinėje jos susijungs į vientisą užklausą.",
+      "scenario": "Užrašai: Tomas iki penktadienio atnaujins pagrindinio puslapio tekstą. Rūta laukia naujų produkto nuotraukų. Reklamos biudžetas dar nenuspręstas. Kitas susitikimas – antradienį 10:00.",
+      "minimum": 4,
       "fields": [
-        {"id": "facts", "label": "Kokius faktus tikrinsiu?", "placeholder": "Datos, sumos, vardai, citatos…", "min_length": 12},
-        {"id": "sources", "label": "Su kokiais šaltiniais sutikrinsiu?", "placeholder": "Originali sutartis, oficialus puslapis…", "min_length": 12},
-        {"id": "risk", "label": "Kas nutiktų, jei atsakymas klaidingas?", "placeholder": "Finansinė, teisinė, reputacijos ar maža rizika…", "min_length": 12},
-        {"id": "owner", "label": "Kas priima galutinį sprendimą?", "placeholder": "Aš, vadovas, teisininkas…", "min_length": 4}
+        {
+          "id": "task",
+          "label": "1. Ką DI turi padaryti?",
+          "prefix": "Užduotis",
+          "placeholder": "Pvz., iš pateiktų užrašų parenk trumpą susitikimo santrauką"
+        },
+        {
+          "id": "context",
+          "label": "2. Kam skirtas rezultatas ir kokia medžiaga pateikta?",
+          "prefix": "Kontekstas",
+          "placeholder": "Pvz., santrauka skirta nedalyvavusiai projekto komandai; remkis žemiau pateiktais užrašais"
+        },
+        {
+          "id": "format",
+          "label": "3. Kaip turi atrodyti atsakymas?",
+          "prefix": "Formatas",
+          "placeholder": "Pvz., pateik 3 punktų santrauką, sutartus darbus ir neatsakytus klausimus"
+        },
+        {
+          "id": "rules",
+          "label": "4. Ką daryti, jei informacijos trūksta?",
+          "prefix": "Taisyklės",
+          "placeholder": "Pvz., nieko neišgalvok; jei atsakingas žmogus ar terminas nenurodytas, pažymėk „nenurodyta“"
+        }
       ]
     }
   ]

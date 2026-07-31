@@ -1,0 +1,70 @@
+{
+  "pass_percent": 70,
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kas yra promptas?",
+      "options": [
+        "Tik DI sugeneruotas paveikslas",
+        "DI pateiktas klausimas, nurodymas arba užduotis",
+        "Programavimo klaida",
+        "DI atsakymo patikimumo balas"
+      ],
+      "answer": 1,
+      "explain": "Promptas yra žinutė, kuria žmogus DI pateikia klausimą, nurodymą ar užduotį."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kurios dalys padeda sukurti aiškų promptą?",
+      "options": [
+        "Konkreti užduotis",
+        "Reikalingas kontekstas",
+        "Pageidaujamas rezultato formatas",
+        "Kuo daugiau atsitiktinių būdvardžių"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "Užduotis, kontekstas ir formatas sumažina dviprasmybes. Atsitiktiniai būdvardžiai aiškumo nesuteikia."
+    },
+    {
+      "type": "single",
+      "prompt": "Kuris promptas yra aiškesnis?",
+      "options": [
+        "Sutvarkyk tekstą.",
+        "Padaryk geriau.",
+        "Sutrumpink tekstą iki 3 punktų ir išsaugok visas datas.",
+        "Parašyk profesionaliai."
+      ],
+      "answer": 2,
+      "explain": "Šiame variante aiškiai nurodytas veiksmas, apimtis ir svarbi sąlyga."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "Geras promptas visada turi būti labai ilgas.",
+      "answer": false,
+      "explain": "Promptas turi būti pakankamai aiškus konkrečiai užduočiai. Paprastam klausimui gali pakakti ir vieno tikslaus sakinio."
+    },
+    {
+      "type": "single",
+      "prompt": "Kuri taisyklė geriausiai padeda, kai šaltinyje trūksta informacijos?",
+      "options": [
+        "Atsakyk kuo užtikrinčiau.",
+        "Sugalvok labiausiai tikėtiną variantą.",
+        "Jei informacija nepateikta, pažymėk „nenurodyta“ ir nespėliok.",
+        "Ignoruok visas neaiškias vietas."
+      ],
+      "answer": 2,
+      "explain": "Aiški nespėliojimo taisyklė padeda pastebėti informacijos spragas, užuot jas paslėpus."
+    },
+    {
+      "type": "order",
+      "prompt": "Sudėliok paprastą prompto struktūrą.",
+      "items": [
+        "Užduotis",
+        "Kontekstas",
+        "Rezultato formatas",
+        "Ribos"
+      ],
+      "explain": "Tokia seka pirmiausia pasako veiksmą, tada pateikia situaciją, apibrėžia atsakymą ir nustato svarbias taisykles."
+    }
+  ]
+}

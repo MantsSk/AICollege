@@ -79,7 +79,6 @@ def dashboard(
         course_cards.append(card)
         if continue_target is None and percent > 0 and percent < 100 and next_lesson:
             continue_target = card
-    path_sections = group_by_path(course_cards)
     passed_checks = db.scalar(
         select(func.count()).select_from(QuizResult).where(
             QuizResult.user_id == user.id, QuizResult.passed.is_(True)
@@ -99,7 +98,6 @@ def dashboard(
             "request": request,
             "user": user,
             "course_cards": course_cards,
-            "path_sections": path_sections,
             "continue_target": continue_target,
             "upgraded": bool(upgraded),
             "learner_stats": learner_stats,

@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "title": "Kintamųjų laboratorija",
+  "intro": "Sukurk vizitinės kortelės programą. Python aplinka veikia naršyklėje, o tavo kodas automatiškai išsaugomas šiame įrenginyje.",
+  "show_summary": false,
+  "activities": [
+    {
+      "id": "variables-profile-card",
+      "type": "code_exercise",
+      "title": "Sukurk programą apie save",
+      "instructions": "Pakeisk pavyzdines reikšmes savomis. Naudok kintamuosius vardas, miestas ir amzius, apskaičiuok kitų metų amžių ir parodyk bent keturias rezultato eilutes.",
+      "file_name": "vizitine.py",
+      "starter_code": "vardas = \"Įrašyk vardą\"\nmiestas = \"Įrašyk miestą\"\namzius = 20\nkitu_metu_amzius = amzius + 1\n\nprint(\"Vardas:\", vardas)\nprint(\"Miestas:\", miestas)\nprint(\"Dabar man:\", amzius)\nprint(\"Kitais metais man bus:\", kitu_metu_amzius)",
+      "checks": [
+        {
+          "type": "code_regex",
+          "value": "^\\s*vardas\\s*=",
+          "label": "Sukurtas kintamasis vardas"
+        },
+        {
+          "type": "code_regex",
+          "value": "^\\s*miestas\\s*=",
+          "label": "Sukurtas kintamasis miestas"
+        },
+        {
+          "type": "code_regex",
+          "value": "^\\s*amzius\\s*=",
+          "label": "Sukurtas skaitinis kintamasis amzius"
+        },
+        {
+          "type": "code_regex",
+          "value": "amzius\\s*\\+\\s*1",
+          "label": "Kitų metų amžius apskaičiuotas, o ne įrašytas ranka"
+        },
+        {
+          "type": "min_output_lines",
+          "value": 4,
+          "label": "Programa parodo bent keturias eilutes"
+        },
+        {
+          "type": "output_contains",
+          "value": "Kitais metais man bus:",
+          "label": "Parodomas kitų metų amžius"
+        },
+        {
+          "type": "code_not_contains",
+          "value": "Įrašyk",
+          "label": "Pavyzdinis vardas ir miestas pakeisti savais duomenimis"
+        }
+      ]
+    }
+  ]
+}

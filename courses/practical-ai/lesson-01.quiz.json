@@ -1,0 +1,65 @@
+{
+  "pass_percent": 70,
+  "questions": [
+    {
+      "type": "single",
+      "prompt": "Kas yra DI „haliucinacija“?",
+      "options": [
+        "Kai DI atsisako atsakyti į klausimą",
+        "Kai DI sugeneruoja įtikinamą, bet faktiškai neteisingą tekstą",
+        "Kai promptas yra per ilgas",
+        "Klaidos pranešimas programoje"
+      ],
+      "answer": 1,
+      "explain": "Haliucinacija – kai modelis sugeneruoja sklandų tekstą, kuris yra faktiškai neteisingas arba neatitinka pateikto konteksto."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "Jei DI atsakymas skamba užtikrintai ir profesionaliai, vadinasi jis teisingas.",
+      "answer": false,
+      "explain": "Įtikinamas tonas nėra teisingumo įrodymas. Net sklandus, profesionaliai skambantis atsakymas gali turėti prasimanytą skaičių, datą ar vardą."
+    },
+    {
+      "type": "single",
+      "prompt": "Šaltinyje parašyta „Reklamos biudžetas dar nenuspręstas“, o DI atsakė „Biudžetas patvirtintas – 5000 eurų“. Kaip vertinti šį teiginį?",
+      "options": [
+        "Paremtas šaltiniu",
+        "Modelio spėjimas, net prieštaraujantis šaltiniui",
+        "Teisingas, nes labai konkretus",
+        "Neįmanoma įvertinti"
+      ],
+      "answer": 1,
+      "explain": "Šaltinis sako priešingai – biudžetas dar nenuspręstas. Konkreti suma skamba įtikinamai, bet jai nėra pagrindo, todėl tai spėjimas."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kurios prompto priemonės mažina prasimanymų riziką?",
+      "options": [
+        "Leidimas parašyti „nežinau“, jei informacijos trūksta",
+        "Prašymas prie teiginių pateikti citatas iš šaltinio",
+        "Apribojimas naudoti tik pateiktą informaciją",
+        "Prašymas atsakyti kuo užtikrinčiau, net jei ko trūksta"
+      ],
+      "answers": [0, 1, 2],
+      "explain": "Leidimas pasakyti „nežinau“, citatų prašymas ir apribojimas tik pateikta informacija yra rekomenduojamos priemonės. Raginimas atsakyti užtikrinčiau, priešingai, skatina spėti."
+    },
+    {
+      "type": "single",
+      "prompt": "Kuris prompto papildymas geriausiai padeda pastebėti informacijos spragą?",
+      "options": [
+        "Atsakyk kuo išsamiau.",
+        "Jei informacijos nepakanka, parašyk „Neturiu pakankamai informacijos“, o ne spėk.",
+        "Rašyk profesionaliu tonu.",
+        "Būk kūrybiškas."
+      ],
+      "answer": 1,
+      "explain": "Aiškus leidimas pasakyti „nežinau“ paverčia paslėptą spėjimą matomu, todėl spragą lengva pastebėti ir sutvarkyti."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "Tinkamai suformulavus promptą, DI atsakymų nebereikia tikrinti.",
+      "answer": false,
+      "explain": "Priemonės haliucinacijas gerokai sumažina, bet visiškai nepašalina. Svarbią ar rizikingą informaciją visada reikia patikrinti pačiam."
+    }
+  ]
+}

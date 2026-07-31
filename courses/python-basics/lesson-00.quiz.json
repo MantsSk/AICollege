@@ -3,16 +3,10 @@
   "questions": [
     {
       "type": "single",
-      "prompt": "Kuri komanda Python programoje parodo tekstą ekrane?",
-      "options": ["show(\"Labas\")", "print(\"Labas\")", "say(\"Labas\")", "python(\"Labas\")"],
+      "prompt": "Kuri funkcija parodo reikšmę ekrane?",
+      "options": ["show()", "print()", "write()", "text()"],
       "answer": 1,
-      "explain": "Python išvesčiai naudojama funkcija print()."
-    },
-    {
-      "type": "truefalse",
-      "prompt": "Python įprastai vykdo failo eilutes iš viršaus į apačią.",
-      "answer": true,
-      "explain": "Jei nėra kitų valdymo konstrukcijų, komandos vykdomos tokia tvarka, kokia parašytos."
+      "explain": "Python rezultatui parodyti naudojama funkcija print()."
     },
     {
       "type": "single",
@@ -20,55 +14,35 @@
       "code": "print(4 + 3)",
       "options": ["4 + 3", "43", "7", "Klaidą"],
       "answer": 2,
-      "explain": "Skaičiavimas nėra kabutėse, todėl Python pirmiausia sudeda ir parodo 7."
+      "explain": "Skaičiai nėra kabutėse, todėl Python atlieka skaičiavimą ir parodo 7."
+    },
+    {
+      "type": "single",
+      "prompt": "Ką parodys šis kodas?",
+      "code": "print(\"4 + 3\")",
+      "options": ["4 + 3", "43", "7", "Klaidą"],
+      "answer": 0,
+      "explain": "Kabutėse parašyta reikšmė yra tekstas, todėl skaičiavimas neatliekamas."
     },
     {
       "type": "multi",
-      "prompt": "Kurios eilutės yra sintaksiškai taisyklingos? Pasirink visus tinkamus atsakymus.",
-      "options": ["print(\"Labas\")", "Print(\"Labas\")", "print(5)", "print(\"Labas)"],
+      "prompt": "Kurios eilutės parašytos taisyklingai?",
+      "options": ["print(\"Labas\")", "Print(\"Labas\")", "print(10)", "print(\"Labas)"],
       "answers": [0, 2],
-      "explain": "print rašomas mažosiomis; tekstui reikia abiejų kabučių ir uždaromojo skliausto."
-    },
-    {
-      "type": "fill",
-      "prompt": "Įrašyk trūkstamą funkcijos vardą.",
-      "code": "__(\"Programa veikia\")",
-      "accept": ["print"],
-      "explain": "Funkcija print() perduotą reikšmę parodo ekrane."
-    },
-    {
-      "type": "single",
-      "prompt": "Nuo kurios klaidos pranešimo dalies geriausia pradėti skaityti?",
-      "options": ["Nuo paskutinės eilutės", "Nuo failo pirmos eilutės", "Nuo terminalo pavadinimo", "Nuo kompiuterio laikrodžio"],
-      "answer": 0,
-      "explain": "Paskutinė eilutė dažniausiai įvardija klaidos tipą ir priežastį."
+      "explain": "Funkcija print rašoma mažosiomis raidėmis, o teksto kabutės turi sudaryti porą."
     },
     {
       "type": "truefalse",
-      "prompt": "Komentarą, prasidedantį #, Python parodo programos išvestyje.",
-      "answer": false,
-      "explain": "Komentaras skirtas kodo skaitytojui; Python jo nevykdo."
+      "prompt": "Python įprastai vykdo failo eilutes nuo viršaus į apačią.",
+      "answer": true,
+      "explain": "Komandos vykdomos tokia tvarka, kokia jos parašytos."
     },
     {
-      "type": "order",
-      "prompt": "Sudėliok programą taip, kad ji parodytų proceso pradžią, darbą ir pabaigą.",
-      "items": ["print(\"Pradžia\")", "print(\"Duomenys tikrinami\")", "print(\"Pabaiga\")"],
-      "explain": "Python vykdo eilutes iš viršaus į apačią."
-    },
-    {
-      "type": "single",
-      "prompt": "Kokia problema yra eilutėje print(\"Labas)?",
-      "options": ["Trūksta uždaromosios kabutės", "print turi būti didžiąja raide", "Negalima naudoti lietuviško teksto", "Trūksta #"],
-      "answer": 0,
-      "explain": "Teksto pradžios ir pabaigos kabutės turi sudaryti porą."
-    },
-    {
-      "type": "gap",
-      "prompt": "Užpildyk kodą, kuris komentaru paaiškina antraštę ir ją parodo.",
-      "code": "__ Ataskaitos pradžia\n__(\"SAVAITĖS ATASKAITA\")",
-      "bank": ["#", "print", "Print", "//"],
-      "gaps": ["#", "print"],
-      "explain": "# pradeda komentarą, o print() parodo tekstą."
+      "type": "fill",
+      "prompt": "Įrašyk trūkstamą funkcijos pavadinimą.",
+      "code": "__(\"Programa veikia\")",
+      "accept": ["print"],
+      "explain": "Funkcija print() parodo jai perduotą reikšmę."
     }
   ]
 }

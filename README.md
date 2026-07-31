@@ -10,7 +10,7 @@ The UI is **Lithuanian-first** (default `lt`) with English (`en`) as a switchabl
 
 ## Features
 
-- **Landing page** — hero, course preview, benefits, pricing, FAQ, CTA.
+- **Landing page** — focused Python course introduction, first-lesson preview, and FAQ.
 - **Auth** — email register/login/password reset with server-side sessions.
 - **Dashboard** — continue learning, per-course progress, manage subscription.
 - **Course catalog & lessons** — clean markdown rendering with syntax-highlighted code, prev/next navigation, progress indicator.
@@ -82,7 +82,7 @@ Courses are plain markdown files — **no admin panel**. The layout:
 
 ```
 courses/
-  python-basics/        # programmer path (build an AI assistant with Python)
+  python-basics/        # Python course for complete beginners
     course.yml           # title, description, order
     ...
 ```
@@ -104,7 +104,7 @@ order: 1
 
 Run `python -m app.seed` (or `make seed`, or just restart) to sync files into the database. Seeding is idempotent: it upserts by slug and removes lessons whose files were deleted.
 
-Currently the only published course is **Python nuo nulio iki tavo DI asistento** (programmer path). Which courses are published and how they group into learning paths is controlled by `app/course_paths.py`.
+The published courses are **Python nuo nulio** and **DI darbe: patikimas asistentas**. Each starts with one newly written introductory lesson; further lessons can be added incrementally. Published courses and their grouping are controlled by `app/course_paths.py`.
 
 ### Translations
 

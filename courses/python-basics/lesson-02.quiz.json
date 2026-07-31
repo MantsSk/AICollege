@@ -1,13 +1,72 @@
 {
   "pass_percent": 70,
   "questions": [
-    {"type":"single","prompt":"Kuris operatorius palygina, ar dvi reikšmės lygios?","options":["=","==","!=",">="],"answer":1,"explain":"== palygina, o = priskiria reikšmę."},
-    {"type":"truefalse","prompt":"Python vykdo visas tinkamas if ir elif šakas.","answer":false,"explain":"Vienoje if–elif–else grandinėje vykdoma tik pirmoji tinkama šaka."},
-    {"type":"single","prompt":"Koks rezultatas?","code":"age = 20\nhas_ticket = False\nprint(age >= 18 and has_ticket)","options":["True","False","20","Klaida"],"answer":1,"explain":"and reikalauja, kad abi sąlygos būtų True."},
-    {"type":"multi","prompt":"Kas padeda patikimai tikrinti vartotojo tekstą?","options":["strip()","lower()","Atsitiktinis indeksas","Aiški tuščios įvesties patikra"],"answers":[0,1,3],"explain":"Tarpų ir registro normalizavimas bei tuščios įvesties patikra sumažina netikėtų atvejų."},
-    {"type":"fill","prompt":"Įrašyk metodą, kad Labas ir LABAS būtų palyginti vienodai.","code":"message = input(\"Žinutė: \").__()","accept":["lower"],"explain":"lower() grąžina tekstą mažosiomis raidėmis."},
-    {"type":"gap","prompt":"Užpildyk amžiaus ir bilieto sąlygą.","code":"if age __ 18 __ has_ticket:\n    print(\"Leidžiama\")","bank":[">=","and","or","="],"gaps":[">=","and"],"explain":"Amžius turi būti bent 18 ir bilietas turi būti turimas."},
-    {"type":"single","prompt":"Kodėl score >= 9 šaka nepasiekiama?","code":"if score >= 5:\n    print(\"Išlaikyta\")\nelif score >= 9:\n    print(\"Puikiai\")","options":["Trūksta else","Pirma, platesnė sąlyga pagauna ir devynetą","Negalima naudoti >=","score turi būti tekstas"],"answer":1,"explain":"Tikrinama nuo viršaus, todėl konkretesnę >= 9 sąlygą reikia rašyti pirmą."},
-    {"type":"order","prompt":"Sudėliok saugios paprastos įvesties patikros eilutes.","items":["message = input(\"Klausimas: \").strip()","if not message:","    print(\"Klausimas tuščias\")","else:","    print(\"Klausimas priimtas\")"],"explain":"Pirma gaunama ir valoma įvestis, tada tikrinama jos būsena."}
+    {
+      "type": "single",
+      "prompt": "Kokio tipo reikšmę visada grąžina input()?",
+      "options": [
+        "Sveikąjį skaičių (int)",
+        "Tekstą (str)",
+        "Tokio tipo, kokį įvedė vartotojas",
+        "Loginę reikšmę (bool)"
+      ],
+      "answer": 1,
+      "explain": "input() visada grąžina tekstą (str), net jei vartotojas įvedė vien skaitmenis."
+    },
+    {
+      "type": "single",
+      "prompt": "Ką padarys šis kodas, jei vartotojas įves 25?",
+      "code": "amzius = input(\"Kiek tau metų? \")\nprint(amzius + 1)",
+      "options": [
+        "Parodys 26",
+        "Parodys klaidą, nes tekstas ir skaičius nesudedami",
+        "Parodys 251",
+        "Parodys 25"
+      ],
+      "answer": 1,
+      "explain": "amzius yra tekstas \"25\", o 1 – skaičius. Python jų nesudeda ir parodo TypeError."
+    },
+    {
+      "type": "single",
+      "prompt": "Kuri funkcija tekstą paverčia sveikuoju skaičiumi?",
+      "options": ["str()", "int()", "print()", "input()"],
+      "answer": 1,
+      "explain": "int() paverčia tinkamą tekstą sveikuoju skaičiumi, pavyzdžiui int(\"25\") grąžina 25."
+    },
+    {
+      "type": "truefalse",
+      "prompt": "int(\"25 metai\") sėkmingai grąžins skaičių 25.",
+      "answer": false,
+      "explain": "Tekste yra ne tik skaitmenys, todėl int() parodys klaidą (ValueError). int() veikia tik su tekstu, kuris atrodo kaip skaičius, pvz. \"25\"."
+    },
+    {
+      "type": "multi",
+      "prompt": "Kurios eilutės teisingai paims skaičių iš vartotojo ir leis su juo skaičiuoti?",
+      "options": [
+        "kiekis = int(input(\"Kiek? \"))",
+        "kiekis = input(\"Kiek? \")",
+        "kaina = float(input(\"Kaina? \"))",
+        "kiekis = input(int(\"Kiek? \"))"
+      ],
+      "answers": [0, 2],
+      "explain": "Tekstą reikia gauti su input() ir tik tada paversti skaičiumi su int() arba float(). input(int(...)) tvarka klaidinga – konvertuojamas klausimo tekstas, ne atsakymas."
+    },
+    {
+      "type": "order",
+      "prompt": "Sudėliok interaktyvios programos eilutes teisinga tvarka.",
+      "items": [
+        "metai = int(input(\"Kuriais metais gimei? \"))",
+        "amzius = 2026 - metai",
+        "print(\"Tau maždaug\", amzius, \"metų\")"
+      ],
+      "explain": "Pirmiausia gaunama ir į skaičių paverčiama įvestis, tada apskaičiuojamas amžius ir tik tuomet parodomas rezultatas."
+    },
+    {
+      "type": "fill",
+      "prompt": "Įrašyk trūkstamą funkciją, kuri vartotojo tekstą paverčia sveikuoju skaičiumi.",
+      "code": "skaicius = __(input(\"Skaičius: \"))",
+      "accept": ["int"],
+      "explain": "int() paverčia tekstą sveikuoju skaičiumi, todėl su rezultatu galima skaičiuoti."
+    }
   ]
 }

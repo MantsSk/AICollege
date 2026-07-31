@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.course_paths import PUBLISHED_COURSE_SLUGS, group_by_path, is_published_course
+from app.course_paths import PUBLISHED_COURSE_SLUGS, is_published_course
 from app.activities import get_activities
 from app.database import get_db
 from app.deps import current_user_optional, require_user
@@ -41,7 +41,6 @@ def catalog(request: Request, db: Session = Depends(get_db), user=Depends(curren
     for course in courses:
         done, total, percent = course_progress(db, user, course)
         cards.append({"course": localize_course(course, lang), "done": done, "total": total, "percent": percent})
-    path_sections = group_by_path(cards)
     return templates.TemplateResponse(
         request,
         "catalog.html",
@@ -49,7 +48,6 @@ def catalog(request: Request, db: Session = Depends(get_db), user=Depends(curren
             "request": request,
             "user": user,
             "cards": cards,
-            "path_sections": path_sections,
         },
     )
 

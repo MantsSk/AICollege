@@ -2,29 +2,6 @@
 {% import "partials/icons.html" as icons %}
 {% block title %}{{ _('dashboard.title') }} — {{ app_name }}{% endblock %}
 {% block content %}
-{% set path_theme = {
-  'casual': {
-    'icon': 'book-open',
-    'badge': 'bg-accent-500 text-white',
-    'kicker': 'text-accent-600 dark:text-accent-400',
-    'panel': 'border-accent-200 dark:border-accent-500/40 bg-accent-50 dark:bg-[#1d170c]',
-    'btn': 'bg-accent-500 text-white hover:bg-accent-600'
-  },
-  'junior': {
-    'icon': 'wrench',
-    'badge': 'bg-brand-600 text-white',
-    'kicker': 'text-brand-600 dark:text-brand-400',
-    'panel': 'border-brand-200 dark:border-brand-500/40 bg-brand-50 dark:bg-[#171322]',
-    'btn': 'bg-brand-600 text-white hover:bg-brand-500'
-  },
-  'other': {
-    'icon': 'book-open',
-    'badge': 'bg-stone-500 text-white',
-    'kicker': 'text-stone-500',
-    'panel': 'border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-900/40',
-    'btn': 'bg-stone-900 dark:bg-white text-white dark:text-stone-900 hover:opacity-90'
-  }
-} %}
 <div class="max-w-6xl mx-auto px-4 py-10">
 
   {% if payments_enabled and upgraded %}
@@ -89,54 +66,19 @@
   {% endif %}
 
   <h2 class="mt-10 mb-4 text-xl font-bold tracking-tight">{{ _('dashboard.your_courses') }}</h2>
-  <div data-path-picker>
-    <!-- Path switcher -->
-    <div class="inline-flex flex-wrap gap-1 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-100 dark:bg-stone-900 p-1">
-      {% for section in path_sections if section["items"] %}
-      {% set t = path_theme.get(section["id"], path_theme["other"]) %}
-      <button type="button" role="tab" data-path-tab="{{ section["id"] }}"
-        class="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition {% if loop.first %}bg-white dark:bg-stone-800 shadow-sm text-stone-900 dark:text-white{% else %}text-stone-500 hover:text-stone-900 dark:hover:text-white{% endif %}">
-        <span class="{{ t.kicker }}">{{ icons.icon(t.icon, "h-4 w-4") }}</span>
-        {{ _('paths.' ~ section["id"] ~ '.kicker') }}
-      </button>
-      {% endfor %}
-    </div>
-
-    <!-- Path panels (one shown at a time) -->
-    <div class="mt-6">
-    {% for section in path_sections if section["items"] %}
-    {% set t = path_theme.get(section["id"], path_theme["other"]) %}
-    <div data-path-panel="{{ section["id"] }}" {% if not loop.first %}hidden{% endif %}>
-      <section class="rounded-2xl border {{ t.panel }} p-5 sm:p-6">
-        <div class="mb-5 flex items-center gap-3">
-          <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl {{ t.badge }} shadow-sm">
-            {{ icons.icon(t.icon, "h-5 w-5") }}
-          </span>
-          <div>
-            <div class="text-xs font-semibold uppercase tracking-wide {{ t.kicker }}">{{ _('paths.' ~ section["id"] ~ '.kicker') }}</div>
-            <h3 class="mt-0.5 text-lg font-bold">{{ _('paths.' ~ section["id"] ~ '.title') }}</h3>
-          </div>
-        </div>
-        <div class="grid gap-6 md:grid-cols-2">
-          {% for card in section["items"] %}
-          {% set percent = card.percent %}{% set done = card.done %}{% set total = card.total %}
-          {% set studio = course_profile(card.course.slug) %}
-          <a href="/courses/{{ card.course.slug }}" class="group rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 p-6 flex flex-col hover:-translate-y-0.5 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition">
-            <div class="text-xs font-semibold uppercase tracking-wide {{ t.kicker }}">{{ _('courses.lessons', count=card.total) }}</div>
-            <h3 class="mt-2 text-lg font-bold break-words">{{ card.course.title }}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-stone-600 dark:text-stone-400 flex-1">{{ card.course.description }}</p>
-            {% if studio %}<p class="mt-3 text-xs text-stone-500"><strong>Kuri:</strong> {{ studio.artifact }}</p>{% endif %}
-            <div class="mt-4">{% include "partials/progress_bar.html" %}</div>
-            <span class="mt-4 inline-flex min-h-10 items-center justify-center text-center w-full px-4 py-2 rounded-lg font-semibold leading-snug {{ t.btn }}">
-              {{ _('dashboard.review') if card.percent == 100 else (_('dashboard.continue') if card.percent > 0 else _('dashboard.start')) }}
-            </span>
-          </a>
-          {% endfor %}
-        </div>
-      </section>
-    </div>
+  <div class="grid max-w-3xl gap-6">
+    {% for card in course_cards %}
+    {% set percent = card.percent %}{% set done = card.done %}{% set total = card.total %}
+    <a href="/courses/{{ card.course.slug }}" class="group rounded-2xl border border-brand-200 bg-brand-50 p-6 transition hover:-translate-y-0.5 hover:border-brand-400 hover:shadow-md dark:border-brand-500/40 dark:bg-[#171322] dark:hover:border-brand-500">
+      <div class="text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">{{ _('courses.lessons', count=card.total) }}</div>
+      <h3 class="mt-2 text-xl font-bold break-words">{{ card.course.title }}</h3>
+      <p class="mt-2 leading-relaxed text-stone-600 dark:text-stone-300">{{ card.course.description }}</p>
+      <div class="mt-5 max-w-sm">{% include "partials/progress_bar.html" %}</div>
+      <span class="mt-5 inline-flex min-h-10 items-center justify-center rounded-lg bg-brand-600 px-5 py-2 font-semibold text-white hover:bg-brand-500">
+        {{ _('dashboard.review') if card.percent == 100 else (_('dashboard.continue') if card.percent > 0 else _('dashboard.start')) }}
+      </span>
+    </a>
     {% endfor %}
-    </div>
   </div>
 </div>
 {% endblock %}

@@ -1,16 +1,16 @@
 """Course path grouping for learner-facing pages."""
 from __future__ import annotations
 
-PUBLISHED_COURSE_SLUGS = ("practical-ai", "python-basics")
+PUBLISHED_COURSE_SLUGS = ("python-basics", "practical-ai")
 
 COURSE_PATHS = [
     {
-        "id": "casual",
-        "course_slugs": ("practical-ai",),
-    },
-    {
         "id": "junior",
         "course_slugs": ("python-basics",),
+    },
+    {
+        "id": "ai",
+        "course_slugs": ("practical-ai",),
     },
 ]
 
